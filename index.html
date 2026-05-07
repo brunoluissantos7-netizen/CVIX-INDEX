@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CVIX Engenharia — Multidisciplinar de Alta Performance. Óleo & Gás, Infraestrutura Civil, Marítimo e Portuário. Fundada em 2001.">
+    <title>CVIX | Engenharia Multidisciplinar de Alta Performance</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+        --red:       #E8000A;
+        --red-dim:   rgba(232,0,10,0.08);
+        --red-glow:  rgba(232,0,10,0.28);
+        --red-line:  rgba(232,0,10,0.18);
+        --bg:        #FFFFFF;
+        --panel:     #F4F4F6;
+        --surface:   #EAEAED;
+        --ink:       #0A0A0A;
+        --ink-mid:   #3A3A42;
+        --ink-soft:  #6A6A74;
+        --ink-faint: #AEAEB8;
+        --rule:      rgba(0,0,0,0.07);
+        --font-d: 'Bebas Neue', sans-serif;
+        --font-u: 'Syne', sans-serif;
+        --font-b: 'DM Sans', sans-serif;
+        --ease:        cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+        --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+        --nav-h:     80px;
+        --nav-h-sm: 64px;
+        --max-w:     1380px;
+        --pad:       clamp(24px, 5vw, 80px);
+        --green-wa: #25D366;
+    }
+
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+    /* === FIX #2: Cursor padrão do navegador — sem cursor customizado === */
+    body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--font-b);
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        cursor: auto; /* garante cursor padrão */
+    }
+    /* Remove qualquer cursor:none herdado */
+    * { cursor: inherit; }
+    a, button, [role="button"], .seg-card, .obra-item, .state-item,
+    .dmd, .metric, .lamina, .cliente-item, .hamburger, .filter-btn,
+    .slide-dot, #back-top, .social-link, .footer-wa, .nav-cta,
+    .p-icon-box, .map-box, .obra-dmd-wrap { cursor: pointer; }
+
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; }
+
+    /* CURSOR ELEMENTS — ocultos, mantidos no DOM mas sem efeito visual */
+    #eng-cursor, #eng-cursor-ring, #build-trail { display: none !important; }
+
+    /* LOADER */
+    #page-loader { position: fixed; inset: 0; background: #fff; z-index: 9000; display: flex; align-items: center; justify-content: center; transition: opacity 0.7s var(--ease-out), visibility 0.7s; }
+    #page-loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loader-inner { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+    .loader-logo { width: 96px; height: auto; filter: brightness(0) saturate(100%) invert(13%) sepia(97%) saturate(6000%) hue-rotate(355deg) brightness(100%) contrast(110%); animation: loader-pulse 1.4s ease-in-out infinite; }
+    @keyframes loader-pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.45;transform:scale(0.92)} }
+    .loader-bar { width: 160px; height: 1px; background: #E5E5E5; position: relative; overflow: hidden; border-radius: 1px; }
+    .loader-bar::after { content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%; background: var(--red); border-radius: 1px; animation: loader-sweep 1.3s var(--ease-out) infinite; }
+    @keyframes loader-sweep { to { left: 160%; } }
+
+    /* PROGRESS */
+    #progress-bar { position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: var(--red); z-index: 8000; pointer-events: none; box-shadow: 0 0 8px var(--red-glow); transition: width 0.1s linear; will-change: width; }
+
+    /* HEADER */
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 700; padding: 0 var(--pad); transition: background 0.5s var(--ease-out), box-shadow 0.5s, border-color 0.5s; }
+    header.scrolled { background: rgba(255,255,255,0.97); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border-bottom: 1px solid var(--rule); box-shadow: 0 1px 20px rgba(0,0,0,0.05); }
+    nav { max-width: var(--max-w); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: var(--nav-h); transition: height 0.4s var(--ease-out); }
+    header.scrolled nav { height: var(--nav-h-sm); }
+    .logo { text-decoration: none; display: flex; align-items: center; flex-shrink: 0; }
+    .logo img {
+        width: clamp(70px, 8vw, 90px); height: auto; object-fit: contain;
+        filter: brightness(0) saturate(100%) invert(13%) sepia(97%) saturate(6000%) hue-rotate(355deg) brightness(100%) contrast(110%);
+        transition: width 0.4s;
+    }
+    .nav-links { display: flex; gap: 36px; list-style: none; align-items: center; }
+    .nav-links a { text-decoration: none; color: var(--ink-soft); font-family: var(--font-u); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; transition: color 0.25s; position: relative; padding-bottom: 3px; white-space: nowrap; }
+    .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px; background: var(--red); transition: width 0.35s var(--ease-out); }
+    .nav-links a:hover, .nav-links a.active { color: var(--ink); }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+    .nav-cta { padding: 8px 20px !important; border: 1.5px solid var(--red-line) !important; color: var(--red) !important; border-radius: 2px; font-weight: 700 !important; transition: background 0.3s, color 0.3s, box-shadow 0.3s !important; }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover { background: var(--red) !important; color: #fff !important; box-shadow: 0 4px 16px var(--red-glow) !important; }
+    .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; width: 44px; height: 44px; flex-shrink: 0; -webkit-tap-highlight-color: transparent; }
+    .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--ink); transform-origin: center; transition: transform 0.4s var(--ease-out), opacity 0.3s, width 0.3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+    .mobile-menu { position: fixed; inset: 0; z-index: 699; background: rgba(255,255,255,0.98); backdrop-filter: blur(16px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; opacity: 0; visibility: hidden; transition: opacity 0.4s var(--ease-out), visibility 0.4s; }
+    .mobile-menu.open { opacity: 1; visibility: visible; }
+    .mobile-menu a { font-family: var(--font-d); font-size: clamp(2rem, 9vw, 3.8rem); color: var(--ink-faint); text-decoration: none; letter-spacing: 0.03em; transition: color 0.25s, transform 0.3s var(--ease-out); display: inline-block; }
+    .mobile-menu a:hover { color: var(--ink); transform: translateX(8px); }
+
+    /* HERO */
+    .hero { position: relative; height: 100dvh; min-height: 600px; display: flex; align-items: flex-end; overflow: hidden; }
+    .hero-slideshow { position: absolute; inset: 0; z-index: 0; }
+    .slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; filter: brightness(0.44) contrast(1.06); transform: scale(1.07); transition: opacity 1.5s ease-in-out, transform 10s linear; will-change: opacity, transform; }
+    .slide.active { opacity: 1; transform: scale(1); }
+    .slide.leaving { opacity: 0; transform: scale(1.03); }
+    .hero-vignette { position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.35) 40%, transparent 70%), linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.15) 50%, transparent 70%); }
+    .hero-grid { position: absolute; inset: 0; z-index: 1; pointer-events: none; background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px); background-size: 72px 72px; mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 80%, transparent 100%); }
+    .slide-dots { position: absolute; bottom: 32px; right: var(--pad); z-index: 3; display: flex; gap: 8px; align-items: center; }
+    .slide-dot { width: 22px; height: 2px; background: rgba(255,255,255,0.2); border: none; padding: 0; overflow: hidden; position: relative; transition: width 0.4s var(--ease-out), background 0.4s; }
+    .slide-dot.active { width: 38px; background: rgba(255,255,255,0.12); }
+    .slide-dot::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: var(--red); }
+    .slide-dot.active::after { animation: dot-fill 6s linear forwards; }
+    @keyframes dot-fill { to { left: 0; } }
+    .hero-content { position: relative; z-index: 2; padding: 0 var(--pad) clamp(60px, 8vh, 100px); max-width: var(--max-w); width: 100%; margin: 0 auto; }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: 12px; font-family: var(--font-u); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.22em; color: var(--red); margin-bottom: 22px; opacity: 0; animation: up 0.8s 0.5s var(--ease-out) forwards; }
+    .hero-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--red); }
+    .hero-eyebrow::after { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--red); animation: blink 2.5s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.3;transform:scale(0.5)} }
+    .hero h1 { font-family: var(--font-d); font-size: clamp(2rem, 5vw, 6.2rem); line-height: 0.94; letter-spacing: 0.03em; text-transform: uppercase; color: #fff; display: flex; flex-wrap: wrap; gap: 0.2em; align-items: baseline; opacity: 0; animation: up 1s 0.7s var(--ease-out) forwards; }
+    .h1-word { position: relative; display: inline-block; color: #fff; }
+    .h1-word::after { content: attr(data-text); position: absolute; inset: 0; background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.55) 50%, transparent 70%); background-size: 200% center; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 5s ease-in-out infinite; animation-delay: var(--sd, 0s); }
+    @keyframes shimmer { 0%,100%{background-position:200% center} 45%{background-position:-40% center} }
+    .hero-sub { margin-top: 28px; display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; opacity: 0; animation: up 0.9s 1s var(--ease-out) forwards; }
+    .hero-sub p { font-size: clamp(0.9rem,1.6vw,1.05rem); color: rgba(255,255,255,0.72); max-width: 420px; line-height: 1.75; font-weight: 300; }
+    .hero-sub-actions { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
+    .hero-btn-wa { display: inline-flex; align-items: center; gap: 10px; padding: 14px 26px; background: var(--green-wa); color: #fff; text-decoration: none; font-family: var(--font-u); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; border-radius: 2px; transition: transform 0.3s var(--ease-out), box-shadow 0.3s; box-shadow: 0 4px 16px rgba(37,211,102,0.35); }
+    .hero-btn-wa:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(37,211,102,0.5); }
+    .hero-scroll { display: flex; align-items: center; gap: 12px; flex-shrink: 0; font-family: var(--font-u); font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.3s; }
+    .hero-scroll:hover { color: #fff; }
+    .scroll-line { width: 1px; height: 52px; background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.18)); position: relative; overflow: hidden; }
+    .scroll-line::after { content: ''; position: absolute; top: -100%; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, transparent, var(--red)); animation: scroll-drop 2.4s ease-in-out infinite; }
+    @keyframes scroll-drop { to { top: 200%; } }
+    .hero-metrics { position: absolute; right: var(--pad); top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 32px; z-index: 2; opacity: 0; animation: fade-in 1s 1.4s forwards; }
+    .metric { text-align: right; border-right: 2px solid var(--red); padding-right: 18px; }
+    .metric-num { font-family: var(--font-d); font-size: 2.5rem; color: #fff; line-height: 1; }
+    .metric-label { font-family: var(--font-u); font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.13em; color: rgba(255,255,255,0.45); margin-top: 4px; }
+    @keyframes up { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:none} }
+    @keyframes fade-in { from{opacity:0} to{opacity:1} }
+
+    /* BASE */
+    .section-wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--pad); }
+    .section-tag { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-u); font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.22em; color: var(--red); margin-bottom: 20px; }
+    .section-tag::before { content:''; width:20px; height:1px; background:var(--red); }
+
+    /* SOBRE */
+    .about-section { padding: clamp(80px,12vw,150px) 0; background: var(--bg); position: relative; overflow: hidden; }
+    .about-section::before { content: 'CVIX'; position: absolute; right: -2%; top: 50%; transform: translateY(-50%); font-family: var(--font-d); font-size: 22vw; color: transparent; -webkit-text-stroke: 1px rgba(0,0,0,0.035); line-height: 1; pointer-events: none; user-select: none; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(48px,7vw,100px); align-items: center; }
+    .about-title { font-family: var(--font-d); font-size: clamp(2.4rem,4vw,5rem); text-transform: uppercase; line-height: 0.9; color: var(--ink); margin-bottom: 40px; }
+    .about-title .line-red { color: var(--red); }
+    .about-body p { font-size: 0.97rem; color: var(--ink-soft); line-height: 1.9; margin-bottom: 18px; font-weight: 300; }
+    .about-body p strong { color: var(--ink-mid); font-weight: 600; }
+    .about-right { position: sticky; top: 100px; }
+
+    /* === FIX #1b: Losangos escalados — cena maior e mais robusta === */
+    .diamond-scene {
+        position: relative;
+        width: 100%;
+        /* Aumentado de 1/1.05 → 1/1.12 para mais altura e robustez */
+        aspect-ratio: 1 / 1.12;
+        max-width: 580px; /* era 520px */
+        margin: 0 auto;
+    }
+    .dmd { position: absolute; overflow: hidden; clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); transition: transform 0.55s var(--ease-out), filter 0.45s; will-change: transform; }
+    .dmd img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; transform: scale(1.42); transition: transform 0.8s var(--ease-out), filter 0.45s; filter: saturate(0.9) contrast(1.02); }
+    .dmd:hover { transform: scale(1.05); }
+    .dmd:hover img { filter: saturate(1.1) contrast(1.04) brightness(1.05); }
+    /* Losangos escalados: dmd-top e dmd-bottom de 44% → 50%, laterais de 30% → 34% */
+    .dmd-top    { width: 50%; aspect-ratio: 1/1; top: 0%;   left: 25%; }
+    .dmd-left   { width: 34%; aspect-ratio: 1/1; top: 24%;  left: 1%;  }
+    .dmd-right  { width: 34%; aspect-ratio: 1/1; top: 24%;  right: 1%; }
+    .dmd-bottom { width: 50%; aspect-ratio: 1/1; bottom: 0%; left: 25%; }
+    /* Fantasmas escalados proporcionalmente */
+    .dmd-ghost  { position: absolute; clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); pointer-events: none; }
+    .dmd-g1 { width: 24%; aspect-ratio: 1/1; top: 5%;    left: 4%;   background: rgba(220,220,226,0.18); }
+    .dmd-g2 { width: 24%; aspect-ratio: 1/1; top: 5%;    right: 4%;  background: rgba(220,220,226,0.18); }
+    .dmd-g3 { width: 20%; aspect-ratio: 1/1; bottom: 6%; left: 6%;   background: rgba(220,220,226,0.13); }
+    .dmd-g4 { width: 20%; aspect-ratio: 1/1; bottom: 6%; right: 6%;  background: rgba(220,220,226,0.13); }
+    .dmd-g5 { width: 16%; aspect-ratio: 1/1; top: 42%;   left: 37%;  background: rgba(220,220,226,0.10); }
+    .dmd-redline, .dmd-redline2 { position: absolute; top: 50%; left: 50%; width: 60%; height: 1px; background: linear-gradient(to right, transparent, rgba(232,0,10,0.18), transparent); pointer-events: none; }
+    .dmd-redline { transform: translate(-50%,-50%) rotate(45deg); }
+    .dmd-redline2 { transform: translate(-50%,-50%) rotate(-45deg); }
+
+    .about-stat-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--rule); margin-top: 48px; border: 1px solid var(--rule); }
+    .about-stat { background: var(--bg); padding: 24px 18px; transition: background 0.3s; }
+    .about-stat:hover { background: var(--panel); }
+    .about-stat-num { font-family: var(--font-d); font-size: 2.2rem; color: var(--red); line-height: 1; }
+    .about-stat-label { font-family: var(--font-u); font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-faint); margin-top: 5px; }
+
+    /* SEGMENTOS */
+    .segments-section { padding: clamp(80px,12vw,150px) 0; background: var(--panel); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); position: relative; overflow: hidden; }
+    .segments-section::before { content: ''; position: absolute; top: -60px; right: -60px; width: 300px; height: 300px; border: 1.5px solid rgba(232,0,10,0.10); transform: rotate(45deg); border-radius: 4px; pointer-events: none; }
+    .segments-section::after { content: ''; position: absolute; bottom: -80px; left: -80px; width: 200px; height: 200px; border: 1.5px solid rgba(232,0,10,0.08); transform: rotate(45deg); border-radius: 4px; pointer-events: none; }
+    .segments-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 56px; gap: 24px; }
+    .segments-title { font-family: var(--font-d); font-size: clamp(2.4rem,4.5vw,5rem); text-transform: uppercase; line-height: 0.9; color: var(--red); }
+    .segments-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; position: relative; z-index: 1; }
+    .seg-card { background: #fff; padding: clamp(32px,4vw,48px) clamp(24px,3.5vw,40px); position: relative; overflow: hidden; border-radius: 3px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 2px 16px rgba(0,0,0,0.05); transition: transform 0.45s var(--ease-out), box-shadow 0.45s, border-color 0.45s; }
+    .seg-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--red); transform: scaleX(0); transform-origin: left; transition: transform 0.45s var(--ease-out); }
+    .seg-card::before { content: ''; position: absolute; top: -22px; right: -22px; width: 60px; height: 60px; border: 1.5px solid rgba(232,0,10,0.15); transform: rotate(45deg); border-radius: 2px; transition: border-color 0.4s, transform 0.45s var(--ease-out); pointer-events: none; }
+    .seg-card:hover { transform: translateY(-9px); box-shadow: 0 20px 50px rgba(0,0,0,0.09); border-color: rgba(232,0,10,0.12); }
+    .seg-card:hover::after { transform: scaleX(1); }
+    .seg-card:hover::before { border-color: rgba(232,0,10,0.35); transform: rotate(45deg) scale(1.1); }
+    .seg-index { font-family: var(--font-d); font-size: 0.82rem; color: #CECECE; letter-spacing: 0.12em; margin-bottom: 28px; }
+    .seg-icon { width: 48px; height: 48px; border: 1.5px solid rgba(232,0,10,0.22); border-radius: 2px; background: rgba(232,0,10,0.05); display: flex; align-items: center; justify-content: center; margin-bottom: 22px; transition: background 0.3s, border-color 0.3s, transform 0.4s var(--ease-spring); }
+    .seg-card:hover .seg-icon { background: rgba(232,0,10,0.1); border-color: var(--red); transform: rotate(-5deg) scale(1.07); }
+    .seg-icon i { font-size: 1.2rem; color: var(--red); }
+    .seg-title { font-family: var(--font-u); font-size: 1.05rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 20px; color: var(--ink); }
+    .seg-list { list-style: none; }
+    .seg-list li { font-size: 0.88rem; color: #4A4A54; padding: 9px 0; border-bottom: 1px solid #EEEEEE; display: flex; align-items: center; gap: 10px; font-weight: 400; transition: color 0.3s, padding-left 0.3s var(--ease-out); }
+    .seg-list li:last-child { border-bottom: none; }
+    .seg-card:hover .seg-list li { padding-left: 5px; color: var(--ink); }
+    .seg-list li::before { content: ''; width: 5px; height: 5px; flex-shrink: 0; background: var(--red); border-radius: 50%; transition: transform 0.3s var(--ease-spring); }
+    .seg-card:hover .seg-list li::before { transform: scale(1.6); }
+
+    /* ================================================================
+       PRESENÇA — Upgrade Visual Premium & Impactante (#2 UX)
+       ================================================================ */
+    .presence-section {
+        padding: clamp(80px,12vw,150px) 0;
+        background: var(--ink);  /* fundo escuro premium */
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Grade de fundo engenharia */
+    .presence-section::before {
+        content: '';
+        position: absolute; inset: 0;
+        background-image:
+            linear-gradient(rgba(232,0,10,0.06) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(232,0,10,0.06) 1px, transparent 1px);
+        background-size: 60px 60px;
+        pointer-events: none;
+    }
+
+    /* Watermark CVIX */
+    .presence-section::after {
+        content: 'BRASIL';
+        position: absolute; right: -2%; bottom: -6%;
+        font-family: var(--font-d); font-size: 20vw; color: transparent;
+        -webkit-text-stroke: 1px rgba(255,255,255,0.04);
+        line-height: 1; pointer-events: none; user-select: none;
+    }
+
+    .presence-grid {
+        display: grid;
+        grid-template-columns: 5fr 7fr;
+        gap: clamp(40px,6vw,90px);
+        align-items: center;
+        position: relative; z-index: 1;
+    }
+
+    /* Tags e eyebrow no fundo escuro */
+    .presence-section .section-tag {
+        color: var(--red);
+    }
+    .presence-section .section-tag::before { background: var(--red); }
+
+    .presence-title {
+        font-family: var(--font-d);
+        font-size: clamp(3.2rem,6.5vw,8rem);
+        text-transform: uppercase;
+        line-height: 0.85;
+        color: #fff;
+        margin-bottom: 0;
+    }
+    .presence-title-wrap {
+        position: relative;
+        margin-bottom: 36px;
+    }
+    .presence-title-wrap::after {
+        content: '';
+        display: block;
+        width: 56px; height: 3px;
+        background: var(--red);
+        margin-top: 20px;
+        box-shadow: 0 0 16px var(--red-glow);
+    }
+
+    /* Highlight da palavra "ATUAMOS" */
+    .presence-title .highlight-word {
+        color: var(--red);
+        position: relative;
+    }
+
+    .presence-intro {
+        font-size: 1rem;
+        color: rgba(255,255,255,0.6);
+        line-height: 1.8;
+        border-left: 2px solid var(--red);
+        padding-left: 20px;
+        margin-bottom: 36px;
+        font-weight: 300;
+    }
+
+    /* Ícones adaptados ao fundo escuro */
+    .presence-icons { display: flex; gap: 12px; margin-bottom: 36px; flex-wrap: wrap; }
+    .p-icon-box {
+        flex: 1; min-width: 110px; padding: 18px 8px;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 3px; text-align: center;
+        transition: transform 0.3s var(--ease-out), box-shadow 0.3s, background 0.3s, border-color 0.3s;
+    }
+    .p-icon-box:hover {
+        transform: translateY(-5px);
+        background: rgba(232,0,10,0.1);
+        border-color: rgba(232,0,10,0.35);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.25);
+    }
+    .p-icon-box i { color: var(--red); font-size: 1.3rem; margin-bottom: 12px; display: block; }
+    .p-icon-box span {
+        font-family: var(--font-u); font-size: 0.65rem; font-weight: 800;
+        text-transform: uppercase; letter-spacing: 0.08em;
+        color: rgba(255,255,255,0.7); display: block; line-height: 1.2;
+    }
+
+    /* Grid de estados — visual premium dark */
+    .state-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+    .state-item {
+        display: flex; align-items: center; gap: 9px;
+        padding: 12px 16px;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 2px;
+        font-family: var(--font-u); font-size: 0.73rem; font-weight: 600;
+        color: rgba(255,255,255,0.55); letter-spacing: 0.04em;
+        transition: background 0.3s, border-color 0.3s, transform 0.3s var(--ease-out), color 0.3s;
+    }
+    .state-item:hover {
+        background: rgba(232,0,10,0.12);
+        border-color: rgba(232,0,10,0.4);
+        transform: translateX(7px);
+        color: #fff;
+    }
+    .state-item i { color: var(--red); font-size: 0.66rem; flex-shrink: 0; }
+
+    /* Mapa — mantido, ajustado ao contexto dark */
+    .map-diamond-wrap { position: relative; padding: 32px; }
+    .map-diamond-wrap::before { content: ''; position: absolute; top: -10px; right: -10px; width: 200px; height: 200px; border: 1.5px solid rgba(232,0,10,0.25); transform: rotate(45deg); border-radius: 3px; pointer-events: none; }
+    .map-diamond-wrap::after { content: ''; position: absolute; bottom: -10px; left: -10px; width: 130px; height: 130px; border: 1.5px solid rgba(232,0,10,0.18); transform: rotate(45deg); border-radius: 3px; pointer-events: none; }
+    .map-box { position: relative; border-radius: 6px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 12px 64px rgba(0,0,0,0.5); background: #111; transition: transform 0.55s var(--ease-out), box-shadow 0.55s; will-change: transform; }
+    .map-box:hover { transform: translateY(-5px) scale(1.01); box-shadow: 0 24px 80px rgba(0,0,0,0.6); }
+    .map-box img { width: 100%; display: block; }
+    .map-label { position: absolute; top: 16px; left: 16px; font-family: var(--font-u); font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; color: #fff; background: var(--red); padding: 6px 12px; border: 1px solid rgba(255,255,255,0.2); border-radius: 3px; z-index: 2; box-shadow: 0 0 16px var(--red-glow); }
+
+    /* OBRAS */
+    .obras-section { padding: clamp(80px,12vw,150px) 0; background: var(--bg); position: relative; overflow: hidden; }
+    .obras-deco-tl { position: absolute; top: -40px; right: -40px; width: 220px; height: 220px; border: 1.5px solid rgba(232,0,10,0.08); transform: rotate(45deg); border-radius: 4px; pointer-events: none; z-index: 0; }
+    .obras-deco-br { position: absolute; bottom: -60px; left: -60px; width: 160px; height: 160px; border: 1px solid rgba(232,0,10,0.06); transform: rotate(45deg); border-radius: 4px; pointer-events: none; z-index: 0; }
+    .obras-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; gap: 24px; position: relative; z-index: 1; }
+    .obras-title { font-family: var(--font-d); font-size: clamp(2.4rem,4.5vw,5rem); text-transform: uppercase; line-height: 0.9; color: var(--red); }
+    .filter-bar { display: flex; gap: 7px; flex-wrap: wrap; }
+    .filter-btn { background: transparent; border: 1px solid rgba(0,0,0,0.14); color: var(--ink-soft); padding: 9px 20px; font-family: var(--font-u); font-size: 0.67rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; transition: all 0.3s var(--ease-out); border-radius: 2px; }
+    .filter-btn:hover { border-color: var(--ink-faint); color: var(--ink); }
+    .filter-btn.active { background: var(--red); border-color: var(--red); color: #fff; box-shadow: 0 4px 14px var(--red-glow); }
+
+    /* LÂMINAS */
+    .laminas-obras-wrap { position: relative; height: 400px; overflow: hidden; margin-bottom: 64px; border: 1px solid var(--rule); border-radius: 4px; z-index: 1; }
+    .laminas-track { display: flex; height: 100%; overflow-x: auto; scrollbar-width: none; user-select: none; -webkit-user-select: none; }
+    .laminas-track::-webkit-scrollbar { display: none; }
+    .laminas-track.grabbing { cursor: grabbing; }
+    .lamina { position: relative; flex: 0 0 auto; width: 120px; height: 100%; overflow: hidden; transition: width 0.55s var(--ease-out), filter 0.45s; border-right: 1px solid rgba(255,255,255,0.1); will-change: width; }
+    .lamina:last-child { border-right: none; }
+    .lamina.expanded { width: 420px; }
+    .lamina img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.5) saturate(0.6); transition: filter 0.55s, transform 0.7s var(--ease-out); transform: scale(1.12); pointer-events: none; }
+    .lamina.expanded img, .lamina:hover img { filter: brightness(0.75) saturate(1); transform: scale(1.04); }
+    .lamina-label { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%); padding: 44px 18px 20px; }
+    .lamina-title { font-family: var(--font-d); font-size: 1.1rem; color: #fff; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: 0; transition: opacity 0.4s 0.1s; }
+    .lamina.expanded .lamina-title { opacity: 1; white-space: normal; }
+    .lamina-sub { font-family: var(--font-u); font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(--red); margin-top: 5px; opacity: 0; transition: opacity 0.4s 0.18s; }
+    .lamina.expanded .lamina-sub { opacity: 1; }
+    .lamina-num { position: absolute; top: 16px; left: 14px; font-family: var(--font-d); font-size: 0.75rem; color: rgba(255,255,255,0.22); letter-spacing: 0.1em; writing-mode: vertical-rl; transition: color 0.3s; }
+    .lamina.expanded .lamina-num { color: rgba(255,255,255,0.5); }
+    .laminas-hint { position: absolute; bottom: 14px; right: 18px; z-index: 2; font-family: var(--font-u); font-size: 0.58rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.4); display: flex; align-items: center; gap: 8px; pointer-events: none; background: rgba(0,0,0,0.4); padding: 6px 12px; border-radius: 20px; backdrop-filter: blur(4px); }
+    .laminas-hint i { animation: hint-move 1.8s ease-in-out infinite; }
+    @keyframes hint-move { 0%,100%{transform:translateX(0)} 50%{transform:translateX(6px)} }
+
+    .obras-list { display: flex; flex-direction: column; gap: 0; position: relative; z-index: 1; }
+    .obra-item { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 0; min-height: 380px; border-bottom: 1px solid var(--rule); transition: background 0.4s; position: relative; }
+    .obra-item:first-child { border-top: 1px solid var(--rule); }
+    .obra-item.hidden { display: none; }
+    .obra-item:hover { background: var(--panel); }
+    .obra-item::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--red); transform: scaleY(0); transform-origin: top; transition: transform 0.5s var(--ease-out); }
+    .obra-item:hover::before { transform: scaleY(1); }
+    .obra-diamond-side { display: flex; align-items: center; justify-content: center; padding: 48px 40px; position: relative; }
+    .obra-diamond-side::before { content: ''; position: absolute; top: 50%; left: 50%; width: 65%; height: 65%; border: 1px solid rgba(232,0,10,0.1); transform: translate(-50%,-50%) rotate(45deg); border-radius: 2px; pointer-events: none; }
+    .obra-dmd-wrap { position: relative; width: clamp(200px, 28vw, 300px); aspect-ratio: 1/1; clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); overflow: hidden; transition: transform 0.55s var(--ease-out); will-change: transform; flex-shrink: 0; }
+    .obra-item:hover .obra-dmd-wrap { transform: scale(1.04); }
+    .obra-dmd-wrap img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; transform: scale(1.42); transition: transform 0.85s var(--ease-out), filter 0.55s; filter: brightness(0.88) saturate(0.85); }
+    .obra-item:hover .obra-dmd-wrap img { transform: scale(1.52); filter: brightness(1) saturate(1); }
+    .obra-info-side { padding: 48px 52px; display: flex; flex-direction: column; justify-content: center; }
+    .obra-tag-label { font-family: var(--font-u); font-size: 0.58rem; text-transform: uppercase; color: var(--red); font-weight: 700; display: block; letter-spacing: 0.14em; margin-bottom: 14px; }
+    .obra-title-item { font-family: var(--font-d); font-size: clamp(1.4rem, 2.2vw, 2.2rem); line-height: 1; color: var(--ink); margin-bottom: 22px; transition: color 0.3s; }
+    .obra-item:hover .obra-title-item { color: var(--red); }
+    .obra-meta { display: flex; flex-direction: column; gap: 6px; padding-top: 20px; border-top: 1px solid var(--rule); }
+    .obra-meta-row { display: flex; align-items: center; gap: 10px; font-family: var(--font-u); font-size: 0.72rem; color: var(--ink-soft); font-weight: 400; }
+    .obra-meta-row i { color: var(--red); font-size: 0.65rem; width: 14px; flex-shrink: 0; }
+    .obra-meta-row strong { color: var(--ink-mid); font-weight: 600; }
+    .obra-item.even .obra-diamond-side { order: 2; }
+    .obra-item.even .obra-info-side { order: 1; }
+
+    /* ================================================================
+       CLIENTES — Clean & Corporativo
+       ================================================================ */
+    .clientes-section { padding: clamp(80px,12vw,140px) 0; background: #FAFAFA; border-top: 1px solid rgba(0,0,0,0.06); position: relative; overflow: hidden; }
+    .clientes-section::before { content: 'CLIENTES'; position: absolute; left: -1%; top: 50%; transform: translateY(-50%); font-family: var(--font-d); font-size: 18vw; color: transparent; -webkit-text-stroke: 1px rgba(0,0,0,0.025); line-height: 1; pointer-events: none; user-select: none; }
+    .clientes-header { text-align: center; margin-bottom: 72px; position: relative; z-index: 1; }
+    .clientes-header .section-tag { color: var(--red); justify-content: center; }
+    .clientes-header .section-tag::before { background: var(--red); }
+    .clientes-header h2 { font-family: var(--font-d); font-size: clamp(2.8rem,5vw,5.5rem); text-transform: uppercase; color: var(--ink); line-height: 0.9; margin-top: 12px; }
+    .clientes-header h2 span { color: var(--red); }
+
+    /* ================================================================
+       PETROBRAS — Tipografia destacada + Alinhamento corrigido (#4)
+       ================================================================ */
+    .petrobras-hero-container { position: relative; z-index: 1; margin-bottom: 72px; }
+
+    .petrobras-hero {
+        border: 1px solid rgba(0,0,0,0.08);
+        border-radius: 4px; overflow: hidden;
+        background: #fff;
+        display: flex; align-items: stretch;
+        gap: 0;
+        box-shadow: 0 4px 32px rgba(0,0,0,0.07);
+        transition: box-shadow 0.4s var(--ease-out);
+        position: relative;
+    }
+    .petrobras-hero:hover { box-shadow: 0 12px 48px rgba(0,0,0,0.12); }
+    /* Linha vermelha topo */
+    .petrobras-hero::before {
+        content: '';
+        position: absolute; top: 0; left: 0; right: 0; height: 3px;
+        background: var(--red);
+        box-shadow: 0 0 12px var(--red-glow);
+    }
+
+    /* Coluna esquerda — badge compacto e alinhado */
+    .petrobras-badge-wrapper {
+        flex-shrink: 0;
+        display: flex; flex-direction: column; align-items: stretch; justify-content: center;
+        padding: clamp(24px,3.5vw,48px);
+        background: #F8F8FA;
+        border-right: 1px solid rgba(0,0,0,0.07);
+        min-width: 220px;
+    }
+
+    .petrobras-badge.highlighted {
+        display: flex; flex-direction: column;
+        align-items: flex-start; gap: 16px;
+    }
+
+    .petrobras-logo-container {
+        display: flex; align-items: center; justify-content: center;
+        width: 100%;
+        padding: 20px;
+        background: #fff;
+        border: 1px solid rgba(0,0,0,0.07);
+        border-radius: 3px;
+    }
+    .petrobras-logo-container img {
+        height: 52px; width: auto;
+        object-fit: contain;
+        filter: grayscale(1) brightness(0.2);
+        transition: filter 0.4s var(--ease-out);
+        display: block;
+    }
+    .petrobras-hero:hover .petrobras-logo-container img { filter: none; }
+
+    .petrobras-flag-container {
+        width: 100%;
+    }
+    /* === FIX #4c: Flag "Cliente Estratégico" — largura total, centralizada === */
+    .petrobras-flag {
+        display: block;
+        width: 100%;
+        text-align: center;
+        font-family: var(--font-u); font-size: 0.58rem; font-weight: 800;
+        text-transform: uppercase; letter-spacing: 0.16em;
+        background: var(--red); color: #fff;
+        padding: 7px 12px;
+        border-radius: 1px;
+    }
+
+    /* Coluna direita — conteúdo e stats */
+    .petrobras-content-wrapper {
+        flex: 1; min-width: 0;
+        display: flex; align-items: center; gap: clamp(24px,4vw,56px);
+        padding: clamp(28px,4vw,52px) clamp(28px,4vw,56px);
+    }
+
+    .petrobras-info { flex: 1; min-width: 0; }
+    .petrobras-info h3 {
+        font-family: var(--font-d);
+        font-size: clamp(1.8rem,3vw,3rem);
+        color: var(--ink); text-transform: uppercase; line-height: 1;
+        margin-bottom: 16px;
+    }
+    .petrobras-info p {
+        font-size: 0.92rem; color: var(--ink-soft);
+        line-height: 1.8; font-weight: 300; max-width: 480px;
+    }
+
+    /* === FIX #4a+b: Stats com tipografia destacada + alinhamento === */
+    .petrobras-projects {
+        display: flex; flex-direction: column;
+        align-items: flex-start; gap: 0;
+        flex-shrink: 0;
+        border-left: 1px solid var(--rule);
+        padding-left: clamp(24px,3vw,40px);
+        min-width: 160px;
+    }
+
+    .petrobras-projects h4 {
+        font-family: var(--font-u); font-size: 0.58rem; font-weight: 700;
+        text-transform: uppercase; letter-spacing: 0.16em;
+        color: var(--ink-faint); margin-bottom: 20px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--rule);
+        width: 100%;
+    }
+
+    .pb-proj-item {
+        display: flex; flex-direction: column;
+        align-items: flex-start; gap: 3px;
+        padding: 14px 0;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+        width: 100%;
+    }
+    .pb-proj-item:last-child { border-bottom: none; }
+
+    /* Número com destaque e efeito glow */
+    .pb-proj-num {
+        font-family: var(--font-d);
+        font-size: 2.6rem;
+        color: var(--red);
+        line-height: 1;
+        /* FIX #4a: sombra/glow no número */
+        text-shadow: 0 0 24px rgba(232,0,10,0.25);
+        transition: text-shadow 0.4s, transform 0.35s var(--ease-out);
+    }
+    .petrobras-hero:hover .pb-proj-num {
+        text-shadow: 0 0 32px rgba(232,0,10,0.45);
+        transform: translateX(3px);
+    }
+
+    /* FIX #4b: Label diretamente abaixo do número, sem gap excessivo */
+    .pb-proj-label {
+        font-family: var(--font-u); font-size: 0.64rem; font-weight: 600;
+        text-transform: uppercase; letter-spacing: 0.1em;
+        color: var(--ink-soft);
+        line-height: 1.2;
+    }
+
+    /* === FIX #1a: Grid logos — max-width das logos aumentado === */
+    .clientes-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0;
+        border: 1px solid rgba(0,0,0,0.07);
+        border-radius: 4px;
+        overflow: hidden;
+        position: relative; z-index: 1;
+        background: #fff;
+    }
+
+    .cliente-item {
+        background: #fff;
+        padding: clamp(36px,4vw,56px) clamp(24px,3vw,36px);
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center; gap: 16px;
+        text-align: center;
+        transition: background 0.35s var(--ease-out);
+        min-height: 160px;
+        position: relative;
+        border-right: 1px solid rgba(0,0,0,0.06);
+        border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .cliente-item:nth-child(4n) { border-right: none; }
+    .cliente-item:nth-last-child(-n+4) { border-bottom: none; }
+    .cliente-item::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--red); transform: scaleX(0); transition: transform 0.4s var(--ease-out); transform-origin: center; }
+    .cliente-item:hover { background: #F9F9FA; }
+    .cliente-item:hover::after { transform: scaleX(1); }
+
+    /* FIX #1a: Logo max-width aumentado de 110px → 140px, height de 32px → 40px */
+    .cliente-logo {
+        height: 40px; width: auto; max-width: 140px;
+        object-fit: contain;
+        filter: grayscale(1) opacity(0.45);
+        transition: filter 0.45s var(--ease-out), transform 0.35s var(--ease-out);
+        display: block;
+    }
+    .cliente-item:hover .cliente-logo {
+        filter: grayscale(0) opacity(1);
+        transform: translateY(-2px);
+    }
+
+    .cliente-wordmark { font-family: var(--font-u); font-size: clamp(1rem, 1.8vw, 1.35rem); font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #BBBBC4; transition: color 0.4s var(--ease-out), transform 0.35s var(--ease-out); line-height: 1; }
+    .cliente-item:hover .cliente-wordmark { color: var(--ink); transform: translateY(-2px); }
+    .cliente-sub { font-family: var(--font-u); font-size: 0.58rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: #D0D0D8; transition: color 0.4s; margin-top: -4px; }
+    .cliente-item:hover .cliente-sub { color: var(--ink-faint); }
+
+    .icone-destaque { width: 40px; height: 40px; border-radius: 50%; background: rgba(232,0,10,0.08); display: flex; align-items: center; justify-content: center; }
+    .icone-destaque i { color: var(--red); font-size: 1rem; }
+
+    .cliente-item.cliente-cta { background: rgba(232,0,10,0.03); border-color: rgba(232,0,10,0.12); }
+    .cliente-item.cliente-cta:hover { background: rgba(232,0,10,0.07); }
+    .cliente-item.cliente-cta::after { background: var(--red); }
+    .cliente-cta-inner { display: flex; flex-direction: column; align-items: center; gap: 12px; text-decoration: none; }
+    .cliente-cta-inner i { color: var(--green-wa); font-size: 1.8rem; transition: transform 0.35s var(--ease-spring); }
+    .cliente-item.cliente-cta:hover .cliente-cta-inner i { transform: scale(1.15); }
+    .cliente-cta-inner span { font-family: var(--font-u); font-size: 0.62rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-soft); transition: color 0.3s; }
+    .cliente-item.cliente-cta:hover .cliente-cta-inner span { color: var(--ink); }
+
+    /* FOOTER */
+    footer { background: #090909; border-top: 1px solid rgba(255,255,255,0.05); padding: clamp(60px,9vw,96px) var(--pad) clamp(32px,5vw,44px); }
+    .footer-inner { max-width: var(--max-w); margin: 0 auto; }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: clamp(36px,6vw,80px); padding-bottom: 52px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .footer-brand img { width: clamp(68px,7vw,88px); height: auto; object-fit: contain; display: block; margin-bottom: 20px; filter: brightness(0) saturate(100%) invert(13%) sepia(97%) saturate(6000%) hue-rotate(355deg) brightness(100%) contrast(110%); }
+    .footer-brand p { font-size: 0.87rem; color: #6A6A74; line-height: 1.75; font-weight: 300; max-width: 290px; margin-bottom: 26px; }
+    .social-links { display: flex; gap: 10px; }
+    .social-link { width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; color: #6A6A74; text-decoration: none; font-size: 0.8rem; transition: border-color 0.3s, color 0.3s, transform 0.3s var(--ease-out); }
+    .social-link:hover { border-color: var(--red); color: var(--red); transform: translateY(-3px); }
+    .footer-col h4 { font-family: var(--font-u); font-size: 0.64rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.16em; color: #fff; margin-bottom: 24px; }
+    .footer-contact-item { display: flex; align-items: flex-start; gap: 11px; margin-bottom: 14px; }
+    .footer-contact-item i { color: var(--red); font-size: 0.8rem; margin-top: 2px; flex-shrink: 0; }
+    .footer-contact-item p { font-size: 0.84rem; color: #6A6A74; line-height: 1.6; font-weight: 300; }
+    .footer-email-block { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.05); padding: 16px; border-radius: 2px; margin-bottom: 9px; transition: border-color 0.3s; }
+    .footer-email-block:hover { border-color: rgba(232,0,10,0.22); }
+    .footer-email-block p:first-child { font-family: var(--font-u); font-size: 0.58rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.22); margin-bottom: 5px; }
+    .footer-email-block a { font-size: 0.83rem; color: var(--red); text-decoration: none; transition: opacity 0.25s; }
+    .footer-email-block a:hover { opacity: 0.72; }
+    .footer-wa { display: flex; align-items: center; gap: 10px; padding: 14px 18px; background: rgba(37,211,102,0.08); border: 1px solid rgba(37,211,102,0.2); border-radius: 2px; text-decoration: none; margin-top: 12px; transition: background 0.3s, border-color 0.3s; }
+    .footer-wa:hover { background: rgba(37,211,102,0.15); border-color: rgba(37,211,102,0.4); }
+    .footer-wa i { color: var(--green-wa); font-size: 1.1rem; }
+    .footer-wa span { font-family: var(--font-u); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.6); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 28px; gap: 16px; }
+    .footer-bottom p { font-family: var(--font-u); font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.18); }
+
+    /* BACK TOP */
+    #back-top { position: fixed; bottom: 28px; right: clamp(20px,4vw,40px); width: 42px; height: 42px; background: var(--red); color: #fff; border: none; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.4s var(--ease-out); z-index: 600; font-size: 0.82rem; border-radius: 2px; }
+    #back-top.show { opacity: 1; visibility: visible; }
+    #back-top:hover { transform: translateY(-4px); box-shadow: 0 8px 24px var(--red-glow); }
+
+    /* REVEAL */
+    .reveal, .reveal-l, .reveal-r, .reveal-s { will-change: opacity, transform; transition: opacity 0.85s var(--ease-out), transform 0.85s var(--ease-out); }
+    .reveal { opacity: 0; transform: translateY(32px); }
+    .reveal-l { opacity: 0; transform: translateX(-32px); }
+    .reveal-r { opacity: 0; transform: translateX(32px); }
+    .reveal-s { opacity: 0; transform: scale(0.95); }
+    .reveal.vis, .reveal-l.vis, .reveal-r.vis, .reveal-s.vis { opacity: 1; transform: none; }
+    .d1 { transition-delay: 0.07s; } .d2 { transition-delay: 0.15s; } .d3 { transition-delay: 0.24s; } .d4 { transition-delay: 0.34s; }
+
+    /* RESPONSIVO */
+    @media (max-width: 1000px) {
+        .nav-links { display: none; } .hamburger { display: flex; } .hero-metrics { display: none; }
+        .about-grid, .presence-grid { grid-template-columns: 1fr; gap: 44px; }
+        .about-stat-row { grid-template-columns: repeat(2,1fr); }
+        .segments-grid { grid-template-columns: 1fr; gap: 14px; }
+        .footer-top { grid-template-columns: 1fr; gap: 40px; }
+        .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+        .obra-item, .obra-item.even { grid-template-columns: 1fr; min-height: auto; }
+        .obra-item .obra-diamond-side, .obra-item.even .obra-diamond-side { order: 1; padding: 36px; }
+        .obra-item .obra-info-side, .obra-item.even .obra-info-side { order: 2; padding: 0 36px 36px; }
+        .petrobras-hero { flex-direction: column; }
+        .petrobras-badge-wrapper { border-right: none; border-bottom: 1px solid rgba(0,0,0,0.07); min-width: unset; }
+        .petrobras-content-wrapper { flex-direction: column; align-items: flex-start; gap: 24px; }
+        .petrobras-projects { border-left: none; border-top: 1px solid var(--rule); padding-left: 0; padding-top: 20px; width: 100%; flex-direction: row; flex-wrap: wrap; gap: 0; }
+        .pb-proj-item { padding: 12px 20px 12px 0; border-bottom: none; border-right: 1px solid rgba(0,0,0,0.07); margin-right: 4px; }
+        .pb-proj-item:last-child { border-right: none; }
+        .clientes-grid { grid-template-columns: repeat(2,1fr); }
+        .clientes-grid .cliente-item:nth-child(4n) { border-right: 1px solid rgba(0,0,0,0.06); }
+        .clientes-grid .cliente-item:nth-child(2n) { border-right: none; }
+        .laminas-obras-wrap { height: 280px; }
+    }
+    </style>
+</head>
+<body>
+
+<!-- Cursor elements mantidos no DOM mas ocultos (display:none no CSS) -->
+<div id="eng-cursor"><div class="c-dot"></div><div class="c-arm"></div></div>
+<div id="eng-cursor-ring"><div class="c-ring"></div></div>
+<div id="build-trail"></div>
+
+<div id="page-loader" role="status" aria-label="Carregando CVIX">
+    <div class="loader-inner">
+        <img src="https://github.com/brunoluissantos7-netizen/CVIX-LOGO/blob/main/logo-cvix-header.png?raw=true" alt="CVIX" class="loader-logo">
+        <div class="loader-bar"></div>
+    </div>
+</div>
+
+<div id="progress-bar" aria-hidden="true"></div>
+<button id="back-top" aria-label="Voltar ao topo"><i class="fas fa-arrow-up"></i></button>
+
+<nav class="mobile-menu" id="mobileMenu">
+    <a href="#sobre" onclick="closeMobile()">Sobre</a>
+    <a href="#segmentos" onclick="closeMobile()">Segmentos</a>
+    <a href="#atuacao" onclick="closeMobile()">Atuação</a>
+    <a href="#obras" onclick="closeMobile()">Obras</a>
+    <a href="#clientes" onclick="closeMobile()">Clientes</a>
+    <a href="#contato" onclick="closeMobile()">Contato</a>
+</nav>
+
+<header id="mainHeader">
+    <nav>
+        <a href="#inicio" class="logo"><img src="https://github.com/brunoluissantos7-netizen/CVIX-LOGO/blob/main/logo-cvix-header.png?raw=true" alt="CVIX Engenharia"></a>
+        <ul class="nav-links">
+            <li><a href="#sobre" data-s="sobre">Sobre</a></li>
+            <li><a href="#segmentos" data-s="segmentos">Segmentos</a></li>
+            <li><a href="#atuacao" data-s="atuacao">Atuação</a></li>
+            <li><a href="#obras" data-s="obras">Obras</a></li>
+            <li><a href="#clientes" data-s="clientes">Clientes</a></li>
+            <li><a href="https://wa.me/5571999999999?text=Olá!%20Gostaria%20de%20mais%20informações%20sobre%20a%20CVIX." target="_blank" class="nav-cta">Fale Conosco</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+    <div class="hero-slideshow" id="heroSlideshow">
+        <div class="slide active" style="background-image:url('https://github.com/brunoluissantos7-netizen/CAPA-CVIX/blob/main/Onde%20projetos%20ganham%20for%C3%A7a%20e%20o%20futuro%20ganha%20forma.%20(1).png?raw=true');"></div>
+        <div class="slide" style="background-image:url('https://github.com/brunoluissantos7-netizen/CVIX-QUE-SOMOS-/blob/main/ChatGPT%20Image%2024%20de%20mar.%20de%202026,%2009_08_03.png?raw=true');"></div>
+        <div class="slide" style="background-image:url('https://github.com/brunoluissantos7-netizen/CIVX-SLIDE-2/blob/main/f4ee4dd3-8a0d-410b-a40c-43d639dc6d44.png?raw=true');"></div>
+        <div class="slide" style="background-image:url('https://github.com/brunoluissantos7-netizen/CIVX-SLIDE-4/blob/main/ChatGPT%20Image%2024%20de%20mar.%20de%202026,%2010_41_08.png?raw=true');"></div>
+    </div>
+    <div class="hero-vignette"></div><div class="hero-grid"></div>
+    <div class="slide-dots" id="slideDots"></div>
+    <div class="hero-metrics">
+        <div class="metric"><div class="metric-num">+20</div><div class="metric-label">Anos de Mercado</div></div>
+        <div class="metric"><div class="metric-num">9</div><div class="metric-label">Estados Atendidos</div></div>
+        <div class="metric"><div class="metric-num">3</div><div class="metric-label">Segmentos</div></div>
+    </div>
+    <div class="hero-content">
+        <p class="hero-eyebrow">Fundada em 2001 &middot; Engenharia de Alta Performance</p>
+        <h1>
+            <span class="h1-word" data-text="ONDE" style="--sd:0s">ONDE</span>
+            <span class="h1-word" data-text="PROJETOS" style="--sd:0.4s">PROJETOS</span>
+            <span class="h1-word" data-text="GANHAM" style="--sd:0.8s">GANHAM</span>
+            <span class="h1-word" style="color:var(--red); --sd:1.1s" data-text="FORÇA">FORÇA</span>
+            <span class="h1-word" data-text="E O FUTURO" style="--sd:1.4s">E O FUTURO</span>
+            <span class="h1-word" style="color:var(--red); --sd:1.7s" data-text="GANHA FORMA.">GANHA FORMA.</span>
+        </h1>
+        <div class="hero-sub">
+            <p>Engenharia multidisciplinar com credibilidade comprovada. Comprometida com o desenvolvimento do Brasil há mais de 20 anos.</p>
+            <div class="hero-sub-actions">
+                <a href="https://wa.me/5571999999999?text=Olá!%20Gostaria%20de%20mais%20informações%20sobre%20os%20serviços%20da%20CVIX." target="_blank" class="hero-btn-wa">
+                    <i class="fab fa-whatsapp"></i> Fale Conosco
+                </a>
+                <a href="#sobre" class="hero-scroll"><span>Explorar</span><div class="scroll-line"></div></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SOBRE -->
+<section class="about-section" id="sobre">
+    <div class="section-wrap">
+        <div class="about-grid">
+            <div class="about-left">
+                <p class="section-tag reveal">Quem Somos</p>
+                <h2 class="about-title reveal d1">ENGENHARIA<br><span class="line-red">QUE MOVE</span><br>O PAÍS.</h2>
+                <div class="about-body">
+                    <p class="reveal d2">Fundada em 2001, a <strong>CVIX</strong> é uma empresa de engenharia reconhecida pela agilidade e excelência técnica. Com uma equipe experiente, entrega soluções eficientes e alinhadas às normas vigentes, focando sempre no desenvolvimento do país.</p>
+                    <p class="reveal d3">A companhia prioriza a segurança e a responsabilidade socioambiental, valorizando a mão de obra local e a vida humana. Seu objetivo é gerar impacto positivo e sustentável nas comunidades onde atua, mantendo a credibilidade conquistada ao longo dos anos.</p>
+                </div>
+                <div class="about-stat-row reveal d4" id="statRow">
+                    <div class="about-stat"><div class="about-stat-num" data-target="2001">2001</div><div class="about-stat-label">Fundação</div></div>
+                    <div class="about-stat"><div class="about-stat-num" data-target="9" data-suffix="+">0</div><div class="about-stat-label">Estados</div></div>
+                    <div class="about-stat"><div class="about-stat-num" data-target="3">0</div><div class="about-stat-label">Segmentos</div></div>
+                    <div class="about-stat"><div class="about-stat-num" data-target="20" data-suffix="+">0</div><div class="about-stat-label">Anos de Mercado</div></div>
+                </div>
+            </div>
+            <div class="about-right reveal-r">
+                <div class="diamond-scene">
+                    <div class="dmd-ghost dmd-g1"></div><div class="dmd-ghost dmd-g2"></div><div class="dmd-ghost dmd-g3"></div><div class="dmd-ghost dmd-g4"></div><div class="dmd-ghost dmd-g5"></div>
+                    <div class="dmd-redline"></div><div class="dmd-redline2"></div>
+                    <div class="dmd dmd-top"><img src="https://www.cvix.com.br/images/oleo/1.jpg" alt="Operação" loading="lazy"></div>
+                    <div class="dmd dmd-left"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8RFUbF9pzakHQUmJ9wO0qUej6LL8j9Rg5Ww&s" alt="Gasoduto" loading="lazy"></div>
+                    <div class="dmd dmd-right"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmgVbvoPyNEBeETXtak2HdD_jsFC2Tvi-lnw&s" alt="Mineroduto" loading="lazy"></div>
+                    <div class="dmd dmd-bottom"><img src="https://github.com/brunoluissantos7-netizen/CVIX-QUE-SOMOS-/blob/main/ChatGPT%20Image%2024%20de%20mar.%20de%202026,%2009_08_03.png?raw=true" alt="Equipe" loading="lazy"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SEGMENTOS -->
+<section class="segments-section" id="segmentos">
+    <div class="section-wrap">
+        <div class="segments-header"><div><p class="section-tag reveal">Nossos Segmentos</p><h2 class="segments-title reveal d1">SEGMENTOS<br>DE ATUAÇÃO</h2></div></div>
+        <div class="segments-grid">
+            <div class="seg-card reveal"><div class="seg-index">01</div><div class="seg-icon"><i class="fas fa-oil-well"></i></div><h3 class="seg-title">Óleo &amp; Gás</h3><ul class="seg-list"><li>EPC — Oleodutos e Gasodutos</li><li>Soldagem Offshore e Onshore</li><li>Manutenção de Dutos Críticos</li></ul></div>
+            <div class="seg-card reveal d1"><div class="seg-index">02</div><div class="seg-icon"><i class="fas fa-bridge"></i></div><h3 class="seg-title">Infraestrutura &amp; Civil</h3><ul class="seg-list"><li>Macrodrenagem e Canais</li><li>Estações de Tratamento (ETE)</li><li>Pavimentação e Terraplenagem</li></ul></div>
+            <div class="seg-card reveal d2"><div class="seg-index">03</div><div class="seg-icon"><i class="fas fa-anchor"></i></div><h3 class="seg-title">Marítimo &amp; Portuário</h3><ul class="seg-list"><li>Dragagem e Derrocagem</li><li>Engenharia Subaquática</li><li>Mergulho Profissional</li></ul></div>
+        </div>
+    </div>
+</section>
+
+<!-- PRESENÇA — Dark Premium -->
+<section class="presence-section" id="atuacao">
+    <div class="section-wrap">
+        <div class="presence-grid">
+            <div class="presence-left">
+                <p class="section-tag reveal">Presença Nacional</p>
+                <div class="presence-title-wrap">
+                    <h2 class="presence-title reveal d1">ONDE<br><span class="highlight-word">ATUAMOS</span></h2>
+                </div>
+                <p class="presence-intro reveal d2">A CVIX possui histórico de excelência em obras executadas nos estados:</p>
+                <div class="presence-icons reveal d2">
+                    <div class="p-icon-box"><i class="fas fa-oil-well"></i><span>Óleo &amp; Gás</span></div>
+                    <div class="p-icon-box"><i class="fas fa-bridge"></i><span>Infra Civil</span></div>
+                    <div class="p-icon-box"><i class="fas fa-ship"></i><span>Marítimo</span></div>
+                </div>
+                <div class="state-grid reveal d3">
+                    <div class="state-item"><i class="fas fa-location-dot"></i> Bahia (BA)</div>
+                    <div class="state-item"><i class="fas fa-location-dot"></i> Sergipe (SE)</div>
+                    <div class="state-item"><i class="fas fa-location-dot"></i> Rio de Janeiro (RJ)</div>
+                    <div class="state-item"><i class="fas fa-location-dot"></i> Espírito Santo (ES)</div>
+                    <div class="state-item"><i class="fas fa-location-dot"></i> Alagoas (AL)</div>
+                    <div class="state-item"><i class="fas fa-location-dot"></i> Pará (PA)</div>
+                    <div class="state-item"><i class="fas fa-location-dot"></i> Rio Grande do Sul (RS)</div>
+                    <div class="state-item"><i class="fas fa-location-dot"></i> Maranhão (MA)</div>
+                </div>
+            </div>
+            <div class="presence-right reveal-r">
+                <div class="map-diamond-wrap">
+                    <div class="map-box">
+                        <div class="map-label">Cobertura Nacional</div>
+                        <img src="https://github.com/brunoluissantos7-netizen/cvix-MAPA/blob/main/map.png?raw=true" alt="Mapa de atuação CVIX" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- OBRAS -->
+<section class="obras-section" id="obras">
+    <div class="obras-deco-tl"></div><div class="obras-deco-br"></div>
+    <div class="section-wrap">
+        <div class="obras-header">
+            <div>
+                <p class="section-tag reveal">Portfólio</p>
+                <h2 class="obras-title reveal d1">PRINCIPAIS<br>OBRAS EXECUTADAS</h2>
+            </div>
+            <div class="filter-bar reveal d2">
+                <button class="filter-btn active" onclick="filterObras(event,'all')">Todas</button>
+                <button class="filter-btn" onclick="filterObras(event,'mp')">Marítimo</button>
+                <button class="filter-btn" onclick="filterObras(event,'ic')">Infraestrutura</button>
+            </div>
+        </div>
+
+        <div class="laminas-obras-wrap reveal">
+            <div class="laminas-track" id="laminasTrack">
+                <div class="lamina expanded" data-title="Arena Amazônia" data-sub="Infraestrutura Civil">
+                    <img src="https://s2.glbimg.com/PXC6qt9KHkFPhaceUuce4CGwsc8=/620x390/s.glbimg.com/es/ge/f/original/2013/08/06/foto_-_chico_batata_1.jpg" alt="Arena Amazônia">
+                    <div class="lamina-num">01</div>
+                    <div class="lamina-label"><div class="lamina-title">Arena Amazônia</div><div class="lamina-sub">Infraestrutura Civil</div></div>
+                </div>
+                <div class="lamina" data-title="Ferrovia Norte-Sul" data-sub="Obras Ferroviárias">
+                    <img src="https://s2.glbimg.com/EjFY-I1NK5rQhdhql7zq2BUhUj8=/e.glbimg.com/og/ed/f/original/2015/05/19/obra-da-ferrovia-norte-sul.jpg" alt="Ferrovia Norte-Sul">
+                    <div class="lamina-num">02</div>
+                    <div class="lamina-label"><div class="lamina-title">Ferrovia Norte-Sul</div><div class="lamina-sub">Obras Ferroviárias</div></div>
+                </div>
+                <div class="lamina" data-title="Gasoduto Coari-Manaus" data-sub="Óleo & Gás">
+                    <img src="https://www.cvix.com.br/images/oleo/1.jpg" alt="Gasoduto Coari-Manaus">
+                    <div class="lamina-num">03</div>
+                    <div class="lamina-label"><div class="lamina-title">Gasoduto Coari-Manaus</div><div class="lamina-sub">Óleo & Gás</div></div>
+                </div>
+                <div class="lamina" data-title="Rodovia Castelo Branco" data-sub="Infraestrutura Viária">
+                    <img src="https://i.ytimg.com/vi/Sr8YD-nRLHA/hq720.jpg?sqp=-oaymwE7CK4FEIIDSFryq4qpAy0IARUAAAAAGAElAADIQj0AgKJD8AEB-AH-CYAC0AWKAgwIABABGFYgYShlMA8=&rs=AOn4CLCCYdBsGZ1EHPJyi_e_b4Q7GG80vw" alt="Rodovia">
+                    <div class="lamina-num">04</div>
+                    <div class="lamina-label"><div class="lamina-title">Rodovia Castelo Branco</div><div class="lamina-sub">Infraestrutura Viária</div></div>
+                </div>
+                <div class="lamina" data-title="Metrô de São Paulo" data-sub="Mobilidade Urbana">
+                    <img src="https://anptrilhos.org.br/wp-content/uploads/2023/10/metrosp-linha2-concretagem-expansao.jpg" alt="Metrô">
+                    <div class="lamina-num">05</div>
+                    <div class="lamina-label"><div class="lamina-title">Metrô de São Paulo</div><div class="lamina-sub">Mobilidade Urbana</div></div>
+                </div>
+                <div class="lamina" data-title="Terminal Portuário" data-sub="Marítimo & Portuário">
+                    <img src="https://portosma.com.br/wp-content/uploads/2023/01/TPITAQUI.jpg" alt="Porto">
+                    <div class="lamina-num">06</div>
+                    <div class="lamina-label"><div class="lamina-title">Terminal Portuário</div><div class="lamina-sub">Marítimo & Portuário</div></div>
+                </div>
+                <div class="lamina" data-title="Viaduto Transrhumel" data-sub="Obras de Arte">
+                    <img src="https://mid-noticias.curitiba.pr.gov.br/2024/capa/00432886.jpg" alt="Viaduto">
+                    <div class="lamina-num">07</div>
+                    <div class="lamina-label"><div class="lamina-title">Viaduto Transrhumel</div><div class="lamina-sub">Obras de Arte</div></div>
+                </div>
+                <div class="lamina" data-title="Ferrovia dos Carajás" data-sub="Minerodutos & Ferrovias">
+                    <img src="https://ecbsa.com.br/wp-content/uploads/2023/10/1202-scaled.jpg" alt="Carajás">
+                    <div class="lamina-num">08</div>
+                    <div class="lamina-label"><div class="lamina-title">Ferrovia dos Carajás</div><div class="lamina-sub">Minerodutos & Ferrovias</div></div>
+                </div>
+                <div class="lamina" data-title="Porto de Imbituba" data-sub="Marítimo & Portuário">
+                    <img src="https://media.gazetadopovo.com.br/2026/01/02072911/Porto-de-Imbituba_Anderson-Coelho-scaled.jpg.webp" alt="Porto de Imbituba">
+                    <div class="lamina-num">09</div>
+                    <div class="lamina-label"><div class="lamina-title">Porto de Imbituba</div><div class="lamina-sub">Marítimo & Portuário</div></div>
+                </div>
+                <div class="lamina" data-title="Mineroduto Paragominas" data-sub="Óleo & Gás">
+                    <img src="https://image.chitra.live/api/v1/wps/dc7284a/c1a2fd0f-22d4-4bdc-9533-3b715de96799/1/aus02-600x402.jpg" alt="Mineroduto">
+                    <div class="lamina-num">10</div>
+                    <div class="lamina-label"><div class="lamina-title">Mineroduto Paragominas</div><div class="lamina-sub">Óleo & Gás</div></div>
+                </div>
+            </div>
+            <div class="laminas-hint"><i class="fas fa-arrow-right"></i> Arraste para explorar</div>
+        </div>
+
+        <div class="obras-list" id="obrasGrid">
+            <article class="obra-item reveal" data-cat="mp"><div class="obra-diamond-side"><div class="obra-dmd-wrap"><img src="https://github.com/brunoluissantos7-netizen/Constru-o-Submarina-Gasoduto-DN-16-Ba-a-de-Guanabara/blob/main/Gemini_Generated_Image_6ylyq76ylyq76yly.png?raw=true" loading="lazy"></div></div><div class="obra-info-side"><span class="obra-tag-label">Marítimo &amp; Portuário</span><h3 class="obra-title-item">Construção Submarina Gasoduto DN 16" — Baía de Guanabara</h3><div class="obra-meta"><div class="obra-meta-row"><i class="fas fa-building"></i><span><strong>Cliente:</strong> QUALISOL</span></div><div class="obra-meta-row"><i class="fas fa-location-dot"></i><span><strong>Local:</strong> Rio de Janeiro / RJ</span></div><div class="obra-meta-row"><i class="fas fa-circle-dot"></i><span><strong>Segmento:</strong> Offshore</span></div></div></div></article>
+            <article class="obra-item even reveal" data-cat="mp"><div class="obra-info-side"><span class="obra-tag-label">Marítimo &amp; Portuário</span><h3 class="obra-title-item">Operação Base Guincho e Arraste Gasoduto MANATI DN 24"</h3><div class="obra-meta"><div class="obra-meta-row"><i class="fas fa-building"></i><span><strong>Cliente:</strong> PETROBRAS</span></div><div class="obra-meta-row"><i class="fas fa-location-dot"></i><span><strong>Local:</strong> Bahia / BA</span></div><div class="obra-meta-row"><i class="fas fa-circle-dot"></i><span><strong>Segmento:</strong> Óleo &amp; Gás</span></div></div></div><div class="obra-diamond-side"><div class="obra-dmd-wrap"><img src="https://www.cvix.com.br/images/oleo/1.jpg" loading="lazy"></div></div></article>
+            <article class="obra-item reveal" data-cat="ic"><div class="obra-diamond-side"><div class="obra-dmd-wrap"><img src="https://github.com/brunoluissantos7-netizen/Constru-o-e-Montagem-Mineroduto-24/blob/main/Gemini_Generated_Image_nniygjnniygjnniy.png?raw=true" loading="lazy"></div></div><div class="obra-info-side"><span class="obra-tag-label">Infraestrutura &amp; Civil</span><h3 class="obra-title-item">Construção e Montagem Mineroduto 24" API 5L (132 Km)</h3><div class="obra-meta"><div class="obra-meta-row"><i class="fas fa-building"></i><span><strong>Cliente:</strong> VALE</span></div><div class="obra-meta-row"><i class="fas fa-location-dot"></i><span><strong>Local:</strong> Paragominas / PA</span></div><div class="obra-meta-row"><i class="fas fa-ruler-combined"></i><span><strong>Extensão:</strong> 132 Km</span></div></div></div></article>
+            <article class="obra-item even reveal" data-cat="ic"><div class="obra-info-side"><span class="obra-tag-label">Infraestrutura &amp; Civil</span><h3 class="obra-title-item">Sistema de Esgotamento Sanitário — 29.321m</h3><div class="obra-meta"><div class="obra-meta-row"><i class="fas fa-building"></i><span><strong>Cliente:</strong> Pref. Poções</span></div><div class="obra-meta-row"><i class="fas fa-location-dot"></i><span><strong>Local:</strong> Poções / BA</span></div><div class="obra-meta-row"><i class="fas fa-ruler-combined"></i><span><strong>Extensão:</strong> 29.321m de rede</span></div></div></div><div class="obra-diamond-side"><div class="obra-dmd-wrap"><img src="https://www.ba.gov.br/comunicacao/sites/site-comunicacao/files/2025-08/WhatsApp%20Image%202025-08-14%20at%2010.57.38.jpeg" loading="lazy"></div></div></article>
+            <article class="obra-item reveal" data-cat="mp"><div class="obra-diamond-side"><div class="obra-dmd-wrap"><img src="https://www.ba.gov.br/seagri/sites/site-seagri/files/migracao_2024/arquivos/files/Terminal%20Salvador.jpg" loading="lazy"></div></div><div class="obra-info-side"><span class="obra-tag-label">Marítimo &amp; Portuário</span><h3 class="obra-title-item">Terminal Pesqueiro Salvador — Cravação de Estacas</h3><div class="obra-meta"><div class="obra-meta-row"><i class="fas fa-building"></i><span><strong>Cliente:</strong> MULTISUL</span></div><div class="obra-meta-row"><i class="fas fa-location-dot"></i><span><strong>Local:</strong> Salvador / BA</span></div><div class="obra-meta-row"><i class="fas fa-ruler-combined"></i><span><strong>Serviço:</strong> 1.436m de estacas</span></div></div></div></article>
+            <article class="obra-item even reveal" data-cat="ic"><div class="obra-info-side"><span class="obra-tag-label">Infraestrutura &amp; Civil</span><h3 class="obra-title-item">Reforma de Escolas (63 un) e Postos de Saúde (30 un)</h3><div class="obra-meta"><div class="obra-meta-row"><i class="fas fa-building"></i><span><strong>Cliente:</strong> Pref. Ilhéus</span></div><div class="obra-meta-row"><i class="fas fa-location-dot"></i><span><strong>Local:</strong> Ilhéus / BA</span></div><div class="obra-meta-row"><i class="fas fa-circle-dot"></i><span><strong>Unidades:</strong> 93 unidades</span></div></div></div><div class="obra-diamond-side"><div class="obra-dmd-wrap"><img src="https://ilheus24h.com.br/wp-content/uploads/2023/09/NOVAS-ATUALIZACOES-SOBRE-A-CONSTRUCAO-DA-ESCOLA-DE-TEMPO-INTEGRAL-DA-ZONA-SUL.jpg" loading="lazy"></div></div></article>
+        </div>
+    </div>
+</section>
+
+<!-- CLIENTES -->
+<section class="clientes-section" id="clientes">
+    <div class="section-wrap">
+        <div class="clientes-header reveal">
+            <p class="section-tag">Nossos Clientes</p>
+            <h2>QUEM <span>CONFIA</span><br>NA CVIX</h2>
+        </div>
+
+        <div class="petrobras-hero-container">
+            <div class="petrobras-hero reveal-s">
+                <div class="petrobras-badge-wrapper">
+                    <div class="petrobras-badge highlighted">
+                        <div class="petrobras-logo-container">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Logo_petrobras.gif/330px-Logo_petrobras.gif" alt="Logo Petrobras">
+                        </div>
+                        <div class="petrobras-flag-container">
+                            <span class="petrobras-flag">Cliente Estratégico</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="petrobras-content-wrapper">
+                    <div class="petrobras-info">
+                        <h3>Parceria com<br>a Petrobras</h3>
+                        <p>A CVIX atua como parceira estratégica da Petrobras em projetos críticos de engenharia offshore e onshore, incluindo gasodutos submarinos, operações de guincho e arraste, e sistemas de dutos de alta complexidade técnica.</p>
+                    </div>
+                    <div class="petrobras-projects">
+                        <h4>Estatísticas de Parceria</h4>
+                        <div class="pb-proj-item">
+                            <div class="pb-proj-num">+5</div>
+                            <div class="pb-proj-label">Projetos<br>Executados</div>
+                        </div>
+                        <div class="pb-proj-item">
+                            <div class="pb-proj-num">3</div>
+                            <div class="pb-proj-label">Estados<br>Atendidos</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="clientes-grid reveal d2">
+            <div class="cliente-item">
+                <img src="https://images.seeklogo.com/logo-png/22/2/vale-logo-png_seeklogo-222255.png" alt="Logo Vale" class="cliente-logo">
+                <span class="cliente-sub">Mineração</span>
+            </div>
+            <div class="cliente-item">
+                <img src="http://googleusercontent.com/image_collection/image_retrieval/12618096515039832905" alt="Logo Qualisol" class="cliente-logo">
+                <span class="cliente-sub">Energia &amp; Gás</span>
+            </div>
+            <div class="cliente-item">
+                <img src="https://static.wixstatic.com/media/8864c7_61b556625af140caaad808ec9b75e52a~mv2_d_3402_1546_s_2.png/v1/fill/w_277,h_126,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/logo%20SOZINHO.png" alt="Logo Multisul" class="cliente-logo">
+                <span class="cliente-sub">Portuário</span>
+            </div>
+            <div class="cliente-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWW2vyl1t0uybNlTREGTvJWy52n_EkhQ1LfA&s" alt="Brasão Prefeitura de Ilhéus" class="cliente-logo">
+                <span class="cliente-sub">Governo Municipal</span>
+            </div>
+            <div class="cliente-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIwmGUvWQgT5oqswA8jraemY2fJLgjp6IHMw&s" alt="Brasão Prefeitura de Poções" class="cliente-logo">
+                <span class="cliente-sub">Governo Municipal</span>
+            </div>
+            <div class="cliente-item">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Bras%C3%A3o_do_estado_da_Bahia.svg/250px-Bras%C3%A3o_do_estado_da_Bahia.svg.png" alt="Governo do Estado da Bahia" class="cliente-logo">
+                <span class="cliente-sub">Governo Estadual</span>
+            </div>
+            <div class="cliente-item item-extra">
+                <div class="icone-destaque"><i class="fas fa-plus"></i></div>
+                <span class="cliente-wordmark" style="font-size:0.85rem;">E Muito Mais</span>
+                <span class="cliente-sub">Carteira em crescimento</span>
+            </div>
+            <div class="cliente-item cliente-cta">
+                <a href="https://wa.me/5571999999999?text=Quero%20ser%20cliente%20da%20CVIX!" target="_blank" class="cliente-cta-inner">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>Seja nosso cliente</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contato">
+    <div class="footer-inner">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <img src="https://github.com/brunoluissantos7-netizen/CVIX-LOGO/blob/main/logo-cvix-header.png?raw=true" alt="CVIX">
+                <p>Engenharia multidisciplinar de alta performance, focada no desenvolvimento sustentável do país.</p>
+                <div class="social-links"><a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a><a href="#" class="social-link"><i class="fab fa-instagram"></i></a></div>
+            </div>
+            <div class="footer-col">
+                <h4>Sede Salvador</h4>
+                <div class="footer-contact-item"><i class="fas fa-map-location-dot"></i><p>Rua Frederico Simões, 98<br>Ed. Advanced Trade<br>Salvador / BA</p></div>
+            </div>
+            <div class="footer-col">
+                <h4>Canais Digitais</h4>
+                <div class="footer-email-block"><p>Comercial</p><a href="mailto:contato@cvix.com.br">contato@cvix.com.br</a></div>
+                <div class="footer-email-block"><p>Integridade</p><a href="mailto:eticaeconduta@cvix.com.br">eticaeconduta@cvix.com.br</a></div>
+                <a href="https://wa.me/5571999999999?text=Olá!%20Gostaria%20de%20mais%20informações%20sobre%20a%20CVIX." target="_blank" class="footer-wa"><i class="fab fa-whatsapp"></i><span>Fale pelo WhatsApp</span></a>
+            </div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2026 CVIX Engenharia. Todos os direitos reservados.</p><p>Engenharia &middot; Credibilidade &middot; Brasil</p></div>
+    </div>
+</footer>
+
+<script>
+(function () {
+'use strict';
+
+/* LOADER */
+window.addEventListener('load', () => setTimeout(() => {
+    var el = document.getElementById('page-loader');
+    if (el) el.classList.add('hidden');
+}, 700));
+
+/* SLIDESHOW */
+var slides = Array.from(document.querySelectorAll('#heroSlideshow .slide'));
+var dotsWrap = document.getElementById('slideDots');
+var current = 0, autoTimer;
+
+slides.forEach(function(_, i) {
+    var btn = document.createElement('button');
+    btn.className = 'slide-dot' + (i === 0 ? ' active' : '');
+    btn.addEventListener('click', function() { goTo(i); });
+    dotsWrap.appendChild(btn);
+});
+
+function goTo(idx) {
+    clearTimeout(autoTimer);
+    slides[current].classList.remove('active');
+    slides[current].classList.add('leaving');
+    var leaving = current;
+    setTimeout(function() { slides[leaving].classList.remove('leaving'); }, 1500);
+    dotsWrap.querySelectorAll('.slide-dot').forEach(function(d, i) { d.classList.toggle('active', i === idx); });
+    current = idx;
+    slides[current].classList.add('active');
+    schedule();
+}
+
+function schedule() { autoTimer = setTimeout(function() { goTo((current + 1) % slides.length); }, 6000); }
+if (slides.length > 1) schedule();
+
+/* HEADER + PROGRESS + NAV */
+var header = document.getElementById('mainHeader');
+var btt = document.getElementById('back-top');
+var pb = document.getElementById('progress-bar');
+var sections = Array.from(document.querySelectorAll('section[id]'));
+var navLinks = Array.from(document.querySelectorAll('.nav-links a[data-s]'));
+
+/* === FIX #3: scroll otimizado com requestAnimationFrame === */
+var ticking = false;
+window.addEventListener('scroll', function() {
+    if (!ticking) {
+        requestAnimationFrame(function() {
+            var s = window.scrollY;
+            var total = document.body.scrollHeight - window.innerHeight;
+            pb.style.width = (total > 0 ? (s / total * 100) : 0) + '%';
+            header.classList.toggle('scrolled', s > 80);
+            btt.classList.toggle('show', s > 600);
+            var active = '';
+            sections.forEach(function(sec) { if (s >= sec.offsetTop - 140) active = sec.id; });
+            navLinks.forEach(function(a) { a.classList.toggle('active', a.dataset.s === active); });
+            ticking = false;
+        });
+        ticking = true;
+    }
+}, { passive: true });
+
+btt.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+/* REVEAL — IntersectionObserver único e eficiente */
+var revObs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+        if (e.isIntersecting) {
+            e.target.classList.add('vis');
+            revObs.unobserve(e.target);
+        }
+    });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal,.reveal-l,.reveal-r,.reveal-s').forEach(function(el) { revObs.observe(el); });
+
+/* CONTADOR */
+function countUp(el) {
+    var target = parseInt(el.dataset.target, 10);
+    var suffix = el.dataset.suffix || '';
+    var dur = 850, start = performance.now();
+    function frame(now) {
+        var p = Math.min((now - start) / dur, 1);
+        el.textContent = Math.round(p * target) + suffix;
+        if (p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+}
+
+var statRow = document.getElementById('statRow');
+if (statRow) {
+    new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+            if (e.isIntersecting) e.target.querySelectorAll('.about-stat-num').forEach(countUp);
+        });
+    }, { threshold: 0.5 }).observe(statRow);
+}
+
+/* FILTRO */
+window.filterObras = function(e, cat) {
+    document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+    e.currentTarget.classList.add('active');
+    document.querySelectorAll('.obra-item').forEach(function(c) {
+        c.classList.toggle('hidden', cat !== 'all' && c.dataset.cat !== cat);
+    });
+};
+
+/* HAMBURGER */
+var hb = document.getElementById('hamburger');
+var mm = document.getElementById('mobileMenu');
+hb.addEventListener('click', function() {
+    var op = hb.classList.toggle('open');
+    mm.classList.toggle('open', op);
+    document.body.style.overflow = op ? 'hidden' : '';
+});
+window.closeMobile = function() {
+    hb.classList.remove('open');
+    mm.classList.remove('open');
+    document.body.style.overflow = '';
+};
+
+/* LÂMINAS — expand on hover + drag scroll */
+var track = document.getElementById('laminasTrack');
+if (track) {
+    var laminas = Array.from(track.querySelectorAll('.lamina'));
+
+    laminas.forEach(function(lam) {
+        lam.addEventListener('mouseenter', function() {
+            laminas.forEach(function(l) { l.classList.remove('expanded'); });
+            lam.classList.add('expanded');
+        });
+    });
+
+    track.addEventListener('mouseleave', function() {
+        laminas.forEach(function(l) { l.classList.remove('expanded'); });
+        if (laminas[0]) laminas[0].classList.add('expanded');
+    });
+
+    /* Drag scroll — otimizado */
+    var isDragging = false, startX, scrollLeft;
+
+    track.addEventListener('mousedown', function(e) {
+        isDragging = true;
+        track.style.cursor = 'grabbing';
+        startX = e.pageX - track.offsetLeft;
+        scrollLeft = track.scrollLeft;
+        e.preventDefault();
+    });
+
+    document.addEventListener('mouseup', function() {
+        isDragging = false;
+        track.style.cursor = '';
+    });
+
+    track.addEventListener('mousemove', function(e) {
+        if (!isDragging) return;
+        var x = e.pageX - track.offsetLeft;
+        track.scrollLeft = scrollLeft - (x - startX) * 1.4;
+    });
+
+    /* Touch */
+    var tStartX, tScrollLeft;
+    track.addEventListener('touchstart', function(e) {
+        tStartX = e.touches[0].pageX - track.offsetLeft;
+        tScrollLeft = track.scrollLeft;
+    }, { passive: true });
+
+    track.addEventListener('touchmove', function(e) {
+        var x = e.touches[0].pageX - track.offsetLeft;
+        track.scrollLeft = tScrollLeft - (x - tStartX) * 1.4;
+    }, { passive: true });
+}
+
+})();
+</script>
+</body>
+</html>
