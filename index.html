@@ -21,7 +21,7 @@
         /* FIX #4: Espaçamento de seção compactado globalmente */
         --sec-pad: clamp(56px, 8vw, 100px);
     }
-    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; scroll-padding-top: 112px; }
     body { background: var(--bg); color: var(--ink); font-family: var(--font-b); overflow-x: hidden; -webkit-overflow-scrolling: touch; cursor: auto; }
     * { cursor: inherit; }
     a, button, [role="button"], .seg-card, .obra-item, .state-item, .dmd, .metric, .lamina,
@@ -42,32 +42,164 @@
     @keyframes loader-sweep { to { left: 160%; } }
 
     /* PROGRESS */
-    #progress-bar { position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: var(--red); z-index: 8000; pointer-events: none; box-shadow: 0 0 8px var(--red-glow); transition: width 0.1s linear; will-change: width; }
+    #progress-bar { position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: var(--red); z-index: 9100; pointer-events: none; box-shadow: 0 0 10px var(--red-glow); transition: width 0.08s linear; will-change: width; }
 
-    /* HEADER */
-    header { position: fixed; top: 0; left: 0; right: 0; z-index: 700; padding: 0 var(--pad); transition: background 0.5s var(--ease-out), box-shadow 0.5s; }
-    header.scrolled { background: rgba(255,255,255,0.97); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border-bottom: 1px solid var(--rule); box-shadow: 0 1px 20px rgba(0,0,0,0.05); }
-    nav { max-width: var(--max-w); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: var(--nav-h); transition: height 0.4s var(--ease-out); }
+    /* ── TOP BAR: idiomas + bandeiras ── */
+    #topbar {
+        position: fixed; top: 0; left: 0; right: 0; z-index: 800;
+        height: 32px;
+        background: rgba(10,10,10,0.82);
+        backdrop-filter: blur(12px) saturate(160%);
+        -webkit-backdrop-filter: blur(12px) saturate(160%);
+        border-bottom: 1px solid rgba(255,255,255,0.07);
+        display: flex; align-items: center; justify-content: flex-end;
+        padding: 0 var(--pad);
+        transition: opacity 0.5s, transform 0.5s var(--ease-out);
+    }
+    #topbar.hide { opacity: 0; transform: translateY(-100%); pointer-events: none; }
+    .lang-switcher {
+        display: flex; align-items: center; gap: 6px;
+    }
+    .lang-btn {
+        display: flex; align-items: center; gap: 6px;
+        background: none; border: none;
+        font-family: var(--font-u); font-size: 0.58rem; font-weight: 700;
+        text-transform: uppercase; letter-spacing: 0.12em;
+        color: rgba(255,255,255,0.5);
+        padding: 4px 8px; border-radius: 2px;
+        transition: color 0.25s, background 0.25s;
+    }
+    .lang-btn:hover { color: #fff; background: rgba(255,255,255,0.08); }
+    .lang-btn.active { color: #fff; }
+    .lang-flag {
+        width: 18px; height: 13px; object-fit: cover;
+        border-radius: 1px; display: block;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+        flex-shrink: 0;
+    }
+    .lang-divider {
+        width: 1px; height: 12px;
+        background: rgba(255,255,255,0.15);
+        margin: 0 2px;
+    }
+
+    /* ── HEADER ── */
+    header {
+        position: fixed; top: 32px; left: 0; right: 0; z-index: 700;
+        padding: 0 var(--pad);
+        transition: top 0.4s var(--ease-out), background 0.45s var(--ease-out), box-shadow 0.45s, border-color 0.45s;
+    }
+    /* Quando o topbar some, header sobe */
+    header.top-hidden { top: 0; }
+
+    /* Estado transparente sobre hero — com backdrop leve para legibilidade */
+    header::before {
+        content: '';
+        position: absolute; inset: 0;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.52) 0%, rgba(0,0,0,0.18) 60%, transparent 100%);
+        pointer-events: none;
+        opacity: 1;
+        transition: opacity 0.45s var(--ease-out);
+    }
+    header.scrolled::before { opacity: 0; }
+    header.scrolled {
+        background: rgba(255,255,255,0.97);
+        backdrop-filter: blur(24px) saturate(200%);
+        -webkit-backdrop-filter: blur(24px) saturate(200%);
+        border-bottom: 1px solid rgba(0,0,0,0.07);
+        box-shadow: 0 2px 24px rgba(0,0,0,0.07);
+    }
+
+    nav { max-width: var(--max-w); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: var(--nav-h); transition: height 0.4s var(--ease-out); position: relative; }
     header.scrolled nav { height: var(--nav-h-sm); }
+
     .logo { text-decoration: none; display: flex; align-items: center; flex-shrink: 0; }
-    .logo img { width: clamp(70px, 8vw, 90px); height: auto; object-fit: contain; filter: brightness(0) saturate(100%) invert(13%) sepia(97%) saturate(6000%) hue-rotate(355deg) brightness(100%) contrast(110%); transition: width 0.4s; }
-    .nav-links { display: flex; gap: 36px; list-style: none; align-items: center; }
-    .nav-links a { text-decoration: none; color: var(--ink-soft); font-family: var(--font-u); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; transition: color 0.25s; position: relative; padding-bottom: 3px; white-space: nowrap; }
-    .nav-links a::after { content:''; position:absolute; bottom:0; left:0; width:0; height:1px; background:var(--red); transition:width 0.35s var(--ease-out); }
-    .nav-links a:hover, .nav-links a.active { color: var(--ink); }
+    .logo img {
+        width: clamp(70px, 8vw, 90px); height: auto; object-fit: contain;
+        filter: brightness(0) invert(1); /* branco sobre hero */
+        transition: width 0.4s var(--ease-out), filter 0.4s;
+    }
+    header.scrolled .logo img {
+        filter: brightness(0) saturate(100%) invert(13%) sepia(97%) saturate(6000%) hue-rotate(355deg) brightness(100%) contrast(110%);
+    }
+
+    .nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
+
+    /* Links — sempre brancos e nítidos sobre hero */
+    .nav-links a {
+        text-decoration: none;
+        color: rgba(255,255,255,1);
+        font-family: var(--font-u); font-size: 0.68rem; font-weight: 700;
+        text-transform: uppercase; letter-spacing: 0.16em;
+        transition: color 0.25s, text-shadow 0.25s;
+        position: relative; padding-bottom: 4px; white-space: nowrap;
+        /* sombra de texto para contraste perfeito sobre qualquer imagem */
+        text-shadow:
+            0 0 20px rgba(0,0,0,0.9),
+            0 1px 4px rgba(0,0,0,0.8),
+            0 2px 12px rgba(0,0,0,0.6);
+    }
+    .nav-links a::after {
+        content:''; position:absolute; bottom:0; left:0;
+        width:0; height:1.5px; background:var(--red);
+        transition:width 0.35s var(--ease-out);
+        border-radius: 1px;
+    }
+    .nav-links a:hover { color: #fff; }
     .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
-    .nav-cta { padding: 8px 20px !important; border: 1.5px solid var(--red-line) !important; color: var(--red) !important; border-radius: 2px; font-weight: 700 !important; transition: background 0.3s, color 0.3s, box-shadow 0.3s !important; }
+    .nav-links a.active { color: #fff; }
+
+    /* Após scroll: links escuros e sem sombra */
+    header.scrolled .nav-links a {
+        color: var(--ink-soft);
+        text-shadow: none;
+    }
+    header.scrolled .nav-links a:hover,
+    header.scrolled .nav-links a.active { color: var(--ink); }
+
+    /* CTA button */
+    .nav-cta {
+        padding: 9px 22px !important;
+        border: 1.5px solid rgba(255,255,255,0.55) !important;
+        color: #fff !important;
+        border-radius: 2px; font-weight: 700 !important;
+        transition: background 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s !important;
+        text-shadow: none !important;
+        letter-spacing: 0.12em !important;
+        background: rgba(255,255,255,0.08) !important;
+        backdrop-filter: blur(4px);
+    }
     .nav-cta::after { display: none !important; }
-    .nav-cta:hover { background: var(--red) !important; color: #fff !important; box-shadow: 0 4px 16px var(--red-glow) !important; }
+    .nav-cta:hover {
+        background: var(--red) !important;
+        border-color: var(--red) !important;
+        box-shadow: 0 4px 18px var(--red-glow) !important;
+    }
+    header.scrolled .nav-cta {
+        border-color: var(--red-line) !important;
+        color: var(--red) !important;
+        background: transparent !important;
+        text-shadow: none !important;
+    }
+    header.scrolled .nav-cta:hover {
+        background: var(--red) !important;
+        color: #fff !important;
+        border-color: var(--red) !important;
+    }
+
+    /* Hamburger — branco sobre hero */
     .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; width: 44px; height: 44px; flex-shrink: 0; -webkit-tap-highlight-color: transparent; }
-    .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--ink); transform-origin: center; transition: transform 0.4s var(--ease-out), opacity 0.3s, width 0.3s; }
+    .hamburger span { display: block; width: 22px; height: 1.5px; background: #fff; transform-origin: center; transition: transform 0.4s var(--ease-out), opacity 0.3s, width 0.3s, background 0.3s; }
+    header.scrolled .hamburger span { background: var(--ink); }
     .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
     .hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
     .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-    .mobile-menu { position: fixed; inset: 0; z-index: 699; background: rgba(255,255,255,0.98); backdrop-filter: blur(16px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; opacity: 0; visibility: hidden; transition: opacity 0.4s var(--ease-out), visibility 0.4s; }
+
+    /* Mobile menu */
+    .mobile-menu { position: fixed; inset: 0; z-index: 699; background: rgba(8,8,10,0.97); backdrop-filter: blur(20px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; opacity: 0; visibility: hidden; transition: opacity 0.4s var(--ease-out), visibility 0.4s; }
     .mobile-menu.open { opacity: 1; visibility: visible; }
-    .mobile-menu a { font-family: var(--font-d); font-size: clamp(2rem, 9vw, 3.8rem); color: var(--ink-faint); text-decoration: none; letter-spacing: 0.03em; transition: color 0.25s, transform 0.3s var(--ease-out); display: inline-block; }
-    .mobile-menu a:hover { color: var(--ink); transform: translateX(8px); }
+    .mobile-menu a { font-family: var(--font-d); font-size: clamp(2rem, 9vw, 3.8rem); color: rgba(255,255,255,0.35); text-decoration: none; letter-spacing: 0.03em; transition: color 0.25s, transform 0.3s var(--ease-out); display: inline-block; }
+    .mobile-menu a:hover { color: #fff; transform: translateX(10px); }
 
     /* HERO */
     .hero { position: relative; height: 100dvh; min-height: 600px; display: flex; align-items: flex-end; overflow: hidden; }
@@ -536,6 +668,9 @@
         .clientes-grid .cliente-item:nth-child(4n) { border-right: 1px solid rgba(0,0,0,0.06); }
         .clientes-grid .cliente-item:nth-child(2n) { border-right: none; }
         .laminas-obras-wrap { height: 240px; }
+        #topbar { padding: 0 16px; }
+        .lang-btn { padding: 3px 6px; font-size: 0.55rem; }
+        header { top: 32px; }
     }
     </style>
 </head>
@@ -563,6 +698,44 @@
     <a href="#clientes" onclick="closeMobile()">Clientes</a>
     <a href="#contato" onclick="closeMobile()">Contato</a>
 </nav>
+
+<!-- TOPBAR: bandeiras + idioma -->
+<div id="topbar">
+    <div class="lang-switcher">
+        <button class="lang-btn active" onclick="setLang('pt')" title="Português">
+            <!-- Bandeira do Brasil em SVG inline — sem depender de CDN externo -->
+            <svg class="lang-flag" viewBox="0 0 18 13" xmlns="http://www.w3.org/2000/svg">
+                <rect width="18" height="13" fill="#009c3b"/>
+                <polygon points="9,1.3 17.2,6.5 9,11.7 0.8,6.5" fill="#FFDF00"/>
+                <circle cx="9" cy="6.5" r="2.6" fill="#002776"/>
+                <path d="M6.5,5.7 Q9,4.8 11.5,5.7" stroke="#fff" stroke-width="0.55" fill="none" stroke-linecap="round"/>
+            </svg>
+            PT
+        </button>
+        <div class="lang-divider"></div>
+        <button class="lang-btn" onclick="setLang('en')" title="English">
+            <!-- Bandeira dos EUA em SVG inline simplificada -->
+            <svg class="lang-flag" viewBox="0 0 18 13" xmlns="http://www.w3.org/2000/svg">
+                <rect width="18" height="13" fill="#B22234"/>
+                <rect y="1" width="18" height="1" fill="#fff"/>
+                <rect y="3" width="18" height="1" fill="#fff"/>
+                <rect y="5" width="18" height="1" fill="#fff"/>
+                <rect y="7" width="18" height="1" fill="#fff"/>
+                <rect y="9" width="18" height="1" fill="#fff"/>
+                <rect y="11" width="18" height="1" fill="#fff"/>
+                <rect width="7.2" height="7" fill="#3C3B6E"/>
+                <g fill="#fff">
+                    <circle cx="1.2" cy="1" r="0.5"/><circle cx="2.4" cy="1" r="0.5"/><circle cx="3.6" cy="1" r="0.5"/><circle cx="4.8" cy="1" r="0.5"/><circle cx="6.0" cy="1" r="0.5"/>
+                    <circle cx="1.8" cy="2.2" r="0.5"/><circle cx="3.0" cy="2.2" r="0.5"/><circle cx="4.2" cy="2.2" r="0.5"/><circle cx="5.4" cy="2.2" r="0.5"/>
+                    <circle cx="1.2" cy="3.4" r="0.5"/><circle cx="2.4" cy="3.4" r="0.5"/><circle cx="3.6" cy="3.4" r="0.5"/><circle cx="4.8" cy="3.4" r="0.5"/><circle cx="6.0" cy="3.4" r="0.5"/>
+                    <circle cx="1.8" cy="4.6" r="0.5"/><circle cx="3.0" cy="4.6" r="0.5"/><circle cx="4.2" cy="4.6" r="0.5"/><circle cx="5.4" cy="4.6" r="0.5"/>
+                    <circle cx="1.2" cy="5.8" r="0.5"/><circle cx="2.4" cy="5.8" r="0.5"/><circle cx="3.6" cy="5.8" r="0.5"/><circle cx="4.8" cy="5.8" r="0.5"/><circle cx="6.0" cy="5.8" r="0.5"/>
+                </g>
+            </svg>
+            EN
+        </button>
+    </div>
+</div>
 
 <header id="mainHeader">
     <nav>
@@ -656,7 +829,7 @@
             <div class="seg-card reveal">
                 <div class="seg-hex-wrap">
                     <div class="seg-hex-clip">
-                        <img src="https://inaflex.com.br/wp-content/uploads/2023/04/43.png" alt="Óleo e Gás — Plataforma e dutos" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=480&q=80" alt="Óleo e Gás — Plataforma e dutos" loading="lazy">
                     </div>
                     <div class="seg-hex-line"></div>
                 </div>
@@ -672,7 +845,7 @@
             <div class="seg-card reveal d1">
                 <div class="seg-hex-wrap">
                     <div class="seg-hex-clip">
-                        <img src="https://www.igobras.com.br/imagens/informacoes/engenharia-da-gestao-da-construcao-civil-01.webp" alt="Infraestrutura e Civil — Obras e guindastes" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=480&q=80" alt="Infraestrutura e Civil — Obras e guindastes" loading="lazy">
                     </div>
                     <div class="seg-hex-line"></div>
                 </div>
@@ -688,7 +861,7 @@
             <div class="seg-card reveal d2">
                 <div class="seg-hex-wrap">
                     <div class="seg-hex-clip">
-                        <img src="https://img.odcdn.com.br/wp-content/uploads/2024/02/Destaque-Porto-nos-EUA.jpg" alt="Marítimo e Portuário — Porto e guindastes" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1566093097221-ac2335b09e70?w=480&q=80" alt="Marítimo e Portuário — Porto e guindastes" loading="lazy">
                     </div>
                     <div class="seg-hex-line"></div>
                 </div>
@@ -870,8 +1043,16 @@ function schedule(){autoTimer=setTimeout(function(){goTo((current+1)%slides.leng
 if(slides.length>1)schedule();
 var header=document.getElementById('mainHeader'),btt=document.getElementById('back-top'),pb=document.getElementById('progress-bar');
 var sections=Array.from(document.querySelectorAll('section[id]')),navLinks=Array.from(document.querySelectorAll('.nav-links a[data-s]'));
-var ticking=false;
-window.addEventListener('scroll',function(){if(!ticking){requestAnimationFrame(function(){var s=window.scrollY,total=document.body.scrollHeight-window.innerHeight;pb.style.width=(total>0?s/total*100:0)+'%';header.classList.toggle('scrolled',s>80);btt.classList.toggle('show',s>600);var active='';sections.forEach(function(sec){if(s>=sec.offsetTop-140)active=sec.id;});navLinks.forEach(function(a){a.classList.toggle('active',a.dataset.s===active);});ticking=false;});ticking=true;}},{passive:true});
+var ticking=false,lastY=0,topbar=document.getElementById('topbar');
+window.addEventListener('scroll',function(){if(!ticking){requestAnimationFrame(function(){var s=window.scrollY,total=document.body.scrollHeight-window.innerHeight;
+pb.style.width=(total>0?s/total*100:0)+'%';
+header.classList.toggle('scrolled',s>80);
+btt.classList.toggle('show',s>600);
+/* Topbar: oculta após 120px de scroll para baixo, volta ao subir */
+if(topbar){var down=s>lastY;topbar.classList.toggle('hide',s>120&&down);header.classList.toggle('top-hidden',s>120&&down);}
+lastY=s;
+var active='';sections.forEach(function(sec){if(s>=sec.offsetTop-140)active=sec.id;});navLinks.forEach(function(a){a.classList.toggle('active',a.dataset.s===active);});
+ticking=false;});ticking=true;}},{passive:true});
 btt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
 var revObs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('vis');revObs.unobserve(e.target);}});},{threshold:0.08,rootMargin:'0px 0px -32px 0px'});
 document.querySelectorAll('.reveal,.reveal-l,.reveal-r,.reveal-s').forEach(function(el){revObs.observe(el);});
@@ -895,6 +1076,8 @@ if(track){
     track.addEventListener('touchstart',function(e){tSX=e.touches[0].pageX-track.offsetLeft;tSL=track.scrollLeft;},{passive:true});
     track.addEventListener('touchmove',function(e){track.scrollLeft=tSL-(e.touches[0].pageX-track.offsetLeft-tSX)*1.4;},{passive:true});
 }
+/* Lang switcher — visual only (troca classe active) */
+window.setLang=function(l){document.querySelectorAll('.lang-btn').forEach(function(b){b.classList.remove('active');});var t=document.querySelector('.lang-btn[onclick*="'+l+'"]');if(t)t.classList.add('active');};
 })();
 </script>
 </body>
