@@ -4,102 +4,148 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="CVIX Engenharia — Multidisciplinar de Alta Performance. Óleo & Gás, Infraestrutura Civil, Marítimo e Portuário. Fundada em 2001.">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#E8000A">
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="CVIX | Engenharia Multidisciplinar de Alta Performance">
+    <meta property="og:description" content="Engenharia multidisciplinar com credibilidade comprovada. Óleo & Gás, Infraestrutura Civil, Marítimo e Portuário.">
+    <meta property="og:locale" content="pt_BR">
     <title>CVIX | Engenharia Multidisciplinar de Alta Performance</title>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "CVIX Engenharia",
+        "url": "https://cvix.com.br",
+        "logo": "https://github.com/brunoluissantos7-netizen/CVIX-LOGO/blob/main/logo-cvix-header.png?raw=true",
+        "foundingDate": "2001",
+        "description": "Engenharia multidisciplinar de alta performance. Óleo & Gás, Infraestrutura Civil, Marítimo e Portuário.",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Rua Frederico Simões, 98, Ed. Advanced Trade",
+            "addressLocality": "Salvador",
+            "addressRegion": "BA",
+            "addressCountry": "BR"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer service",
+            "email": "contato@cvix.com.br"
+        }
+    }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+    /* ── RESET & TOKENS ── */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
         --red: #E8000A; --red-dim: rgba(232,0,10,0.08); --red-glow: rgba(232,0,10,0.28); --red-line: rgba(232,0,10,0.18);
         --bg: #FFFFFF; --panel: #F4F4F6; --surface: #EAEAED;
         --ink: #0A0A0A; --ink-mid: #3A3A42; --ink-soft: #6A6A74; --ink-faint: #AEAEB8; --rule: rgba(0,0,0,0.07);
         --font-d: 'Bebas Neue', sans-serif; --font-u: 'Syne', sans-serif; --font-b: 'DM Sans', sans-serif;
-        --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94); --ease-out: cubic-bezier(0.16, 1, 0.3, 1); --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-        --nav-h: 80px; --nav-h-sm: 64px; --max-w: 1380px; --pad: clamp(20px, 4vw, 72px); --green-wa: #25D366;
-        /* FIX #4: Espaçamento de seção compactado globalmente */
+        --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+        --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+        --nav-h: 80px; --nav-h-sm: 64px; --max-w: 1380px; --pad: clamp(20px, 4vw, 72px);
+        --green-wa: #25D366;
         --sec-pad: clamp(56px, 8vw, 100px);
+        /* FIX: logo sempre vermelho — filtro centralizado como token */
+        --filter-red: brightness(0) saturate(100%) invert(13%) sepia(97%) saturate(6000%) hue-rotate(355deg) brightness(100%) contrast(110%);
     }
-    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; scroll-padding-top: 112px; }
-    body { background: var(--bg); color: var(--ink); font-family: var(--font-b); overflow-x: hidden; -webkit-overflow-scrolling: touch; cursor: auto; }
-    * { cursor: inherit; }
-    a, button, [role="button"], .seg-card, .obra-item, .state-item, .dmd, .metric, .lamina,
-    .cliente-item, .hamburger, .filter-btn, .slide-dot, #back-top, .social-link, .footer-wa,
-    .nav-cta, .p-icon-box, .map-box, .obra-dmd-wrap { cursor: pointer; }
-    #eng-cursor, #eng-cursor-ring, #build-trail { display: none !important; }
-    img { max-width: 100%; height: auto; display: block; }
-    a { color: inherit; }
 
-    /* LOADER */
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; scroll-padding-top: 112px; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--font-b); overflow-x: hidden; -webkit-overflow-scrolling: touch; }
+
+    /* ── CURSOR POINTER SELETIVO ── */
+    a, button, [role="button"], [tabindex]:not([tabindex="-1"]),
+    .seg-card, .obra-item, .state-item, .dmd, .metric, .lamina,
+    .cliente-item, .filter-btn, .slide-dot, #back-top,
+    .social-link, .footer-wa, .nav-cta, .p-icon-box,
+    .map-box, .obra-dmd-wrap { cursor: pointer; }
+
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── ACESSIBILIDADE: Skip Link ── */
+    .skip-link {
+        position: fixed; top: -120%; left: 0; z-index: 9999;
+        padding: 12px 24px; background: var(--red); color: #fff;
+        font-family: var(--font-u); font-size: 0.82rem; font-weight: 700;
+        border-radius: 0 0 4px 0;
+        transition: top 0.3s var(--ease-out);
+    }
+    .skip-link:focus { top: 0; }
+
+    /* ── ACESSIBILIDADE: Focus-Visible ── */
+    :focus { outline: none; }
+    :focus-visible {
+        outline: 2.5px solid var(--red);
+        outline-offset: 3px;
+        border-radius: 2px;
+    }
+    /* Navegação por teclado nas lâminas */
+    .lamina:focus-visible { z-index: 10; }
+
+    /* ── LOADER ── */
     #page-loader { position: fixed; inset: 0; background: #fff; z-index: 9000; display: flex; align-items: center; justify-content: center; transition: opacity 0.7s var(--ease-out), visibility 0.7s; }
     #page-loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
     .loader-inner { display: flex; flex-direction: column; align-items: center; gap: 18px; }
-    .loader-logo { width: 96px; height: auto; filter: brightness(0) saturate(100%) invert(13%) sepia(97%) saturate(6000%) hue-rotate(355deg) brightness(100%) contrast(110%); animation: loader-pulse 1.4s ease-in-out infinite; }
+    .loader-logo { width: 96px; height: auto; filter: var(--filter-red); animation: loader-pulse 1.4s ease-in-out infinite; }
     @keyframes loader-pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.45;transform:scale(0.92)} }
     .loader-bar { width: 160px; height: 1px; background: #E5E5E5; position: relative; overflow: hidden; border-radius: 1px; }
     .loader-bar::after { content:''; position:absolute; top:0; left:-100%; width:60%; height:100%; background:var(--red); animation:loader-sweep 1.3s var(--ease-out) infinite; }
     @keyframes loader-sweep { to { left: 160%; } }
 
-    /* PROGRESS */
+    /* ── PROGRESS BAR ── */
     #progress-bar { position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: var(--red); z-index: 9100; pointer-events: none; box-shadow: 0 0 10px var(--red-glow); transition: width 0.08s linear; will-change: width; }
 
-    /* ── TOP BAR: idiomas + bandeiras ── */
+    /* ── TOP BAR ── */
     #topbar {
         position: fixed; top: 0; left: 0; right: 0; z-index: 800;
-        height: 32px;
-        background: rgba(10,10,10,0.82);
+        height: 32px; background: rgba(10,10,10,0.82);
         backdrop-filter: blur(12px) saturate(160%);
         -webkit-backdrop-filter: blur(12px) saturate(160%);
         border-bottom: 1px solid rgba(255,255,255,0.07);
         display: flex; align-items: center; justify-content: flex-end;
         padding: 0 var(--pad);
-        transition: opacity 0.5s, transform 0.5s var(--ease-out);
+        transition: opacity 0.4s var(--ease-out), transform 0.4s var(--ease-out);
+        will-change: transform;
     }
     #topbar.hide { opacity: 0; transform: translateY(-100%); pointer-events: none; }
-    .lang-switcher {
-        display: flex; align-items: center; gap: 6px;
-    }
+
+    .lang-switcher { display: flex; align-items: center; gap: 6px; }
     .lang-btn {
-        display: flex; align-items: center; gap: 6px;
-        background: none; border: none;
+        display: flex; align-items: center; gap: 6px; background: none; border: none;
         font-family: var(--font-u); font-size: 0.58rem; font-weight: 700;
-        text-transform: uppercase; letter-spacing: 0.12em;
-        color: rgba(255,255,255,0.5);
-        padding: 4px 8px; border-radius: 2px;
-        transition: color 0.25s, background 0.25s;
+        text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.5);
+        padding: 4px 8px; border-radius: 2px; transition: color 0.25s, background 0.25s;
     }
     .lang-btn:hover { color: #fff; background: rgba(255,255,255,0.08); }
     .lang-btn.active { color: #fff; }
-    .lang-flag {
-        width: 18px; height: 13px; object-fit: cover;
-        border-radius: 1px; display: block;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.4);
-        flex-shrink: 0;
-    }
-    .lang-divider {
-        width: 1px; height: 12px;
-        background: rgba(255,255,255,0.15);
-        margin: 0 2px;
-    }
+    .lang-flag { width: 18px; height: 13px; object-fit: cover; border-radius: 1px; display: block; box-shadow: 0 1px 3px rgba(0,0,0,0.4); flex-shrink: 0; }
+    .lang-divider { width: 1px; height: 12px; background: rgba(255,255,255,0.15); margin: 0 2px; }
 
     /* ── HEADER ── */
     header {
         position: fixed; top: 32px; left: 0; right: 0; z-index: 700;
         padding: 0 var(--pad);
         transition: top 0.4s var(--ease-out), background 0.45s var(--ease-out), box-shadow 0.45s, border-color 0.45s;
+        will-change: top, background;
     }
-    /* Quando o topbar some, header sobe */
     header.top-hidden { top: 0; }
 
-    /* Estado transparente sobre hero — com backdrop leve para legibilidade */
+    /* Gradiente escuro sobre o hero para contraste */
     header::before {
-        content: '';
-        position: absolute; inset: 0;
+        content: ''; position: absolute; inset: 0;
         background: linear-gradient(to bottom, rgba(0,0,0,0.52) 0%, rgba(0,0,0,0.18) 60%, transparent 100%);
-        pointer-events: none;
-        opacity: 1;
-        transition: opacity 0.45s var(--ease-out);
+        pointer-events: none; opacity: 1; transition: opacity 0.45s var(--ease-out);
     }
     header.scrolled::before { opacity: 0; }
     header.scrolled {
@@ -113,95 +159,91 @@
     nav { max-width: var(--max-w); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: var(--nav-h); transition: height 0.4s var(--ease-out); position: relative; }
     header.scrolled nav { height: var(--nav-h-sm); }
 
+    /* ====================================================
+       FIX #1 — LOGO SEMPRE VERMELHO
+       Antes: branco sobre hero, vermelho após scroll.
+       Agora: sempre vermelho, com drop-shadow no hero
+       para garantir visibilidade sobre o fundo escuro.
+    ==================================================== */
     .logo { text-decoration: none; display: flex; align-items: center; flex-shrink: 0; }
     .logo img {
         width: clamp(70px, 8vw, 90px); height: auto; object-fit: contain;
-        filter: brightness(0) invert(1); /* branco sobre hero */
+        /* SEMPRE vermelho — sem variação de cor */
+        filter: var(--filter-red);
         transition: width 0.4s var(--ease-out), filter 0.4s;
     }
+    /* Sobre o hero escuro: adiciona glow para legibilidade */
+    header:not(.scrolled) .logo img {
+        filter: var(--filter-red) drop-shadow(0 2px 14px rgba(232,0,10,0.65));
+    }
+    /* Após scroll: sem glow extra */
     header.scrolled .logo img {
-        filter: brightness(0) saturate(100%) invert(13%) sepia(97%) saturate(6000%) hue-rotate(355deg) brightness(100%) contrast(110%);
+        filter: var(--filter-red);
     }
 
+    /* ── NAV LINKS ── */
     .nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
-
-    /* Links — sempre brancos e nítidos sobre hero */
     .nav-links a {
-        text-decoration: none;
-        color: rgba(255,255,255,1);
-        font-family: var(--font-u); font-size: 0.68rem; font-weight: 700;
+        color: rgba(255,255,255,1); font-family: var(--font-u); font-size: 0.68rem; font-weight: 700;
         text-transform: uppercase; letter-spacing: 0.16em;
-        transition: color 0.25s, text-shadow 0.25s;
-        position: relative; padding-bottom: 4px; white-space: nowrap;
-        /* sombra de texto para contraste perfeito sobre qualquer imagem */
-        text-shadow:
-            0 0 20px rgba(0,0,0,0.9),
-            0 1px 4px rgba(0,0,0,0.8),
-            0 2px 12px rgba(0,0,0,0.6);
+        transition: color 0.25s, text-shadow 0.25s; position: relative; padding-bottom: 4px; white-space: nowrap;
+        text-shadow: 0 0 20px rgba(0,0,0,0.9), 0 1px 4px rgba(0,0,0,0.8), 0 2px 12px rgba(0,0,0,0.6);
     }
-    .nav-links a::after {
-        content:''; position:absolute; bottom:0; left:0;
-        width:0; height:1.5px; background:var(--red);
-        transition:width 0.35s var(--ease-out);
-        border-radius: 1px;
-    }
-    .nav-links a:hover { color: #fff; }
-    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
-    .nav-links a.active { color: #fff; }
-
-    /* Após scroll: links escuros e sem sombra */
-    header.scrolled .nav-links a {
-        color: var(--ink-soft);
-        text-shadow: none;
-    }
+    .nav-links a::after { content:''; position:absolute; bottom:0; left:0; width:0; height:1.5px; background:var(--red); transition:width 0.35s var(--ease-out); border-radius:1px; }
+    .nav-links a:hover::after, .nav-links a.active::after, .nav-links a[aria-current="page"]::after { width: 100%; }
+    header.scrolled .nav-links a { color: var(--ink-soft); text-shadow: none; }
     header.scrolled .nav-links a:hover,
     header.scrolled .nav-links a.active { color: var(--ink); }
 
-    /* CTA button */
+    /* CTA Button */
     .nav-cta {
-        padding: 9px 22px !important;
-        border: 1.5px solid rgba(255,255,255,0.55) !important;
-        color: #fff !important;
-        border-radius: 2px; font-weight: 700 !important;
+        padding: 9px 22px !important; border: 1.5px solid rgba(255,255,255,0.55) !important;
+        color: #fff !important; border-radius: 2px; font-weight: 700 !important;
         transition: background 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s !important;
-        text-shadow: none !important;
-        letter-spacing: 0.12em !important;
-        background: rgba(255,255,255,0.08) !important;
-        backdrop-filter: blur(4px);
+        text-shadow: none !important; letter-spacing: 0.12em !important;
+        background: rgba(255,255,255,0.08) !important; backdrop-filter: blur(4px);
     }
     .nav-cta::after { display: none !important; }
-    .nav-cta:hover {
-        background: var(--red) !important;
-        border-color: var(--red) !important;
-        box-shadow: 0 4px 18px var(--red-glow) !important;
-    }
-    header.scrolled .nav-cta {
-        border-color: var(--red-line) !important;
-        color: var(--red) !important;
-        background: transparent !important;
-        text-shadow: none !important;
-    }
-    header.scrolled .nav-cta:hover {
-        background: var(--red) !important;
-        color: #fff !important;
-        border-color: var(--red) !important;
-    }
+    .nav-cta:hover { background: var(--red) !important; border-color: var(--red) !important; box-shadow: 0 4px 18px var(--red-glow) !important; }
+    header.scrolled .nav-cta { border-color: var(--red-line) !important; color: var(--red) !important; background: transparent !important; }
+    header.scrolled .nav-cta:hover { background: var(--red) !important; color: #fff !important; border-color: var(--red) !important; }
 
-    /* Hamburger — branco sobre hero */
-    .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; width: 44px; height: 44px; flex-shrink: 0; -webkit-tap-highlight-color: transparent; }
+    /* ====================================================
+       FIX #2 — HAMBURGER & MOBILE MENU Z-INDEX
+       Antes: mobile-menu z-699 ficava ATRÁS do header z-700.
+       Agora: mobile-menu z-750, hamburger position relative z-760.
+    ==================================================== */
+    .hamburger {
+        display: none; flex-direction: column; justify-content: center; gap: 5px;
+        background: none; border: none; width: 44px; height: 44px; flex-shrink: 0;
+        -webkit-tap-highlight-color: transparent;
+        /* FIX: garante que o botão fique acima do mobile-menu */
+        position: relative; z-index: 760;
+    }
     .hamburger span { display: block; width: 22px; height: 1.5px; background: #fff; transform-origin: center; transition: transform 0.4s var(--ease-out), opacity 0.3s, width 0.3s, background 0.3s; }
     header.scrolled .hamburger span { background: var(--ink); }
     .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
     .hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
     .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
-    /* Mobile menu */
-    .mobile-menu { position: fixed; inset: 0; z-index: 699; background: rgba(8,8,10,0.97); backdrop-filter: blur(20px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; opacity: 0; visibility: hidden; transition: opacity 0.4s var(--ease-out), visibility 0.4s; }
+    /* Mobile Menu — FIX z-index: 750 (acima do header z-700) */
+    .mobile-menu {
+        position: fixed; inset: 0; z-index: 750;  /* CORRIGIDO: era 699 */
+        background: rgba(8,8,10,0.97); backdrop-filter: blur(20px);
+        display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px;
+        opacity: 0; visibility: hidden;
+        transition: opacity 0.4s var(--ease-out), visibility 0.4s;
+    }
     .mobile-menu.open { opacity: 1; visibility: visible; }
-    .mobile-menu a { font-family: var(--font-d); font-size: clamp(2rem, 9vw, 3.8rem); color: rgba(255,255,255,0.35); text-decoration: none; letter-spacing: 0.03em; transition: color 0.25s, transform 0.3s var(--ease-out); display: inline-block; }
+    .mobile-menu a {
+        font-family: var(--font-d); font-size: clamp(2rem, 9vw, 3.8rem);
+        color: rgba(255,255,255,0.35); letter-spacing: 0.03em;
+        transition: color 0.25s, transform 0.3s var(--ease-out); display: inline-block;
+        /* Links ficam invisíveis para leitores de tela quando menu fechado */
+    }
     .mobile-menu a:hover { color: #fff; transform: translateX(10px); }
 
-    /* HERO */
+    /* ── HERO ── */
     .hero { position: relative; height: 100dvh; min-height: 600px; display: flex; align-items: flex-end; overflow: hidden; }
     .hero-slideshow { position: absolute; inset: 0; z-index: 0; }
     .slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; filter: brightness(0.44) contrast(1.06); transform: scale(1.07); transition: opacity 1.5s ease-in-out, transform 10s linear; will-change: opacity, transform; }
@@ -209,12 +251,15 @@
     .slide.leaving { opacity: 0; transform: scale(1.03); }
     .hero-vignette { position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.35) 40%, transparent 70%), linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.15) 50%, transparent 70%); }
     .hero-grid { position: absolute; inset: 0; z-index: 1; pointer-events: none; background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px); background-size: 72px 72px; mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 80%, transparent 100%); }
+
+    /* Dots do slideshow */
     .slide-dots { position: absolute; bottom: 28px; right: var(--pad); z-index: 3; display: flex; gap: 8px; align-items: center; }
     .slide-dot { width: 22px; height: 2px; background: rgba(255,255,255,0.2); border: none; padding: 0; overflow: hidden; position: relative; transition: width 0.4s var(--ease-out), background 0.4s; }
     .slide-dot.active { width: 38px; background: rgba(255,255,255,0.12); }
     .slide-dot::after { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:var(--red); }
     .slide-dot.active::after { animation: dot-fill 6s linear forwards; }
     @keyframes dot-fill { to { left: 0; } }
+
     .hero-content { position: relative; z-index: 2; padding: 0 var(--pad) clamp(48px, 7vh, 84px); max-width: var(--max-w); width: 100%; margin: 0 auto; }
     .hero-eyebrow { display: inline-flex; align-items: center; gap: 12px; font-family: var(--font-u); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.22em; color: var(--red); margin-bottom: 18px; opacity: 0; animation: up 0.8s 0.5s var(--ease-out) forwards; }
     .hero-eyebrow::before { content:''; width:24px; height:1px; background:var(--red); }
@@ -227,9 +272,9 @@
     .hero-sub { margin-top: 22px; display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; opacity: 0; animation: up 0.9s 1s var(--ease-out) forwards; }
     .hero-sub p { font-size: clamp(0.88rem,1.5vw,1rem); color: rgba(255,255,255,0.72); max-width: 420px; line-height: 1.75; font-weight: 300; }
     .hero-sub-actions { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
-    .hero-btn-wa { display: inline-flex; align-items: center; gap: 10px; padding: 13px 24px; background: var(--green-wa); color: #fff; text-decoration: none; font-family: var(--font-u); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; border-radius: 2px; transition: transform 0.3s var(--ease-out), box-shadow 0.3s; box-shadow: 0 4px 16px rgba(37,211,102,0.35); }
+    .hero-btn-wa { display: inline-flex; align-items: center; gap: 10px; padding: 13px 24px; background: var(--green-wa); color: #fff !important; font-family: var(--font-u); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; border-radius: 2px; transition: transform 0.3s var(--ease-out), box-shadow 0.3s; box-shadow: 0 4px 16px rgba(37,211,102,0.35); }
     .hero-btn-wa:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(37,211,102,0.5); }
-    .hero-scroll { display: flex; align-items: center; gap: 12px; flex-shrink: 0; font-family: var(--font-u); font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.3s; }
+    .hero-scroll { display: flex; align-items: center; gap: 12px; flex-shrink: 0; font-family: var(--font-u); font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; color: rgba(255,255,255,0.45); transition: color 0.3s; }
     .hero-scroll:hover { color: #fff; }
     .scroll-line { width: 1px; height: 48px; background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.18)); position: relative; overflow: hidden; }
     .scroll-line::after { content:''; position:absolute; top:-100%; left:0; width:100%; height:100%; background:linear-gradient(to bottom, transparent, var(--red)); animation:scroll-drop 2.4s ease-in-out infinite; }
@@ -241,21 +286,34 @@
     @keyframes up { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:none} }
     @keyframes fade-in { from{opacity:0} to{opacity:1} }
 
-    /* BASE */
+    /* ── BASE ── */
     .section-wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--pad); }
     .section-tag { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-u); font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.22em; color: var(--red); margin-bottom: 16px; }
     .section-tag::before { content:''; width:20px; height:1px; background:var(--red); }
 
-    /* ================================================================
-       SOBRE — FIX #4: padding compactado
-       ================================================================ */
+    /* ── SOBRE ── */
     .about-section { padding: var(--sec-pad) 0; background: var(--bg); position: relative; overflow: hidden; }
-    .about-section::before { content: 'CVIX'; position: absolute; right: -2%; top: 50%; transform: translateY(-50%); font-family: var(--font-d); font-size: 22vw; color: transparent; -webkit-text-stroke: 1px rgba(0,0,0,0.035); line-height: 1; pointer-events: none; user-select: none; }
+    .about-section::before { content: 'CVIX'; position: absolute; right: -2%; top: 50%; transform: translateY(-50%); font-family: var(--font-d); font-size: 22vw; color: transparent; -webkit-text-stroke: 1px rgba(0,0,0,0.035); line-height: 1; pointer-events: none; user-select: none; aria-hidden: true; }
     .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px,6vw,88px); align-items: center; }
     .about-title { font-family: var(--font-d); font-size: clamp(2.4rem,4vw,5rem); text-transform: uppercase; line-height: 0.9; color: var(--ink); margin-bottom: 32px; }
     .about-title .line-red { color: var(--red); }
     .about-body p { font-size: 0.95rem; color: var(--ink-soft); line-height: 1.85; margin-bottom: 14px; font-weight: 300; }
-    .about-body p strong { color: var(--ink-mid); font-weight: 600; }
+    .about-body p strong {
+        color: var(--ink);
+        font-weight: 600;
+        position: relative;
+        /* Sublinhado vermelho sutil sob palavras-chave */
+        background: linear-gradient(to right, rgba(232,0,10,0.12), rgba(232,0,10,0.12));
+        background-size: 100% 1px;
+        background-repeat: no-repeat;
+        background-position: 0 100%;
+        padding-bottom: 1px;
+        transition: background-size 0.3s var(--ease-out), color 0.3s;
+    }
+    .about-body p strong:hover {
+        color: var(--red);
+        background-size: 100% 2px;
+    }
     .about-right { position: sticky; top: 90px; }
     .diamond-scene { position: relative; width: 100%; aspect-ratio: 1 / 1.12; max-width: 580px; margin: 0 auto; }
     .dmd { position: absolute; overflow: hidden; clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); transition: transform 0.55s var(--ease-out), filter 0.45s; will-change: transform; }
@@ -275,192 +333,88 @@
     .dmd-redline, .dmd-redline2 { position: absolute; top: 50%; left: 50%; width: 60%; height: 1px; background: linear-gradient(to right, transparent, rgba(232,0,10,0.18), transparent); pointer-events: none; }
     .dmd-redline  { transform: translate(-50%,-50%) rotate(45deg); }
     .dmd-redline2 { transform: translate(-50%,-50%) rotate(-45deg); }
+
+    /* ====================================================
+       FIX #3 — ABOUT STAT: ano 2001 sem animação de contagem
+       O elemento com [data-static] é exibido como está, sem countUp.
+    ==================================================== */
     .about-stat-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--rule); margin-top: 36px; border: 1px solid var(--rule); }
     .about-stat { background: var(--bg); padding: 20px 16px; transition: background 0.3s; }
     .about-stat:hover { background: var(--panel); }
     .about-stat-num { font-family: var(--font-d); font-size: 2.1rem; color: var(--red); line-height: 1; }
     .about-stat-label { font-family: var(--font-u); font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-faint); margin-top: 4px; }
 
-    /* ================================================================
-       SEGMENTOS — Redesign: hexágonos com foto + lista clean
-       ================================================================ */
-    .segments-section {
-        padding: var(--sec-pad) 0;
-        background: #fff;
-        border-top: 1px solid var(--rule);
-        border-bottom: 1px solid var(--rule);
-        position: relative; overflow: hidden;
-    }
+    /* ── SEGMENTOS ── */
+    .segments-section { padding: var(--sec-pad) 0; background: #fff; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); position: relative; overflow: hidden; }
     .segments-header { margin-bottom: 52px; }
     .segments-title { font-family: var(--font-d); font-size: clamp(2.4rem,4.5vw,5rem); text-transform: uppercase; line-height: 0.9; color: var(--red); }
-    .segments-grid {
-        display: grid;
-        grid-template-columns: repeat(3,1fr);
-        gap: 0;
-        position: relative; z-index: 1;
-    }
-    /* Divisor vertical entre cards */
-    .seg-card { 
-        padding: 0 clamp(24px,3vw,48px) clamp(32px,4vw,48px);
-        position: relative;
-        border-right: 1px solid rgba(0,0,0,0.07);
-        transition: background 0.35s;
-    }
+    .segments-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0; position: relative; z-index: 1; }
+    .seg-card { padding: 0 clamp(24px,3vw,48px) clamp(32px,4vw,48px); position: relative; border-right: 1px solid rgba(0,0,0,0.07); transition: background 0.35s; }
     .seg-card:last-child { border-right: none; }
     .seg-card:hover { background: #FAFAFA; }
-
-    /* Hexágono com foto */
-    .seg-hex-wrap {
-        width: 100%;
-        max-width: 240px;
-        margin: 0 auto clamp(24px,3vw,36px);
-        position: relative;
-    }
-    .seg-hex-clip {
-        width: 100%;
-        aspect-ratio: 1 / 1.155;
-        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-        overflow: hidden;
-        position: relative;
-    }
-    .seg-hex-clip img {
-        position: absolute; inset: 0;
-        width: 100%; height: 100%;
-        object-fit: cover; object-position: center;
-        transition: transform 0.65s var(--ease-out), filter 0.45s;
-        transform: scale(1.08);
-        filter: brightness(0.88) saturate(0.9);
-    }
-    .seg-card:hover .seg-hex-clip img {
-        transform: scale(1.18);
-        filter: brightness(1) saturate(1.1);
-    }
-    /* Linha vermelha decorativa abaixo do hexágono */
-    .seg-hex-line {
-        width: 36px; height: 3px;
-        background: var(--red);
-        margin: 16px auto 0;
-        transition: width 0.4s var(--ease-out);
-    }
+    .seg-hex-wrap { width: 100%; max-width: 240px; margin: 0 auto clamp(24px,3vw,36px); position: relative; }
+    .seg-hex-clip { width: 100%; aspect-ratio: 1 / 1.155; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); overflow: hidden; position: relative; }
+    .seg-hex-clip img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform 0.65s var(--ease-out), filter 0.45s; transform: scale(1.08); filter: brightness(0.88) saturate(0.9); }
+    .seg-card:hover .seg-hex-clip img { transform: scale(1.18); filter: brightness(1) saturate(1.1); }
+    .seg-hex-line { width: 36px; height: 3px; background: var(--red); margin: 16px auto 0; transition: width 0.4s var(--ease-out); }
     .seg-card:hover .seg-hex-line { width: 60px; }
-
-    /* Título */
-    .seg-title {
-        font-family: var(--font-u);
-        font-size: 1.05rem; font-weight: 800;
-        text-transform: uppercase; letter-spacing: 0.04em;
-        color: var(--red);
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-    /* Lista de itens */
+    .seg-title { font-family: var(--font-u); font-size: 1.05rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: var(--red); text-align: center; margin-bottom: 20px; }
     .seg-list { list-style: none; }
-    .seg-list li {
-        font-size: 0.85rem; color: var(--ink-soft);
-        padding: 7px 0; font-weight: 400;
-        line-height: 1.4;
-        display: flex; align-items: flex-start; gap: 9px;
-        border-bottom: 1px solid rgba(0,0,0,0.05);
-        transition: color 0.25s, padding-left 0.25s var(--ease-out);
-    }
+    .seg-list li { font-size: 0.85rem; color: var(--ink-soft); padding: 7px 0; font-weight: 400; line-height: 1.4; display: flex; align-items: flex-start; gap: 9px; border-bottom: 1px solid rgba(0,0,0,0.05); transition: color 0.25s, padding-left 0.25s var(--ease-out); }
     .seg-list li:last-child { border-bottom: none; }
     .seg-card:hover .seg-list li { color: var(--ink); padding-left: 3px; }
-    .seg-list li::before {
-        content:'';
-        width: 5px; height: 5px; flex-shrink: 0;
-        background: var(--red); border-radius: 50%;
-        margin-top: 5px;
-        transition: transform 0.3s var(--ease-spring);
-    }
+    .seg-list li::before { content:''; width: 5px; height: 5px; flex-shrink: 0; background: var(--red); border-radius: 50%; margin-top: 5px; transition: transform 0.3s var(--ease-spring); }
     .seg-card:hover .seg-list li::before { transform: scale(1.5); }
 
-    /* ================================================================
-       PRESENÇA — FIX #1: Fundo neutro claro, corporativo e limpo
-       ================================================================ */
-    .presence-section {
-        padding: var(--sec-pad) 0;
-        background: #F2F3F5;   /* cinza neutro sofisticado */
-        position: relative;
-        overflow: hidden;
-        border-top: 1px solid rgba(0,0,0,0.06);
-        border-bottom: 1px solid rgba(0,0,0,0.06);
-    }
-
-    /* Grid técnico suave */
-    .presence-section::before {
-        content: '';
-        position: absolute; inset: 0;
-        background-image:
-            linear-gradient(rgba(232,0,10,0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(232,0,10,0.04) 1px, transparent 1px);
-        background-size: 60px 60px;
-        pointer-events: none;
-    }
-
-    /* Watermark sutil */
-    .presence-section::after {
-        content: 'BRASIL';
-        position: absolute; right: -1%; bottom: -8%;
-        font-family: var(--font-d); font-size: 20vw; color: transparent;
-        -webkit-text-stroke: 1px rgba(0,0,0,0.04);
-        line-height: 1; pointer-events: none; user-select: none;
-    }
-
+    /* ── PRESENÇA ── */
+    .presence-section { padding: var(--sec-pad) 0; background: #F2F3F5; position: relative; overflow: hidden; border-top: 1px solid rgba(0,0,0,0.06); border-bottom: 1px solid rgba(0,0,0,0.06); }
+    .presence-section::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(232,0,10,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(232,0,10,0.04) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; }
+    .presence-section::after { content: 'BRASIL'; position: absolute; right: -1%; bottom: -8%; font-family: var(--font-d); font-size: 20vw; color: transparent; -webkit-text-stroke: 1px rgba(0,0,0,0.04); line-height: 1; pointer-events: none; user-select: none; }
     .presence-grid { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(36px,5vw,80px); align-items: center; position: relative; z-index: 1; }
-
-    /* Tag adaptada para fundo claro */
     .presence-section .section-tag { color: var(--red); }
     .presence-section .section-tag::before { background: var(--red); }
-
-    /* Título — tipografia pesada, hierarquia clara, no escuro */
-    .presence-title {
-        font-family: var(--font-d);
-        font-size: clamp(3.2rem,6.5vw,8rem);
-        text-transform: uppercase;
-        line-height: 0.85;
-        color: var(--ink);   /* preto sobre fundo claro */
-        margin-bottom: 0;
-    }
-    /* Palavra destacada em vermelho */
+    .presence-title { font-family: var(--font-d); font-size: clamp(3.2rem,6.5vw,8rem); text-transform: uppercase; line-height: 0.85; color: var(--ink); margin-bottom: 0; }
     .presence-title .highlight-word { color: var(--red); }
-
     .presence-title-wrap { position: relative; margin-bottom: 28px; }
     .presence-title-wrap::after { content:''; display:block; width:48px; height:3px; background:var(--red); margin-top:16px; box-shadow:0 0 10px var(--red-glow); }
-
-    .presence-intro { font-size: 0.96rem; color: var(--ink-soft); line-height: 1.8; border-left: 2px solid var(--red); padding-left: 18px; margin-bottom: 28px; font-weight: 300; }
-
-    /* Ícones — fundo claro */
-    .presence-icons { display: flex; gap: 10px; margin-bottom: 28px; flex-wrap: wrap; }
-    .p-icon-box {
-        flex: 1; min-width: 100px; padding: 16px 8px;
+    .presence-intro {
+        font-size: clamp(1rem, 1.4vw, 1.15rem);
+        color: var(--ink-mid);
+        line-height: 1.75;
+        font-weight: 400;
+        margin-bottom: 28px;
+        /* Card de destaque com borda esquerda vermelha e fundo levemente elevado */
         background: #fff;
-        border: 1px solid rgba(0,0,0,0.08);
-        border-radius: 3px; text-align: center;
-        transition: transform 0.3s var(--ease-out), box-shadow 0.3s, border-color 0.3s;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        border-left: 3px solid var(--red);
+        border-radius: 0 4px 4px 0;
+        padding: 18px 20px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        position: relative;
+        overflow: hidden;
     }
+    /* Linha decorativa vermelha sutil no canto inferior direito */
+    .presence-intro::after {
+        content: '';
+        position: absolute;
+        bottom: 0; right: 0;
+        width: 60px; height: 2px;
+        background: linear-gradient(to left, var(--red), transparent);
+    }
+    /* Palavras-chave em vermelho e negrito */
+    .presence-intro strong {
+        color: var(--red);
+        font-weight: 700;
+        letter-spacing: 0.01em;
+    }
+    .presence-icons { display: flex; gap: 10px; margin-bottom: 28px; flex-wrap: wrap; }
+    .p-icon-box { flex: 1; min-width: 100px; padding: 16px 8px; background: #fff; border: 1px solid rgba(0,0,0,0.08); border-radius: 3px; text-align: center; transition: transform 0.3s var(--ease-out), box-shadow 0.3s, border-color 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
     .p-icon-box:hover { transform: translateY(-4px); border-color: rgba(232,0,10,0.3); box-shadow: 0 10px 22px rgba(0,0,0,0.08); }
     .p-icon-box i { color: var(--red); font-size: 1.25rem; margin-bottom: 10px; display: block; }
     .p-icon-box span { font-family: var(--font-u); font-size: 0.63rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-mid); display: block; line-height: 1.2; }
-
-    /* Estados — clean light */
     .state-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
-    .state-item {
-        display: flex; align-items: center; gap: 9px;
-        padding: 11px 14px;
-        background: #fff;
-        border: 1px solid rgba(0,0,0,0.07);
-        border-radius: 2px;
-        font-family: var(--font-u); font-size: 0.72rem; font-weight: 600;
-        color: var(--ink-soft); letter-spacing: 0.04em;
-        transition: background 0.3s, border-color 0.3s, transform 0.3s var(--ease-out), color 0.3s;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.03);
-    }
+    .state-item { display: flex; align-items: center; gap: 9px; padding: 11px 14px; background: #fff; border: 1px solid rgba(0,0,0,0.07); border-radius: 2px; font-family: var(--font-u); font-size: 0.72rem; font-weight: 600; color: var(--ink-soft); letter-spacing: 0.04em; transition: background 0.3s, border-color 0.3s, transform 0.3s var(--ease-out), color 0.3s; box-shadow: 0 1px 4px rgba(0,0,0,0.03); }
     .state-item:hover { background: rgba(232,0,10,0.07); border-color: rgba(232,0,10,0.3); transform: translateX(6px); color: var(--ink); }
     .state-item i { color: var(--red); font-size: 0.65rem; flex-shrink: 0; }
-
-    /* Mapa — adaptado ao fundo claro */
     .map-diamond-wrap { position: relative; padding: 28px; }
     .map-diamond-wrap::before { content:''; position:absolute; top:-10px; right:-10px; width:180px; height:180px; border:1.5px solid rgba(232,0,10,0.2); transform:rotate(45deg); border-radius:3px; pointer-events:none; }
     .map-diamond-wrap::after  { content:''; position:absolute; bottom:-10px; left:-10px; width:120px; height:120px; border:1.5px solid rgba(232,0,10,0.15); transform:rotate(45deg); border-radius:3px; pointer-events:none; }
@@ -469,27 +423,18 @@
     .map-box img { width: 100%; display: block; }
     .map-label { position: absolute; top: 14px; left: 14px; font-family: var(--font-u); font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; color: #fff; background: var(--red); padding: 6px 12px; border: 1px solid rgba(255,255,255,0.2); border-radius: 3px; z-index: 2; box-shadow: 0 0 12px var(--red-glow); }
 
-    /* ================================================================
-       OBRAS — FIX #3 + #4: padding e espaçamentos compactados
-       ================================================================ */
-    .obras-section {
-        /* FIX #4: padding-top reduzido, conexão visual com seção anterior */
-        padding: var(--sec-pad) 0;
-        background: var(--bg); position: relative; overflow: hidden;
-    }
+    /* ── OBRAS ── */
+    .obras-section { padding: var(--sec-pad) 0; background: var(--bg); position: relative; overflow: hidden; }
     .obras-deco-tl { position: absolute; top:-40px; right:-40px; width:220px; height:220px; border:1.5px solid rgba(232,0,10,0.08); transform:rotate(45deg); border-radius:4px; pointer-events:none; z-index:0; }
     .obras-deco-br { position: absolute; bottom:-60px; left:-60px; width:160px; height:160px; border:1px solid rgba(232,0,10,0.06); transform:rotate(45deg); border-radius:4px; pointer-events:none; z-index:0; }
-
-    /* FIX #3: Header do portfólio com margin-bottom muito menor */
     .obras-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; gap: 24px; position: relative; z-index: 1; }
     .obras-title { font-family: var(--font-d); font-size: clamp(2.4rem,4.5vw,5rem); text-transform: uppercase; line-height: 0.9; color: var(--red); }
-
     .filter-bar { display: flex; gap: 7px; flex-wrap: wrap; }
     .filter-btn { background: transparent; border: 1px solid rgba(0,0,0,0.14); color: var(--ink-soft); padding: 8px 18px; font-family: var(--font-u); font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; transition: all 0.3s var(--ease-out); border-radius: 2px; }
     .filter-btn:hover { border-color: var(--ink-faint); color: var(--ink); }
     .filter-btn.active { background: var(--red); border-color: var(--red); color: #fff; box-shadow: 0 4px 14px var(--red-glow); }
 
-    /* Lâminas — FIX #3: margin-bottom reduzido */
+    /* Lâminas */
     .laminas-obras-wrap { position: relative; height: 360px; overflow: hidden; margin-bottom: 0; border: 1px solid var(--rule); border-radius: 4px 4px 0 0; z-index: 1; }
     .laminas-track { display: flex; height: 100%; overflow-x: auto; scrollbar-width: none; user-select: none; -webkit-user-select: none; }
     .laminas-track::-webkit-scrollbar { display: none; }
@@ -506,15 +451,26 @@
     .lamina-num { position: absolute; top: 14px; left: 12px; font-family: var(--font-d); font-size: 0.72rem; color: rgba(255,255,255,0.22); letter-spacing: 0.1em; writing-mode: vertical-rl; transition: color 0.3s; }
     .lamina.expanded .lamina-num { color: rgba(255,255,255,0.5); }
     .laminas-hint { position: absolute; bottom: 12px; right: 16px; z-index: 2; font-family: var(--font-u); font-size: 0.56rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.4); display: flex; align-items: center; gap: 8px; pointer-events: none; background: rgba(0,0,0,0.4); padding: 5px 10px; border-radius: 20px; backdrop-filter: blur(4px); }
-    .laminas-hint i { animation: hint-move 1.8s ease-in-out infinite; }
+    /* FIX: hint animado de acordo com o dispositivo (via JS) */
+    .laminas-hint .hint-icon { animation: hint-move 1.8s ease-in-out infinite; }
     @keyframes hint-move { 0%,100%{transform:translateX(0)} 50%{transform:translateX(6px)} }
 
-    /* FIX #3: Lista de obras encosta nas lâminas — border-top apenas */
+    /* ====================================================
+       FIX #4 — OBRA FILTER: transição suave ao filtrar
+       Antes: display:none abrupto. Agora: fade + scale.
+    ==================================================== */
     .obras-list { display: flex; flex-direction: column; gap: 0; position: relative; z-index: 1; }
-    .obra-item { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 0; min-height: 340px; border-bottom: 1px solid var(--rule); transition: background 0.4s; position: relative; }
-    /* FIX #3: primeiro item sem border-top extra — a lamina já faz a divisão visual */
+    .obra-item {
+        display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 0;
+        min-height: 340px; border-bottom: 1px solid var(--rule);
+        /* FIX: transições incluindo opacity para filtro suave */
+        transition: background 0.4s, opacity 0.35s var(--ease-out), transform 0.35s var(--ease-out);
+        position: relative;
+    }
     .obra-item:first-child { border-top: 1px solid var(--rule); }
     .obra-item.hidden { display: none; }
+    /* Estado intermediário durante filtragem */
+    .obra-item.filtering-out { opacity: 0; transform: scale(0.97); pointer-events: none; }
     .obra-item:hover { background: var(--panel); }
     .obra-item::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--red); transform:scaleY(0); transform-origin:top; transition:transform 0.5s var(--ease-out); }
     .obra-item:hover::before { transform: scaleY(1); }
@@ -535,9 +491,7 @@
     .obra-item.even .obra-diamond-side { order: 2; }
     .obra-item.even .obra-info-side   { order: 1; }
 
-    /* ================================================================
-       CLIENTES — FIX #4: padding compactado
-       ================================================================ */
+    /* ── CLIENTES ── */
     .clientes-section { padding: var(--sec-pad) 0; background: #FAFAFA; border-top: 1px solid rgba(0,0,0,0.06); position: relative; overflow: hidden; }
     .clientes-section::before { content:'CLIENTES'; position:absolute; left:-1%; top:50%; transform:translateY(-50%); font-family:var(--font-d); font-size:18vw; color:transparent; -webkit-text-stroke:1px rgba(0,0,0,0.025); line-height:1; pointer-events:none; user-select:none; }
     .clientes-header { text-align: center; margin-bottom: 48px; position: relative; z-index: 1; }
@@ -545,10 +499,6 @@
     .clientes-header .section-tag::before { background: var(--red); }
     .clientes-header h2 { font-family: var(--font-d); font-size: clamp(2.8rem,5vw,5.5rem); text-transform: uppercase; color: var(--ink); line-height: 0.9; margin-top: 10px; }
     .clientes-header h2 span { color: var(--red); }
-
-    /* ================================================================
-       PETROBRAS — FIX #2: logo em cores naturais
-       ================================================================ */
     .petrobras-hero-container { position: relative; z-index: 1; margin-bottom: 56px; }
     .petrobras-hero { border: 1px solid rgba(0,0,0,0.08); border-radius: 4px; overflow: hidden; background: #fff; display: flex; align-items: stretch; gap: 0; box-shadow: 0 4px 32px rgba(0,0,0,0.07); transition: box-shadow 0.4s var(--ease-out); position: relative; }
     .petrobras-hero:hover { box-shadow: 0 12px 48px rgba(0,0,0,0.12); }
@@ -556,16 +506,9 @@
     .petrobras-badge-wrapper { flex-shrink: 0; display: flex; flex-direction: column; align-items: stretch; justify-content: center; padding: clamp(24px,3.5vw,48px); background: #F8F8FA; border-right: 1px solid rgba(0,0,0,0.07); min-width: 220px; }
     .petrobras-badge.highlighted { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
     .petrobras-logo-container { display: flex; align-items: center; justify-content: center; width: 100%; padding: 20px; background: #fff; border: 1px solid rgba(0,0,0,0.07); border-radius: 3px; }
-
-    /* FIX #2: logo Petrobras sempre em cores — sem filtro */
-    .petrobras-logo-container img {
-        height: 52px; width: auto; object-fit: contain;
-        filter: none;       /* cores naturais: verde e amarelo */
-        display: block;
-        transition: transform 0.35s var(--ease-out);
-    }
+    /* Logo Petrobras em cores naturais — sem filtro */
+    .petrobras-logo-container img { height: 52px; width: auto; object-fit: contain; filter: none; display: block; transition: transform 0.35s var(--ease-out); }
     .petrobras-hero:hover .petrobras-logo-container img { transform: scale(1.04); }
-
     .petrobras-flag-container { width: 100%; }
     .petrobras-flag { display: block; width: 100%; text-align: center; font-family: var(--font-u); font-size: 0.58rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.16em; background: var(--red); color: #fff; padding: 7px 12px; border-radius: 1px; }
     .petrobras-content-wrapper { flex: 1; min-width: 0; display: flex; align-items: center; gap: clamp(24px,4vw,56px); padding: clamp(28px,4vw,48px) clamp(28px,4vw,52px); }
@@ -579,8 +522,6 @@
     .pb-proj-num { font-family: var(--font-d); font-size: 2.6rem; color: var(--red); line-height: 1; text-shadow: 0 0 24px rgba(232,0,10,0.2); transition: text-shadow 0.4s, transform 0.35s var(--ease-out); }
     .petrobras-hero:hover .pb-proj-num { text-shadow: 0 0 32px rgba(232,0,10,0.42); transform: translateX(3px); }
     .pb-proj-label { font-family: var(--font-u); font-size: 0.63rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); line-height: 1.2; }
-
-    /* Grid clientes */
     .clientes-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; border: 1px solid rgba(0,0,0,0.07); border-radius: 4px; overflow: hidden; position: relative; z-index: 1; background: #fff; }
     .cliente-item { background: #fff; padding: clamp(30px,3.5vw,48px) clamp(20px,2.5vw,32px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; transition: background 0.35s var(--ease-out); min-height: 150px; position: relative; border-right: 1px solid rgba(0,0,0,0.06); border-bottom: 1px solid rgba(0,0,0,0.06); }
     .cliente-item:nth-child(4n) { border-right: none; }
@@ -599,20 +540,21 @@
     .cliente-item.cliente-cta { background: rgba(232,0,10,0.03); border-color: rgba(232,0,10,0.12); }
     .cliente-item.cliente-cta:hover { background: rgba(232,0,10,0.07); }
     .cliente-item.cliente-cta::after { background: var(--red); }
-    .cliente-cta-inner { display: flex; flex-direction: column; align-items: center; gap: 10px; text-decoration: none; }
+    .cliente-cta-inner { display: flex; flex-direction: column; align-items: center; gap: 10px; }
     .cliente-cta-inner i { color: var(--green-wa); font-size: 1.7rem; transition: transform 0.35s var(--ease-spring); }
     .cliente-item.cliente-cta:hover .cliente-cta-inner i { transform: scale(1.15); }
     .cliente-cta-inner span { font-family: var(--font-u); font-size: 0.61rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-soft); transition: color 0.3s; }
     .cliente-item.cliente-cta:hover .cliente-cta-inner span { color: var(--ink); }
 
-    /* FOOTER */
+    /* ── FOOTER ── */
     footer { background: #090909; border-top: 1px solid rgba(255,255,255,0.05); padding: clamp(48px,7vw,80px) var(--pad) clamp(28px,4vw,40px); }
     .footer-inner { max-width: var(--max-w); margin: 0 auto; }
     .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: clamp(32px,5vw,72px); padding-bottom: 44px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-    .footer-brand img { width: clamp(68px,7vw,88px); height: auto; object-fit: contain; display: block; margin-bottom: 18px; filter: brightness(0) saturate(100%) invert(13%) sepia(97%) saturate(6000%) hue-rotate(355deg) brightness(100%) contrast(110%); }
+    /* FIX: logo do footer também sempre vermelho */
+    .footer-brand img { width: clamp(68px,7vw,88px); height: auto; object-fit: contain; display: block; margin-bottom: 18px; filter: var(--filter-red); }
     .footer-brand p { font-size: 0.85rem; color: #6A6A74; line-height: 1.75; font-weight: 300; max-width: 290px; margin-bottom: 22px; }
     .social-links { display: flex; gap: 10px; }
-    .social-link { width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; color: #6A6A74; text-decoration: none; font-size: 0.8rem; transition: border-color 0.3s, color 0.3s, transform 0.3s var(--ease-out); }
+    .social-link { width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; color: #6A6A74; font-size: 0.8rem; transition: border-color 0.3s, color 0.3s, transform 0.3s var(--ease-out); }
     .social-link:hover { border-color: var(--red); color: var(--red); transform: translateY(-3px); }
     .footer-col h4 { font-family: var(--font-u); font-size: 0.64rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.16em; color: #fff; margin-bottom: 20px; }
     .footer-contact-item { display: flex; align-items: flex-start; gap: 11px; margin-bottom: 12px; }
@@ -621,21 +563,21 @@
     .footer-email-block { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.05); padding: 14px; border-radius: 2px; margin-bottom: 8px; transition: border-color 0.3s; }
     .footer-email-block:hover { border-color: rgba(232,0,10,0.22); }
     .footer-email-block p:first-child { font-family: var(--font-u); font-size: 0.57rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.22); margin-bottom: 4px; }
-    .footer-email-block a { font-size: 0.82rem; color: var(--red); text-decoration: none; transition: opacity 0.25s; }
+    .footer-email-block a { font-size: 0.82rem; color: var(--red); transition: opacity 0.25s; }
     .footer-email-block a:hover { opacity: 0.72; }
-    .footer-wa { display: flex; align-items: center; gap: 10px; padding: 13px 16px; background: rgba(37,211,102,0.08); border: 1px solid rgba(37,211,102,0.2); border-radius: 2px; text-decoration: none; margin-top: 10px; transition: background 0.3s, border-color 0.3s; }
+    .footer-wa { display: flex; align-items: center; gap: 10px; padding: 13px 16px; background: rgba(37,211,102,0.08); border: 1px solid rgba(37,211,102,0.2); border-radius: 2px; margin-top: 10px; transition: background 0.3s, border-color 0.3s; }
     .footer-wa:hover { background: rgba(37,211,102,0.15); border-color: rgba(37,211,102,0.4); }
     .footer-wa i { color: var(--green-wa); font-size: 1.1rem; }
     .footer-wa span { font-family: var(--font-u); font-size: 0.67rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.6); }
     .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 24px; gap: 16px; }
     .footer-bottom p { font-family: var(--font-u); font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.18); }
 
-    /* BACK TOP */
+    /* ── BACK TO TOP ── */
     #back-top { position: fixed; bottom: 24px; right: clamp(18px,3vw,36px); width: 40px; height: 40px; background: var(--red); color: #fff; border: none; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.4s var(--ease-out); z-index: 600; font-size: 0.8rem; border-radius: 2px; }
     #back-top.show { opacity: 1; visibility: visible; }
     #back-top:hover { transform: translateY(-4px); box-shadow: 0 8px 24px var(--red-glow); }
 
-    /* REVEAL */
+    /* ── REVEAL ANIMATIONS ── */
     .reveal, .reveal-l, .reveal-r, .reveal-s { will-change: opacity, transform; transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out); }
     .reveal   { opacity: 0; transform: translateY(28px); }
     .reveal-l { opacity: 0; transform: translateX(-28px); }
@@ -644,11 +586,32 @@
     .reveal.vis, .reveal-l.vis, .reveal-r.vis, .reveal-s.vis { opacity: 1; transform: none; }
     .d1 { transition-delay: 0.07s; } .d2 { transition-delay: 0.15s; } .d3 { transition-delay: 0.24s; } .d4 { transition-delay: 0.34s; }
 
-    /* RESPONSIVO */
+    /* ====================================================
+       FIX #5 — PREFERS-REDUCED-MOTION
+       Respeita a preferência do usuário por menos movimento.
+    ==================================================== */
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+        }
+        .slide { transition: opacity 0.3s ease !important; }
+        .reveal, .reveal-l, .reveal-r, .reveal-s {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+    }
+
+    /* ── RESPONSIVO ── */
     @media (max-width: 1000px) {
-        .nav-links { display: none; } .hamburger { display: flex; } .hero-metrics { display: none; }
+        .nav-links { display: none; }
+        .hamburger { display: flex; }
+        .hero-metrics { display: none; }
         .about-grid, .presence-grid { grid-template-columns: 1fr; gap: 36px; }
         .about-stat-row { grid-template-columns: repeat(2,1fr); }
+        .about-right { position: static; } /* FIX: remove sticky no mobile */
         .segments-grid { grid-template-columns: 1fr; gap: 0; }
         .seg-card { border-right: none; border-bottom: 1px solid rgba(0,0,0,0.07); padding-bottom: 32px; margin-bottom: 0; }
         .seg-card:last-child { border-bottom: none; }
@@ -672,25 +635,40 @@
         .lang-btn { padding: 3px 6px; font-size: 0.55rem; }
         header { top: 32px; }
     }
+
+    @media (max-width: 480px) {
+        .hero-sub { flex-direction: column; gap: 20px; align-items: flex-start; }
+        .hero-sub-actions { flex-direction: column; align-items: flex-start; gap: 14px; }
+        .obras-header { flex-direction: column; align-items: flex-start; }
+    }
+
+    /* Touch: hint diferente para mobile */
+    @media (hover: none) and (pointer: coarse) {
+        .laminas-hint .hint-icon { animation: hint-tap 1.8s ease-in-out infinite; }
+        @keyframes hint-tap { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
+    }
     </style>
 </head>
 <body>
 
-<div id="eng-cursor"><div class="c-dot"></div></div>
-<div id="eng-cursor-ring"><div class="c-ring"></div></div>
-<div id="build-trail"></div>
+<!-- FIX #6: Skip Link para acessibilidade por teclado -->
+<a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
 
-<div id="page-loader" role="status" aria-label="Carregando CVIX">
+<!-- FIX: Removidos os elementos #eng-cursor, #eng-cursor-ring, #build-trail
+     que existiam no HTML mas eram ocultados com display:none — código morto eliminado. -->
+
+<div id="page-loader" role="status" aria-label="Carregando CVIX Engenharia">
     <div class="loader-inner">
-        <img src="https://github.com/brunoluissantos7-netizen/CVIX-LOGO/blob/main/logo-cvix-header.png?raw=true" alt="CVIX" class="loader-logo">
+        <img src="https://github.com/brunoluissantos7-netizen/CVIX-LOGO/blob/main/logo-cvix-header.png?raw=true" alt="CVIX" class="loader-logo" decoding="async">
         <div class="loader-bar"></div>
     </div>
 </div>
 
-<div id="progress-bar" aria-hidden="true"></div>
-<button id="back-top" aria-label="Voltar ao topo"><i class="fas fa-arrow-up"></i></button>
+<div id="progress-bar" role="progressbar" aria-hidden="true"></div>
+<button id="back-top" aria-label="Voltar ao topo da página"><i class="fas fa-arrow-up" aria-hidden="true"></i></button>
 
-<nav class="mobile-menu" id="mobileMenu">
+<!-- Mobile Menu — z-index 750 (acima do header 700) -->
+<nav class="mobile-menu" id="mobileMenu" aria-label="Menu de navegação mobile">
     <a href="#sobre" onclick="closeMobile()">Sobre</a>
     <a href="#segmentos" onclick="closeMobile()">Segmentos</a>
     <a href="#atuacao" onclick="closeMobile()">Atuação</a>
@@ -699,12 +677,11 @@
     <a href="#contato" onclick="closeMobile()">Contato</a>
 </nav>
 
-<!-- TOPBAR: bandeiras + idioma -->
-<div id="topbar">
-    <div class="lang-switcher">
-        <button class="lang-btn active" onclick="setLang('pt')" title="Português">
-            <!-- Bandeira do Brasil em SVG inline — sem depender de CDN externo -->
-            <svg class="lang-flag" viewBox="0 0 18 13" xmlns="http://www.w3.org/2000/svg">
+<!-- TOPBAR -->
+<div id="topbar" role="banner">
+    <div class="lang-switcher" aria-label="Selecionar idioma">
+        <button class="lang-btn active" onclick="setLang('pt')" title="Português" lang="pt" aria-pressed="true">
+            <svg class="lang-flag" viewBox="0 0 18 13" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <rect width="18" height="13" fill="#009c3b"/>
                 <polygon points="9,1.3 17.2,6.5 9,11.7 0.8,6.5" fill="#FFDF00"/>
                 <circle cx="9" cy="6.5" r="2.6" fill="#002776"/>
@@ -712,17 +689,13 @@
             </svg>
             PT
         </button>
-        <div class="lang-divider"></div>
-        <button class="lang-btn" onclick="setLang('en')" title="English">
-            <!-- Bandeira dos EUA em SVG inline simplificada -->
-            <svg class="lang-flag" viewBox="0 0 18 13" xmlns="http://www.w3.org/2000/svg">
+        <div class="lang-divider" aria-hidden="true"></div>
+        <button class="lang-btn" onclick="setLang('en')" title="English" lang="en" aria-pressed="false">
+            <svg class="lang-flag" viewBox="0 0 18 13" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <rect width="18" height="13" fill="#B22234"/>
-                <rect y="1" width="18" height="1" fill="#fff"/>
-                <rect y="3" width="18" height="1" fill="#fff"/>
-                <rect y="5" width="18" height="1" fill="#fff"/>
-                <rect y="7" width="18" height="1" fill="#fff"/>
-                <rect y="9" width="18" height="1" fill="#fff"/>
-                <rect y="11" width="18" height="1" fill="#fff"/>
+                <rect y="1" width="18" height="1" fill="#fff"/><rect y="3" width="18" height="1" fill="#fff"/>
+                <rect y="5" width="18" height="1" fill="#fff"/><rect y="7" width="18" height="1" fill="#fff"/>
+                <rect y="9" width="18" height="1" fill="#fff"/><rect y="11" width="18" height="1" fill="#fff"/>
                 <rect width="7.2" height="7" fill="#3C3B6E"/>
                 <g fill="#fff">
                     <circle cx="1.2" cy="1" r="0.5"/><circle cx="2.4" cy="1" r="0.5"/><circle cx="3.6" cy="1" r="0.5"/><circle cx="4.8" cy="1" r="0.5"/><circle cx="6.0" cy="1" r="0.5"/>
@@ -738,30 +711,41 @@
 </div>
 
 <header id="mainHeader">
-    <nav>
-        <a href="#inicio" class="logo"><img src="https://github.com/brunoluissantos7-netizen/CVIX-LOGO/blob/main/logo-cvix-header.png?raw=true" alt="CVIX Engenharia"></a>
+    <nav aria-label="Navegação principal">
+        <a href="#inicio" class="logo" aria-label="CVIX Engenharia — Início">
+            <img src="https://github.com/brunoluissantos7-netizen/CVIX-LOGO/blob/main/logo-cvix-header.png?raw=true" alt="CVIX Engenharia" width="90" height="36">
+        </a>
         <ul class="nav-links">
             <li><a href="#sobre" data-s="sobre">Sobre</a></li>
             <li><a href="#segmentos" data-s="segmentos">Segmentos</a></li>
             <li><a href="#atuacao" data-s="atuacao">Atuação</a></li>
             <li><a href="#obras" data-s="obras">Obras</a></li>
             <li><a href="#clientes" data-s="clientes">Clientes</a></li>
-            <li><a href="https://wa.me/5571999999999?text=Olá!%20Gostaria%20de%20mais%20informações%20sobre%20a%20CVIX." target="_blank" class="nav-cta">Fale Conosco</a></li>
+            <li><a href="https://wa.me/5571999999999?text=Ol%C3%A1!%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20a%20CVIX." target="_blank" rel="noopener noreferrer" class="nav-cta">Fale Conosco</a></li>
         </ul>
-        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+        <!-- FIX: aria-expanded + aria-controls + aria-label dinâmico -->
+        <button class="hamburger" id="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileMenu">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </button>
     </nav>
 </header>
 
-<section class="hero" id="inicio">
-    <div class="hero-slideshow" id="heroSlideshow">
+<!-- id="main-content" para o skip link e id="inicio" para a âncora de navegação -->
+<section class="hero" id="inicio" aria-label="Apresentação CVIX Engenharia">
+    <div id="main-content" tabindex="-1" style="position:absolute;top:0;left:0;width:0;height:0;overflow:hidden;" aria-hidden="true"></div>
+    <div class="hero-slideshow" id="heroSlideshow" aria-hidden="true">
         <div class="slide active" style="background-image:url('https://github.com/brunoluissantos7-netizen/CAPA-CVIX/blob/main/Onde%20projetos%20ganham%20for%C3%A7a%20e%20o%20futuro%20ganha%20forma.%20(1).png?raw=true');"></div>
         <div class="slide" style="background-image:url('https://github.com/brunoluissantos7-netizen/CVIX-QUE-SOMOS-/blob/main/ChatGPT%20Image%2024%20de%20mar.%20de%202026,%2009_08_03.png?raw=true');"></div>
         <div class="slide" style="background-image:url('https://github.com/brunoluissantos7-netizen/CIVX-SLIDE-2/blob/main/f4ee4dd3-8a0d-410b-a40c-43d639dc6d44.png?raw=true');"></div>
         <div class="slide" style="background-image:url('https://github.com/brunoluissantos7-netizen/CIVX-SLIDE-4/blob/main/ChatGPT%20Image%2024%20de%20mar.%20de%202026,%2010_41_08.png?raw=true');"></div>
     </div>
-    <div class="hero-vignette"></div><div class="hero-grid"></div>
-    <div class="slide-dots" id="slideDots"></div>
-    <div class="hero-metrics">
+    <div class="hero-vignette" aria-hidden="true"></div>
+    <div class="hero-grid" aria-hidden="true"></div>
+    <!-- FIX: dots com aria correto -->
+    <div class="slide-dots" id="slideDots" role="tablist" aria-label="Slides"></div>
+    <div class="hero-metrics" aria-hidden="true">
         <div class="metric"><div class="metric-num">+20</div><div class="metric-label">Anos de Mercado</div></div>
         <div class="metric"><div class="metric-num">9</div><div class="metric-label">Estados Atendidos</div></div>
         <div class="metric"><div class="metric-num">3</div><div class="metric-label">Segmentos</div></div>
@@ -779,13 +763,19 @@
         <div class="hero-sub">
             <p>Engenharia multidisciplinar com credibilidade comprovada. Comprometida com o desenvolvimento do Brasil há mais de 20 anos.</p>
             <div class="hero-sub-actions">
-                <a href="https://wa.me/5571999999999?text=Olá!%20Gostaria%20de%20mais%20informações%20sobre%20os%20serviços%20da%20CVIX." target="_blank" class="hero-btn-wa"><i class="fab fa-whatsapp"></i> Fale Conosco</a>
-                <a href="#sobre" class="hero-scroll"><span>Explorar</span><div class="scroll-line"></div></a>
+                <a href="https://wa.me/5571999999999?text=Ol%C3%A1!%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20os%20servi%C3%A7os%20da%20CVIX." target="_blank" rel="noopener noreferrer" class="hero-btn-wa">
+                    <i class="fab fa-whatsapp" aria-hidden="true"></i> Fale Conosco
+                </a>
+                <a href="#sobre" class="hero-scroll">
+                    <span>Explorar</span>
+                    <div class="scroll-line" aria-hidden="true"></div>
+                </a>
             </div>
         </div>
     </div>
 </section>
 
+<!-- SOBRE -->
 <section class="about-section" id="sobre">
     <div class="section-wrap">
         <div class="about-grid">
@@ -793,30 +783,48 @@
                 <p class="section-tag reveal">Quem Somos</p>
                 <h2 class="about-title reveal d1">ENGENHARIA<br><span class="line-red">QUE MOVE</span><br>O PAÍS.</h2>
                 <div class="about-body">
-                    <p class="reveal d2">Fundada em 2001, a <strong>CVIX</strong> é uma empresa de engenharia reconhecida pela agilidade e excelência técnica. Com uma equipe experiente, entrega soluções eficientes e alinhadas às normas vigentes, focando sempre no desenvolvimento do país.</p>
-                    <p class="reveal d3">A companhia prioriza a segurança e a responsabilidade socioambiental, valorizando a mão de obra local e a vida humana. Seu objetivo é gerar impacto positivo e sustentável nas comunidades onde atua, mantendo a credibilidade conquistada ao longo dos anos.</p>
+                    <p class="reveal d2">Fundada em 2001, a <strong>CVIX</strong> se consolidou como empresa de <strong>construção e montagens</strong>, reconhecida por sua <strong>excelência técnica</strong>, <strong>agilidade operacional</strong> e com foco em <strong>resultados</strong>.</p>
+                    <p class="reveal d3">Com <strong>atuação estratégica</strong> em projetos de relevância, executa soluções com <strong>segurança</strong>, <strong>eficiência</strong> e <strong>conformidade</strong> com as exigências do mercado.</p>
+                    <p class="reveal d3">Comprometida com elevados padrões de <strong>segurança</strong>, <strong>responsabilidade socioambiental</strong> e de <strong>valorização da vida humana</strong>, a CVIX atua de forma <strong>sustentável</strong>, preocupando-se com as comunidades do entorno dos seus projetos.</p>
+                    <p class="reveal d4">Ao longo da sua trajetória, construiu uma reputação de <strong>credibilidade</strong>, <strong>confiança</strong> e capacidade de transformar desafios em entregas de <strong>alto desempenho</strong>.</p>
                 </div>
+                <!-- FIX #3: data-static no ano 2001 — não executa countUp -->
                 <div class="about-stat-row reveal d4" id="statRow">
-                    <div class="about-stat"><div class="about-stat-num" data-target="2001">2001</div><div class="about-stat-label">Fundação</div></div>
-                    <div class="about-stat"><div class="about-stat-num" data-target="9" data-suffix="+">0</div><div class="about-stat-label">Estados</div></div>
-                    <div class="about-stat"><div class="about-stat-num" data-target="3">0</div><div class="about-stat-label">Segmentos</div></div>
-                    <div class="about-stat"><div class="about-stat-num" data-target="20" data-suffix="+">0</div><div class="about-stat-label">Anos de Mercado</div></div>
+                    <div class="about-stat">
+                        <div class="about-stat-num" data-static="true">2001</div>
+                        <div class="about-stat-label">Fundação</div>
+                    </div>
+                    <div class="about-stat">
+                        <div class="about-stat-num" data-target="9" data-suffix="+">0</div>
+                        <div class="about-stat-label">Estados</div>
+                    </div>
+                    <div class="about-stat">
+                        <div class="about-stat-num" data-target="3">0</div>
+                        <div class="about-stat-label">Segmentos</div>
+                    </div>
+                    <div class="about-stat">
+                        <div class="about-stat-num" data-target="20" data-suffix="+">0</div>
+                        <div class="about-stat-label">Anos de Mercado</div>
+                    </div>
                 </div>
             </div>
             <div class="about-right reveal-r">
-                <div class="diamond-scene">
-                    <div class="dmd-ghost dmd-g1"></div><div class="dmd-ghost dmd-g2"></div><div class="dmd-ghost dmd-g3"></div><div class="dmd-ghost dmd-g4"></div><div class="dmd-ghost dmd-g5"></div>
+                <div class="diamond-scene" aria-hidden="true">
+                    <div class="dmd-ghost dmd-g1"></div><div class="dmd-ghost dmd-g2"></div>
+                    <div class="dmd-ghost dmd-g3"></div><div class="dmd-ghost dmd-g4"></div>
+                    <div class="dmd-ghost dmd-g5"></div>
                     <div class="dmd-redline"></div><div class="dmd-redline2"></div>
-                    <div class="dmd dmd-top"><img src="https://www.cvix.com.br/images/oleo/1.jpg" alt="Operação" loading="lazy"></div>
-                    <div class="dmd dmd-left"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8RFUbF9pzakHQUmJ9wO0qUej6LL8j9Rg5Ww&s" alt="Gasoduto" loading="lazy"></div>
-                    <div class="dmd dmd-right"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmgVbvoPyNEBeETXtak2HdD_jsFC2Tvi-lnw&s" alt="Mineroduto" loading="lazy"></div>
-                    <div class="dmd dmd-bottom"><img src="https://github.com/brunoluissantos7-netizen/CVIX-QUE-SOMOS-/blob/main/ChatGPT%20Image%2024%20de%20mar.%20de%202026,%2009_08_03.png?raw=true" alt="Equipe" loading="lazy"></div>
+                    <div class="dmd dmd-top"><img src="https://www.cvix.com.br/images/oleo/1.jpg" alt="Operação em campo" loading="lazy" decoding="async"></div>
+                    <div class="dmd dmd-left"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8RFUbF9pzakHQUmJ9wO0qUej6LL8j9Rg5Ww&s" alt="Gasoduto" loading="lazy" decoding="async"></div>
+                    <div class="dmd dmd-right"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmgVbvoPyNEBeETXtak2HdD_jsFC2Tvi-lnw&s" alt="Mineroduto" loading="lazy" decoding="async"></div>
+                    <div class="dmd dmd-bottom"><img src="https://github.com/brunoluissantos7-netizen/CVIX-QUE-SOMOS-/blob/main/ChatGPT%20Image%2024%20de%20mar.%20de%202026,%2009_08_03.png?raw=true" alt="Equipe CVIX" loading="lazy" decoding="async"></div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
+<!-- SEGMENTOS -->
 <section class="segments-section" id="segmentos">
     <div class="section-wrap">
         <div class="segments-header">
@@ -824,14 +832,12 @@
             <h2 class="segments-title reveal d1">SEGMENTOS<br>DE ATUAÇÃO</h2>
         </div>
         <div class="segments-grid">
-
-            <!-- 01 ÓLEO & GÁS -->
             <div class="seg-card reveal">
                 <div class="seg-hex-wrap">
                     <div class="seg-hex-clip">
-                        <img src="https://static.brasilenergia.com.br/upload/sites/3/2019/09/65a184a04a68d-770x0.jpg" alt="Óleo e Gás — Plataforma e dutos" loading="lazy">
+                        <img src="https://static.brasilenergia.com.br/upload/sites/3/2019/09/65a184a04a68d-770x0.jpg" alt="Plataforma de petróleo — Óleo e Gás" loading="lazy" decoding="async">
                     </div>
-                    <div class="seg-hex-line"></div>
+                    <div class="seg-hex-line" aria-hidden="true"></div>
                 </div>
                 <h3 class="seg-title">Óleo &amp; Gás</h3>
                 <ul class="seg-list">
@@ -840,14 +846,12 @@
                     <li>Manutenção de Dutos Críticos</li>
                 </ul>
             </div>
-
-            <!-- 02 INFRAESTRUTURA & CIVIL -->
             <div class="seg-card reveal d1">
                 <div class="seg-hex-wrap">
                     <div class="seg-hex-clip">
-                        <img src="https://www.rnengenharia.com/blog/doutor/uploads/0/blog/2025/02/blog-infraestrutura-e-superestrutura-na-construcao-civil-entenda-as-diferencas-e-importancias-298ddaa89e.png" alt="Infraestrutura e Civil — Obras e guindastes" loading="lazy">
+                        <img src="https://www.rnengenharia.com/blog/doutor/uploads/0/blog/2025/02/blog-infraestrutura-e-superestrutura-na-construcao-civil-entenda-as-diferencas-e-importancias-298ddaa89e.png" alt="Obras de infraestrutura civil" loading="lazy" decoding="async">
                     </div>
-                    <div class="seg-hex-line"></div>
+                    <div class="seg-hex-line" aria-hidden="true"></div>
                 </div>
                 <h3 class="seg-title">Infraestrutura &amp; Civil</h3>
                 <ul class="seg-list">
@@ -856,14 +860,12 @@
                     <li>Pavimentação e Terraplenagem</li>
                 </ul>
             </div>
-
-            <!-- 03 MARÍTIMO & PORTUÁRIO -->
             <div class="seg-card reveal d2">
                 <div class="seg-hex-wrap">
                     <div class="seg-hex-clip">
-                        <img src="https://cranebrasil.com.br/wp-content/uploads/2021/10/liebherr-fcc300-fixed-cargo-crane-corporacion-navios.jpg" alt="Marítimo e Portuário — Porto e guindastes" loading="lazy">
+                        <img src="https://cranebrasil.com.br/wp-content/uploads/2021/10/liebherr-fcc300-fixed-cargo-crane-corporacion-navios.jpg" alt="Porto — Marítimo e Portuário" loading="lazy" decoding="async">
                     </div>
-                    <div class="seg-hex-line"></div>
+                    <div class="seg-hex-line" aria-hidden="true"></div>
                 </div>
                 <h3 class="seg-title">Marítimo &amp; Portuário</h3>
                 <ul class="seg-list">
@@ -872,42 +874,41 @@
                     <li>Mergulho Profissional</li>
                 </ul>
             </div>
-
         </div>
     </div>
 </section>
 
-<!-- PRESENÇA — FIX #1: fundo claro, clean & corporativo -->
+<!-- PRESENÇA -->
 <section class="presence-section" id="atuacao">
     <div class="section-wrap">
         <div class="presence-grid">
             <div class="presence-left">
                 <p class="section-tag reveal">Presença Nacional</p>
                 <div class="presence-title-wrap">
-                    <h2 class="presence-title reveal d1">ONDE<br><span class="highlight-word">ATUAMOS</span></h2>
+                    <h2 class="presence-title reveal d1">ONDE JÀ<br><span class="highlight-word">ATUAMOS</span></h2>
                 </div>
-                <p class="presence-intro reveal d2">A CVIX possui histórico de excelência em obras executadas nos estados:</p>
-                <div class="presence-icons reveal d2">
+                <p class="presence-intro reveal d2"><strong>Estrutura pronta</strong> para atender demandas em <strong>qualquer localidade</strong> do <strong>território Brasileiro</strong>.</p>
+                <div class="presence-icons reveal d2" aria-hidden="true">
                     <div class="p-icon-box"><i class="fas fa-oil-well"></i><span>Óleo &amp; Gás</span></div>
                     <div class="p-icon-box"><i class="fas fa-bridge"></i><span>Infra Civil</span></div>
                     <div class="p-icon-box"><i class="fas fa-ship"></i><span>Marítimo</span></div>
                 </div>
-                <div class="state-grid reveal d3">
-                    <div class="state-item"><i class="fas fa-location-dot"></i> Bahia (BA)</div>
-                    <div class="state-item"><i class="fas fa-location-dot"></i> Sergipe (SE)</div>
-                    <div class="state-item"><i class="fas fa-location-dot"></i> Rio de Janeiro (RJ)</div>
-                    <div class="state-item"><i class="fas fa-location-dot"></i> Espírito Santo (ES)</div>
-                    <div class="state-item"><i class="fas fa-location-dot"></i> Alagoas (AL)</div>
-                    <div class="state-item"><i class="fas fa-location-dot"></i> Pará (PA)</div>
-                    <div class="state-item"><i class="fas fa-location-dot"></i> Rio Grande do Sul (RS)</div>
-                    <div class="state-item"><i class="fas fa-location-dot"></i> Maranhão (MA)</div>
+                <div class="state-grid reveal d3" role="list">
+                    <div class="state-item" role="listitem"><i class="fas fa-location-dot" aria-hidden="true"></i> Bahia (BA)</div>
+                    <div class="state-item" role="listitem"><i class="fas fa-location-dot" aria-hidden="true"></i> Sergipe (SE)</div>
+                    <div class="state-item" role="listitem"><i class="fas fa-location-dot" aria-hidden="true"></i> Rio de Janeiro (RJ)</div>
+                    <div class="state-item" role="listitem"><i class="fas fa-location-dot" aria-hidden="true"></i> Espírito Santo (ES)</div>
+                    <div class="state-item" role="listitem"><i class="fas fa-location-dot" aria-hidden="true"></i> Alagoas (AL)</div>
+                    <div class="state-item" role="listitem"><i class="fas fa-location-dot" aria-hidden="true"></i> Pará (PA)</div>
+                    <div class="state-item" role="listitem"><i class="fas fa-location-dot" aria-hidden="true"></i> Rio Grande do Sul (RS)</div>
+                    <div class="state-item" role="listitem"><i class="fas fa-location-dot" aria-hidden="true"></i> Maranhão (MA)</div>
                 </div>
             </div>
             <div class="presence-right reveal-r">
                 <div class="map-diamond-wrap">
                     <div class="map-box">
                         <div class="map-label">Cobertura Nacional</div>
-                        <img src="https://github.com/brunoluissantos7-netizen/cvix-MAPA/blob/main/map.png?raw=true" alt="Mapa de atuação CVIX" loading="lazy">
+                        <img src="https://github.com/brunoluissantos7-netizen/cvix-MAPA/blob/main/map.png?raw=true" alt="Mapa do Brasil com os estados de atuação da CVIX destacados" loading="lazy" decoding="async">
                     </div>
                 </div>
             </div>
@@ -915,49 +916,186 @@
     </div>
 </section>
 
-<!-- OBRAS — FIX #3: espaçamento mínimo título→conteúdo -->
+<!-- OBRAS -->
 <section class="obras-section" id="obras">
-    <div class="obras-deco-tl"></div><div class="obras-deco-br"></div>
+    <div class="obras-deco-tl" aria-hidden="true"></div>
+    <div class="obras-deco-br" aria-hidden="true"></div>
     <div class="section-wrap">
         <div class="obras-header">
             <div>
                 <p class="section-tag reveal">Portfólio</p>
                 <h2 class="obras-title reveal d1">PRINCIPAIS<br>OBRAS EXECUTADAS</h2>
             </div>
-            <div class="filter-bar reveal d2">
-                <button class="filter-btn active" onclick="filterObras(event,'all')">Todas</button>
-                <button class="filter-btn" onclick="filterObras(event,'mp')">Marítimo</button>
-                <button class="filter-btn" onclick="filterObras(event,'ic')">Infraestrutura</button>
+            <!-- FIX: aria-pressed nos botões de filtro -->
+            <div class="filter-bar reveal d2" role="group" aria-label="Filtrar obras por segmento">
+                <button class="filter-btn active" onclick="filterObras(event,'all')" aria-pressed="true">Todas</button>
+                <button class="filter-btn" onclick="filterObras(event,'mp')" aria-pressed="false">Marítimo</button>
+                <button class="filter-btn" onclick="filterObras(event,'ic')" aria-pressed="false">Infraestrutura</button>
             </div>
         </div>
 
         <div class="laminas-obras-wrap reveal">
-            <div class="laminas-track" id="laminasTrack">
-                <div class="lamina expanded"><img src="https://s2.glbimg.com/PXC6qt9KHkFPhaceUuce4CGwsc8=/620x390/s.glbimg.com/es/ge/f/original/2013/08/06/foto_-_chico_batata_1.jpg" alt="Arena Amazônia"><div class="lamina-num">01</div><div class="lamina-label"><div class="lamina-title">Arena Amazônia</div><div class="lamina-sub">Infraestrutura Civil</div></div></div>
-                <div class="lamina"><img src="https://s2.glbimg.com/EjFY-I1NK5rQhdhql7zq2BUhUj8=/e.glbimg.com/og/ed/f/original/2015/05/19/obra-da-ferrovia-norte-sul.jpg" alt="Ferrovia Norte-Sul"><div class="lamina-num">02</div><div class="lamina-label"><div class="lamina-title">Ferrovia Norte-Sul</div><div class="lamina-sub">Obras Ferroviárias</div></div></div>
-                <div class="lamina"><img src="https://www.cvix.com.br/images/oleo/1.jpg" alt="Gasoduto Coari-Manaus"><div class="lamina-num">03</div><div class="lamina-label"><div class="lamina-title">Gasoduto Coari-Manaus</div><div class="lamina-sub">Óleo &amp; Gás</div></div></div>
-                <div class="lamina"><img src="https://i.ytimg.com/vi/Sr8YD-nRLHA/hq720.jpg" alt="Rodovia"><div class="lamina-num">04</div><div class="lamina-label"><div class="lamina-title">Rodovia Castelo Branco</div><div class="lamina-sub">Infraestrutura Viária</div></div></div>
-                <div class="lamina"><img src="https://anptrilhos.org.br/wp-content/uploads/2023/10/metrosp-linha2-concretagem-expansao.jpg" alt="Metrô"><div class="lamina-num">05</div><div class="lamina-label"><div class="lamina-title">Metrô de São Paulo</div><div class="lamina-sub">Mobilidade Urbana</div></div></div>
-                <div class="lamina"><img src="https://portosma.com.br/wp-content/uploads/2023/01/TPITAQUI.jpg" alt="Porto"><div class="lamina-num">06</div><div class="lamina-label"><div class="lamina-title">Terminal Portuário</div><div class="lamina-sub">Marítimo &amp; Portuário</div></div></div>
-                <div class="lamina"><img src="https://mid-noticias.curitiba.pr.gov.br/2024/capa/00432886.jpg" alt="Viaduto"><div class="lamina-num">07</div><div class="lamina-label"><div class="lamina-title">Viaduto Transrhumel</div><div class="lamina-sub">Obras de Arte</div></div></div>
-                <div class="lamina"><img src="https://ecbsa.com.br/wp-content/uploads/2023/10/1202-scaled.jpg" alt="Carajás"><div class="lamina-num">08</div><div class="lamina-label"><div class="lamina-title">Ferrovia dos Carajás</div><div class="lamina-sub">Minerodutos &amp; Ferrovias</div></div></div>
-                <div class="lamina"><img src="https://media.gazetadopovo.com.br/2026/01/02072911/Porto-de-Imbituba_Anderson-Coelho-scaled.jpg.webp" alt="Porto de Imbituba"><div class="lamina-num">09</div><div class="lamina-label"><div class="lamina-title">Porto de Imbituba</div><div class="lamina-sub">Marítimo &amp; Portuário</div></div></div>
-                <div class="lamina"><img src="https://image.chitra.live/api/v1/wps/dc7284a/c1a2fd0f-22d4-4bdc-9533-3b715de96799/1/aus02-600x402.jpg" alt="Mineroduto"><div class="lamina-num">10</div><div class="lamina-label"><div class="lamina-title">Mineroduto Paragominas</div><div class="lamina-sub">Óleo &amp; Gás</div></div></div>
+            <div class="laminas-track" id="laminasTrack" role="region" aria-label="Galeria de obras">
+                <div class="lamina expanded" tabindex="0" role="button" aria-label="Arena Amazônia">
+                    <img src="https://s2.glbimg.com/PXC6qt9KHkFPhaceUuce4CGwsc8=/620x390/s.glbimg.com/es/ge/f/original/2013/08/06/foto_-_chico_batata_1.jpg" alt="Arena Amazônia" loading="lazy" decoding="async">
+                    <div class="lamina-num" aria-hidden="true">01</div>
+                    <div class="lamina-label"><div class="lamina-title">Arena Amazônia</div><div class="lamina-sub">Infraestrutura Civil</div></div>
+                </div>
+                <div class="lamina" tabindex="0" role="button" aria-label="Ferrovia Norte-Sul">
+                    <img src="https://s2.glbimg.com/EjFY-I1NK5rQhdhql7zq2BUhUj8=/e.glbimg.com/og/ed/f/original/2015/05/19/obra-da-ferrovia-norte-sul.jpg" alt="Ferrovia Norte-Sul" loading="lazy" decoding="async">
+                    <div class="lamina-num" aria-hidden="true">02</div>
+                    <div class="lamina-label"><div class="lamina-title">Ferrovia Norte-Sul</div><div class="lamina-sub">Obras Ferroviárias</div></div>
+                </div>
+                <div class="lamina" tabindex="0" role="button" aria-label="Gasoduto Coari-Manaus">
+                    <img src="https://www.cvix.com.br/images/oleo/1.jpg" alt="Gasoduto Coari-Manaus" loading="lazy" decoding="async">
+                    <div class="lamina-num" aria-hidden="true">03</div>
+                    <div class="lamina-label"><div class="lamina-title">Gasoduto Coari-Manaus</div><div class="lamina-sub">Óleo &amp; Gás</div></div>
+                </div>
+                <div class="lamina" tabindex="0" role="button" aria-label="Rodovia Castelo Branco">
+                    <img src="https://i.ytimg.com/vi/Sr8YD-nRLHA/hq720.jpg" alt="Rodovia Castelo Branco" loading="lazy" decoding="async">
+                    <div class="lamina-num" aria-hidden="true">04</div>
+                    <div class="lamina-label"><div class="lamina-title">Rodovia Castelo Branco</div><div class="lamina-sub">Infraestrutura Viária</div></div>
+                </div>
+                <div class="lamina" tabindex="0" role="button" aria-label="Metrô de São Paulo">
+                    <img src="https://anptrilhos.org.br/wp-content/uploads/2023/10/metrosp-linha2-concretagem-expansao.jpg" alt="Metrô de São Paulo" loading="lazy" decoding="async">
+                    <div class="lamina-num" aria-hidden="true">05</div>
+                    <div class="lamina-label"><div class="lamina-title">Metrô de São Paulo</div><div class="lamina-sub">Mobilidade Urbana</div></div>
+                </div>
+                <div class="lamina" tabindex="0" role="button" aria-label="Terminal Portuário">
+                    <img src="https://portosma.com.br/wp-content/uploads/2023/01/TPITAQUI.jpg" alt="Terminal Portuário" loading="lazy" decoding="async">
+                    <div class="lamina-num" aria-hidden="true">06</div>
+                    <div class="lamina-label"><div class="lamina-title">Terminal Portuário</div><div class="lamina-sub">Marítimo &amp; Portuário</div></div>
+                </div>
+                <div class="lamina" tabindex="0" role="button" aria-label="Viaduto Transrhumel">
+                    <img src="https://mid-noticias.curitiba.pr.gov.br/2024/capa/00432886.jpg" alt="Viaduto Transrhumel" loading="lazy" decoding="async">
+                    <div class="lamina-num" aria-hidden="true">07</div>
+                    <div class="lamina-label"><div class="lamina-title">Viaduto Transrhumel</div><div class="lamina-sub">Obras de Arte</div></div>
+                </div>
+                <div class="lamina" tabindex="0" role="button" aria-label="Ferrovia dos Carajás">
+                    <img src="https://ecbsa.com.br/wp-content/uploads/2023/10/1202-scaled.jpg" alt="Ferrovia dos Carajás" loading="lazy" decoding="async">
+                    <div class="lamina-num" aria-hidden="true">08</div>
+                    <div class="lamina-label"><div class="lamina-title">Ferrovia dos Carajás</div><div class="lamina-sub">Minerodutos &amp; Ferrovias</div></div>
+                </div>
+                <div class="lamina" tabindex="0" role="button" aria-label="Porto de Imbituba">
+                    <img src="https://media.gazetadopovo.com.br/2026/01/02072911/Porto-de-Imbituba_Anderson-Coelho-scaled.jpg.webp" alt="Porto de Imbituba" loading="lazy" decoding="async">
+                    <div class="lamina-num" aria-hidden="true">09</div>
+                    <div class="lamina-label"><div class="lamina-title">Porto de Imbituba</div><div class="lamina-sub">Marítimo &amp; Portuário</div></div>
+                </div>
+                <div class="lamina" tabindex="0" role="button" aria-label="Mineroduto Paragominas">
+                    <img src="https://image.chitra.live/api/v1/wps/dc7284a/c1a2fd0f-22d4-4bdc-9533-3b715de96799/1/aus02-600x402.jpg" alt="Mineroduto Paragominas" loading="lazy" decoding="async">
+                    <div class="lamina-num" aria-hidden="true">10</div>
+                    <div class="lamina-label"><div class="lamina-title">Mineroduto Paragominas</div><div class="lamina-sub">Óleo &amp; Gás</div></div>
+                </div>
             </div>
-            <div class="laminas-hint"><i class="fas fa-arrow-right"></i> Arraste para explorar</div>
+            <!-- FIX: hint com classe para ícone animável, texto atualizado por JS no mobile -->
+            <div class="laminas-hint" aria-hidden="true">
+                <i class="fas fa-arrow-right hint-icon"></i>
+                <span class="hint-text">Arraste para explorar</span>
+            </div>
         </div>
 
         <div class="obras-list" id="obrasGrid">
-            <article class="obra-item reveal" data-cat="mp"><div class="obra-diamond-side"><div class="obra-dmd-wrap"><img src="https://github.com/brunoluissantos7-netizen/Constru-o-Submarina-Gasoduto-DN-16-Ba-a-de-Guanabara/blob/main/Gemini_Generated_Image_6ylyq76ylyq76yly.png?raw=true" loading="lazy"></div></div><div class="obra-info-side"><span class="obra-tag-label">Marítimo &amp; Portuário</span><h3 class="obra-title-item">Construção Submarina Gasoduto DN 16" — Baía de Guanabara</h3><div class="obra-meta"><div class="obra-meta-row"><i class="fas fa-building"></i><span><strong>Cliente:</strong> QUALISOL</span></div><div class="obra-meta-row"><i class="fas fa-location-dot"></i><span><strong>Local:</strong> Rio de Janeiro / RJ</span></div><div class="obra-meta-row"><i class="fas fa-circle-dot"></i><span><strong>Segmento:</strong> Offshore</span></div></div></div></article>
-            <article class="obra-item even reveal" data-cat="mp"><div class="obra-info-side"><span class="obra-tag-label">Marítimo &amp; Portuário</span><h3 class="obra-title-item">Operação Base Guincho e Arraste Gasoduto MANATI DN 24"</h3><div class="obra-meta"><div class="obra-meta-row"><i class="fas fa-building"></i><span><strong>Cliente:</strong> PETROBRAS</span></div><div class="obra-meta-row"><i class="fas fa-location-dot"></i><span><strong>Local:</strong> Bahia / BA</span></div><div class="obra-meta-row"><i class="fas fa-circle-dot"></i><span><strong>Segmento:</strong> Óleo &amp; Gás</span></div></div></div><div class="obra-diamond-side"><div class="obra-dmd-wrap"><img src="https://www.cvix.com.br/images/oleo/1.jpg" loading="lazy"></div></div></article>
-            <article class="obra-item reveal" data-cat="ic"><div class="obra-diamond-side"><div class="obra-dmd-wrap"><img src="https://github.com/brunoluissantos7-netizen/Constru-o-e-Montagem-Mineroduto-24/blob/main/Gemini_Generated_Image_nniygjnniygjnniy.png?raw=true" loading="lazy"></div></div><div class="obra-info-side"><span class="obra-tag-label">Infraestrutura &amp; Civil</span><h3 class="obra-title-item">Construção e Montagem Mineroduto 24" API 5L (132 Km)</h3><div class="obra-meta"><div class="obra-meta-row"><i class="fas fa-building"></i><span><strong>Cliente:</strong> VALE</span></div><div class="obra-meta-row"><i class="fas fa-location-dot"></i><span><strong>Local:</strong> Paragominas / PA</span></div><div class="obra-meta-row"><i class="fas fa-ruler-combined"></i><span><strong>Extensão:</strong> 132 Km</span></div></div></div></article>
-            <article class="obra-item even reveal" data-cat="ic"><div class="obra-info-side"><span class="obra-tag-label">Infraestrutura &amp; Civil</span><h3 class="obra-title-item">Sistema de Esgotamento Sanitário — 29.321m</h3><div class="obra-meta"><div class="obra-meta-row"><i class="fas fa-building"></i><span><strong>Cliente:</strong> Pref. Poções</span></div><div class="obra-meta-row"><i class="fas fa-location-dot"></i><span><strong>Local:</strong> Poções / BA</span></div><div class="obra-meta-row"><i class="fas fa-ruler-combined"></i><span><strong>Extensão:</strong> 29.321m de rede</span></div></div></div><div class="obra-diamond-side"><div class="obra-dmd-wrap"><img src="https://www.ba.gov.br/comunicacao/sites/site-comunicacao/files/2025-08/WhatsApp%20Image%202025-08-14%20at%2010.57.38.jpeg" loading="lazy"></div></div></article>
-            <article class="obra-item reveal" data-cat="mp"><div class="obra-diamond-side"><div class="obra-dmd-wrap"><img src="https://www.ba.gov.br/seagri/sites/site-seagri/files/migracao_2024/arquivos/files/Terminal%20Salvador.jpg" loading="lazy"></div></div><div class="obra-info-side"><span class="obra-tag-label">Marítimo &amp; Portuário</span><h3 class="obra-title-item">Terminal Pesqueiro Salvador — Cravação de Estacas</h3><div class="obra-meta"><div class="obra-meta-row"><i class="fas fa-building"></i><span><strong>Cliente:</strong> MULTISUL</span></div><div class="obra-meta-row"><i class="fas fa-location-dot"></i><span><strong>Local:</strong> Salvador / BA</span></div><div class="obra-meta-row"><i class="fas fa-ruler-combined"></i><span><strong>Serviço:</strong> 1.436m de estacas</span></div></div></div></article>
-            <article class="obra-item even reveal" data-cat="ic"><div class="obra-info-side"><span class="obra-tag-label">Infraestrutura &amp; Civil</span><h3 class="obra-title-item">Reforma de Escolas (63 un) e Postos de Saúde (30 un)</h3><div class="obra-meta"><div class="obra-meta-row"><i class="fas fa-building"></i><span><strong>Cliente:</strong> Pref. Ilhéus</span></div><div class="obra-meta-row"><i class="fas fa-location-dot"></i><span><strong>Local:</strong> Ilhéus / BA</span></div><div class="obra-meta-row"><i class="fas fa-circle-dot"></i><span><strong>Unidades:</strong> 93 unidades</span></div></div></div><div class="obra-diamond-side"><div class="obra-dmd-wrap"><img src="https://ilheus24h.com.br/wp-content/uploads/2023/09/NOVAS-ATUALIZACOES-SOBRE-A-CONSTRUCAO-DA-ESCOLA-DE-TEMPO-INTEGRAL-DA-ZONA-SUL.jpg" loading="lazy"></div></div></article>
+            <article class="obra-item reveal" data-cat="mp">
+                <div class="obra-diamond-side">
+                    <div class="obra-dmd-wrap">
+                        <img src="https://github.com/brunoluissantos7-netizen/Constru-o-Submarina-Gasoduto-DN-16-Ba-a-de-Guanabara/blob/main/Gemini_Generated_Image_6ylyq76ylyq76yly.png?raw=true" alt="Gasoduto submarino na Baía de Guanabara" loading="lazy" decoding="async">
+                    </div>
+                </div>
+                <div class="obra-info-side">
+                    <span class="obra-tag-label">Marítimo &amp; Portuário</span>
+                    <h3 class="obra-title-item">Construção Submarina Gasoduto DN 16" — Baía de Guanabara</h3>
+                    <div class="obra-meta">
+                        <div class="obra-meta-row"><i class="fas fa-building" aria-hidden="true"></i><span><strong>Cliente:</strong> QUALISOL</span></div>
+                        <div class="obra-meta-row"><i class="fas fa-location-dot" aria-hidden="true"></i><span><strong>Local:</strong> Rio de Janeiro / RJ</span></div>
+                        <div class="obra-meta-row"><i class="fas fa-circle-dot" aria-hidden="true"></i><span><strong>Segmento:</strong> Offshore</span></div>
+                    </div>
+                </div>
+            </article>
+            <article class="obra-item even reveal" data-cat="mp">
+                <div class="obra-info-side">
+                    <span class="obra-tag-label">Marítimo &amp; Portuário</span>
+                    <h3 class="obra-title-item">Operação Base Guincho e Arraste Gasoduto MANATI DN 24"</h3>
+                    <div class="obra-meta">
+                        <div class="obra-meta-row"><i class="fas fa-building" aria-hidden="true"></i><span><strong>Cliente:</strong> PETROBRAS</span></div>
+                        <div class="obra-meta-row"><i class="fas fa-location-dot" aria-hidden="true"></i><span><strong>Local:</strong> Bahia / BA</span></div>
+                        <div class="obra-meta-row"><i class="fas fa-circle-dot" aria-hidden="true"></i><span><strong>Segmento:</strong> Óleo &amp; Gás</span></div>
+                    </div>
+                </div>
+                <div class="obra-diamond-side">
+                    <div class="obra-dmd-wrap">
+                        <img src="https://www.cvix.com.br/images/oleo/1.jpg" alt="Operação de guincho e arraste de gasoduto" loading="lazy" decoding="async">
+                    </div>
+                </div>
+            </article>
+            <article class="obra-item reveal" data-cat="ic">
+                <div class="obra-diamond-side">
+                    <div class="obra-dmd-wrap">
+                        <img src="https://github.com/brunoluissantos7-netizen/Constru-o-e-Montagem-Mineroduto-24/blob/main/Gemini_Generated_Image_nniygjnniygjnniy.png?raw=true" alt="Construção de mineroduto" loading="lazy" decoding="async">
+                    </div>
+                </div>
+                <div class="obra-info-side">
+                    <span class="obra-tag-label">Infraestrutura &amp; Civil</span>
+                    <h3 class="obra-title-item">Construção e Montagem Mineroduto 24" API 5L (132 Km)</h3>
+                    <div class="obra-meta">
+                        <div class="obra-meta-row"><i class="fas fa-building" aria-hidden="true"></i><span><strong>Cliente:</strong> VALE</span></div>
+                        <div class="obra-meta-row"><i class="fas fa-location-dot" aria-hidden="true"></i><span><strong>Local:</strong> Paragominas / PA</span></div>
+                        <div class="obra-meta-row"><i class="fas fa-ruler-combined" aria-hidden="true"></i><span><strong>Extensão:</strong> 132 Km</span></div>
+                    </div>
+                </div>
+            </article>
+            <article class="obra-item even reveal" data-cat="ic">
+                <div class="obra-info-side">
+                    <span class="obra-tag-label">Infraestrutura &amp; Civil</span>
+                    <h3 class="obra-title-item">Sistema de Esgotamento Sanitário — 29.321m</h3>
+                    <div class="obra-meta">
+                        <div class="obra-meta-row"><i class="fas fa-building" aria-hidden="true"></i><span><strong>Cliente:</strong> Pref. Poções</span></div>
+                        <div class="obra-meta-row"><i class="fas fa-location-dot" aria-hidden="true"></i><span><strong>Local:</strong> Poções / BA</span></div>
+                        <div class="obra-meta-row"><i class="fas fa-ruler-combined" aria-hidden="true"></i><span><strong>Extensão:</strong> 29.321m de rede</span></div>
+                    </div>
+                </div>
+                <div class="obra-diamond-side">
+                    <div class="obra-dmd-wrap">
+                        <img src="https://www.ba.gov.br/comunicacao/sites/site-comunicacao/files/2025-08/WhatsApp%20Image%202025-08-14%20at%2010.57.38.jpeg" alt="Sistema de esgotamento sanitário em Poções BA" loading="lazy" decoding="async">
+                    </div>
+                </div>
+            </article>
+            <article class="obra-item reveal" data-cat="mp">
+                <div class="obra-diamond-side">
+                    <div class="obra-dmd-wrap">
+                        <img src="https://www.ba.gov.br/seagri/sites/site-seagri/files/migracao_2024/arquivos/files/Terminal%20Salvador.jpg" alt="Terminal Pesqueiro de Salvador" loading="lazy" decoding="async">
+                    </div>
+                </div>
+                <div class="obra-info-side">
+                    <span class="obra-tag-label">Marítimo &amp; Portuário</span>
+                    <h3 class="obra-title-item">Terminal Pesqueiro Salvador — Cravação de Estacas</h3>
+                    <div class="obra-meta">
+                        <div class="obra-meta-row"><i class="fas fa-building" aria-hidden="true"></i><span><strong>Cliente:</strong> MULTISUL</span></div>
+                        <div class="obra-meta-row"><i class="fas fa-location-dot" aria-hidden="true"></i><span><strong>Local:</strong> Salvador / BA</span></div>
+                        <div class="obra-meta-row"><i class="fas fa-ruler-combined" aria-hidden="true"></i><span><strong>Serviço:</strong> 1.436m de estacas</span></div>
+                    </div>
+                </div>
+            </article>
+            <article class="obra-item even reveal" data-cat="ic">
+                <div class="obra-info-side">
+                    <span class="obra-tag-label">Infraestrutura &amp; Civil</span>
+                    <h3 class="obra-title-item">Reforma de Escolas (63 un) e Postos de Saúde (30 un)</h3>
+                    <div class="obra-meta">
+                        <div class="obra-meta-row"><i class="fas fa-building" aria-hidden="true"></i><span><strong>Cliente:</strong> Pref. Ilhéus</span></div>
+                        <div class="obra-meta-row"><i class="fas fa-location-dot" aria-hidden="true"></i><span><strong>Local:</strong> Ilhéus / BA</span></div>
+                        <div class="obra-meta-row"><i class="fas fa-circle-dot" aria-hidden="true"></i><span><strong>Unidades:</strong> 93 unidades</span></div>
+                    </div>
+                </div>
+                <div class="obra-diamond-side">
+                    <div class="obra-dmd-wrap">
+                        <img src="https://ilheus24h.com.br/wp-content/uploads/2023/09/NOVAS-ATUALIZACOES-SOBRE-A-CONSTRUCAO-DA-ESCOLA-DE-TEMPO-INTEGRAL-DA-ZONA-SUL.jpg" alt="Reforma de escola em Ilhéus BA" loading="lazy" decoding="async">
+                    </div>
+                </div>
+            </article>
         </div>
     </div>
 </section>
 
+<!-- CLIENTES -->
 <section class="clientes-section" id="clientes">
     <div class="section-wrap">
         <div class="clientes-header reveal">
@@ -969,8 +1107,7 @@
                 <div class="petrobras-badge-wrapper">
                     <div class="petrobras-badge highlighted">
                         <div class="petrobras-logo-container">
-                            <!-- FIX #2: sem filtro — cores naturais da Petrobras -->
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Logo_petrobras.gif/330px-Logo_petrobras.gif" alt="Logo Petrobras">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Logo_petrobras.gif/330px-Logo_petrobras.gif" alt="Logo Petrobras" loading="lazy" decoding="async">
                         </div>
                         <div class="petrobras-flag-container">
                             <span class="petrobras-flag">Cliente Estratégico</span>
@@ -997,87 +1134,447 @@
             </div>
         </div>
         <div class="clientes-grid reveal d2">
-            <div class="cliente-item"><img src="https://images.seeklogo.com/logo-png/22/2/vale-logo-png_seeklogo-222255.png" alt="Logo Vale" class="cliente-logo"><span class="cliente-sub">Mineração</span></div>
-            <div class="cliente-item"><img src="http://googleusercontent.com/image_collection/image_retrieval/12618096515039832905" alt="Logo Qualisol" class="cliente-logo"><span class="cliente-sub">Energia &amp; Gás</span></div>
-            <div class="cliente-item"><img src="https://static.wixstatic.com/media/8864c7_61b556625af140caaad808ec9b75e52a~mv2_d_3402_1546_s_2.png/v1/fill/w_277,h_126,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/logo%20SOZINHO.png" alt="Logo Multisul" class="cliente-logo"><span class="cliente-sub">Portuário</span></div>
-            <div class="cliente-item"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWW2vyl1t0uybNlTREGTvJWy52n_EkhQ1LfA&s" alt="Pref. Ilhéus" class="cliente-logo"><span class="cliente-sub">Governo Municipal</span></div>
-            <div class="cliente-item"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIwmGUvWQgT5oqswA8jraemY2fJLgjp6IHMw&s" alt="Pref. Poções" class="cliente-logo"><span class="cliente-sub">Governo Municipal</span></div>
-            <div class="cliente-item"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Bras%C3%A3o_do_estado_da_Bahia.svg/250px-Bras%C3%A3o_do_estado_da_Bahia.svg.png" alt="Governo da Bahia" class="cliente-logo"><span class="cliente-sub">Governo Estadual</span></div>
-            <div class="cliente-item item-extra"><div class="icone-destaque"><i class="fas fa-plus"></i></div><span class="cliente-wordmark" style="font-size:0.85rem;">E Muito Mais</span><span class="cliente-sub">Carteira em crescimento</span></div>
-            <div class="cliente-item cliente-cta"><a href="https://wa.me/5571999999999?text=Quero%20ser%20cliente%20da%20CVIX!" target="_blank" class="cliente-cta-inner"><i class="fab fa-whatsapp"></i><span>Seja nosso cliente</span></a></div>
+            <div class="cliente-item">
+                <img src="https://images.seeklogo.com/logo-png/22/2/vale-logo-png_seeklogo-222255.png" alt="Logo Vale" class="cliente-logo" loading="lazy" decoding="async">
+                <span class="cliente-sub">Mineração</span>
+            </div>
+            <div class="cliente-item">
+                <img src="http://googleusercontent.com/image_collection/image_retrieval/12618096515039832905" alt="Logo Qualisol" class="cliente-logo" loading="lazy" decoding="async">
+                <span class="cliente-sub">Energia &amp; Gás</span>
+            </div>
+            <div class="cliente-item">
+                <img src="https://static.wixstatic.com/media/8864c7_61b556625af140caaad808ec9b75e52a~mv2_d_3402_1546_s_2.png/v1/fill/w_277,h_126,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/logo%20SOZINHO.png" alt="Logo Multisul" class="cliente-logo" loading="lazy" decoding="async">
+                <span class="cliente-sub">Portuário</span>
+            </div>
+            <div class="cliente-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWW2vyl1t0uybNlTREGTvJWy52n_EkhQ1LfA&s" alt="Prefeitura de Ilhéus" class="cliente-logo" loading="lazy" decoding="async">
+                <span class="cliente-sub">Governo Municipal</span>
+            </div>
+            <div class="cliente-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIwmGUvWQgT5oqswA8jraemY2fJLgjp6IHMw&s" alt="Prefeitura de Poções" class="cliente-logo" loading="lazy" decoding="async">
+                <span class="cliente-sub">Governo Municipal</span>
+            </div>
+            <div class="cliente-item">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Bras%C3%A3o_do_estado_da_Bahia.svg/250px-Bras%C3%A3o_do_estado_da_Bahia.svg.png" alt="Governo do Estado da Bahia" class="cliente-logo" loading="lazy" decoding="async">
+                <span class="cliente-sub">Governo Estadual</span>
+            </div>
+            <div class="cliente-item item-extra">
+                <div class="icone-destaque" aria-hidden="true"><i class="fas fa-plus"></i></div>
+                <span class="cliente-wordmark" style="font-size:0.85rem;">E Muito Mais</span>
+                <span class="cliente-sub">Carteira em crescimento</span>
+            </div>
+            <div class="cliente-item cliente-cta">
+                <a href="https://wa.me/5571999999999?text=Quero%20ser%20cliente%20da%20CVIX!" target="_blank" rel="noopener noreferrer" class="cliente-cta-inner" aria-label="Fale pelo WhatsApp para ser cliente CVIX">
+                    <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                    <span>Seja nosso cliente</span>
+                </a>
+            </div>
         </div>
     </div>
 </section>
 
+<!-- FOOTER -->
 <footer id="contato">
     <div class="footer-inner">
         <div class="footer-top">
             <div class="footer-brand">
-                <img src="https://github.com/brunoluissantos7-netizen/CVIX-LOGO/blob/main/logo-cvix-header.png?raw=true" alt="CVIX">
+                <img src="https://github.com/brunoluissantos7-netizen/CVIX-LOGO/blob/main/logo-cvix-header.png?raw=true" alt="CVIX Engenharia" width="88" height="36" decoding="async">
                 <p>Engenharia multidisciplinar de alta performance, focada no desenvolvimento sustentável do país.</p>
-                <div class="social-links"><a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a><a href="#" class="social-link"><i class="fab fa-instagram"></i></a></div>
+                <div class="social-links">
+                    <a href="#" class="social-link" aria-label="LinkedIn CVIX"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+                    <a href="#" class="social-link" aria-label="Instagram CVIX"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                </div>
             </div>
             <div class="footer-col">
                 <h4>Sede Salvador</h4>
-                <div class="footer-contact-item"><i class="fas fa-map-location-dot"></i><p>Rua Frederico Simões, 98<br>Ed. Advanced Trade<br>Salvador / BA</p></div>
+                <address>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-map-location-dot" aria-hidden="true"></i>
+                        <p>Rua Frederico Simões, 98<br>Ed. Advanced Trade<br>Salvador / BA</p>
+                    </div>
+                </address>
             </div>
             <div class="footer-col">
                 <h4>Canais Digitais</h4>
-                <div class="footer-email-block"><p>Comercial</p><a href="mailto:contato@cvix.com.br">contato@cvix.com.br</a></div>
-                <div class="footer-email-block"><p>Integridade</p><a href="mailto:eticaeconduta@cvix.com.br">eticaeconduta@cvix.com.br</a></div>
-                <a href="https://wa.me/5571999999999?text=Olá!%20Gostaria%20de%20mais%20informações%20sobre%20a%20CVIX." target="_blank" class="footer-wa"><i class="fab fa-whatsapp"></i><span>Fale pelo WhatsApp</span></a>
+                <div class="footer-email-block">
+                    <p>Comercial</p>
+                    <a href="mailto:contato@cvix.com.br">contato@cvix.com.br</a>
+                </div>
+                <div class="footer-email-block">
+                    <p>Integridade</p>
+                    <a href="mailto:eticaeconduta@cvix.com.br">eticaeconduta@cvix.com.br</a>
+                </div>
+                <a href="https://wa.me/5571999999999?text=Ol%C3%A1!%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20a%20CVIX." target="_blank" rel="noopener noreferrer" class="footer-wa" aria-label="Fale com a CVIX pelo WhatsApp">
+                    <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                    <span>Fale pelo WhatsApp</span>
+                </a>
             </div>
         </div>
-        <div class="footer-bottom"><p>&copy; 2026 CVIX Engenharia. Todos os direitos reservados.</p><p>Engenharia &middot; Credibilidade &middot; Brasil</p></div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 CVIX Engenharia. Todos os direitos reservados.</p>
+            <p>Engenharia &middot; Credibilidade &middot; Brasil</p>
+        </div>
     </div>
 </footer>
 
 <script>
-(function(){
-'use strict';
-window.addEventListener('load',function(){setTimeout(function(){var e=document.getElementById('page-loader');if(e)e.classList.add('hidden');},700);});
-var slides=Array.from(document.querySelectorAll('#heroSlideshow .slide')),dotsWrap=document.getElementById('slideDots'),current=0,autoTimer;
-slides.forEach(function(_,i){var btn=document.createElement('button');btn.className='slide-dot'+(i===0?' active':'');btn.addEventListener('click',function(){goTo(i);});dotsWrap.appendChild(btn);});
-function goTo(idx){clearTimeout(autoTimer);slides[current].classList.remove('active');slides[current].classList.add('leaving');var l=current;setTimeout(function(){slides[l].classList.remove('leaving');},1500);dotsWrap.querySelectorAll('.slide-dot').forEach(function(d,i){d.classList.toggle('active',i===idx);});current=idx;slides[current].classList.add('active');schedule();}
-function schedule(){autoTimer=setTimeout(function(){goTo((current+1)%slides.length);},6000);}
-if(slides.length>1)schedule();
-var header=document.getElementById('mainHeader'),btt=document.getElementById('back-top'),pb=document.getElementById('progress-bar');
-var sections=Array.from(document.querySelectorAll('section[id]')),navLinks=Array.from(document.querySelectorAll('.nav-links a[data-s]'));
-var ticking=false,lastY=0,topbar=document.getElementById('topbar');
-window.addEventListener('scroll',function(){if(!ticking){requestAnimationFrame(function(){var s=window.scrollY,total=document.body.scrollHeight-window.innerHeight;
-pb.style.width=(total>0?s/total*100:0)+'%';
-header.classList.toggle('scrolled',s>80);
-btt.classList.toggle('show',s>600);
-/* Topbar: oculta após 120px de scroll para baixo, volta ao subir */
-if(topbar){var down=s>lastY;topbar.classList.toggle('hide',s>120&&down);header.classList.toggle('top-hidden',s>120&&down);}
-lastY=s;
-var active='';sections.forEach(function(sec){if(s>=sec.offsetTop-140)active=sec.id;});navLinks.forEach(function(a){a.classList.toggle('active',a.dataset.s===active);});
-ticking=false;});ticking=true;}},{passive:true});
-btt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
-var revObs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('vis');revObs.unobserve(e.target);}});},{threshold:0.08,rootMargin:'0px 0px -32px 0px'});
-document.querySelectorAll('.reveal,.reveal-l,.reveal-r,.reveal-s').forEach(function(el){revObs.observe(el);});
-function countUp(el){var t=parseInt(el.dataset.target,10),sf=el.dataset.suffix||'',dur=820,st=performance.now();function f(n){var p=Math.min((n-st)/dur,1);el.textContent=Math.round(p*t)+sf;if(p<1)requestAnimationFrame(f);}requestAnimationFrame(f);}
-var sr=document.getElementById('statRow');
-if(sr){new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)e.target.querySelectorAll('.about-stat-num').forEach(countUp);});},{threshold:0.5}).observe(sr);}
-window.filterObras=function(e,cat){document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active');});e.currentTarget.classList.add('active');document.querySelectorAll('.obra-item').forEach(function(c){c.classList.toggle('hidden',cat!=='all'&&c.dataset.cat!==cat);});};
-var hb=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
-hb.addEventListener('click',function(){var op=hb.classList.toggle('open');mm.classList.toggle('open',op);document.body.style.overflow=op?'hidden':'';});
-window.closeMobile=function(){hb.classList.remove('open');mm.classList.remove('open');document.body.style.overflow='';};
-var track=document.getElementById('laminasTrack');
-if(track){
-    var laminas=Array.from(track.querySelectorAll('.lamina'));
-    laminas.forEach(function(lam){lam.addEventListener('mouseenter',function(){laminas.forEach(function(l){l.classList.remove('expanded');});lam.classList.add('expanded');});});
-    track.addEventListener('mouseleave',function(){laminas.forEach(function(l){l.classList.remove('expanded');});if(laminas[0])laminas[0].classList.add('expanded');});
-    var isDragging=false,startX,scrollLeft;
-    track.addEventListener('mousedown',function(e){isDragging=true;track.style.cursor='grabbing';startX=e.pageX-track.offsetLeft;scrollLeft=track.scrollLeft;e.preventDefault();});
-    document.addEventListener('mouseup',function(){isDragging=false;track.style.cursor='';});
-    track.addEventListener('mousemove',function(e){if(!isDragging)return;track.scrollLeft=scrollLeft-(e.pageX-track.offsetLeft-startX)*1.4;});
-    var tSX,tSL;
-    track.addEventListener('touchstart',function(e){tSX=e.touches[0].pageX-track.offsetLeft;tSL=track.scrollLeft;},{passive:true});
-    track.addEventListener('touchmove',function(e){track.scrollLeft=tSL-(e.touches[0].pageX-track.offsetLeft-tSX)*1.4;},{passive:true});
-}
-/* Lang switcher — visual only (troca classe active) */
-window.setLang=function(l){document.querySelectorAll('.lang-btn').forEach(function(b){b.classList.remove('active');});var t=document.querySelector('.lang-btn[onclick*="'+l+'"]');if(t)t.classList.add('active');};
+(function () {
+    'use strict';
+
+    /* ── LOADER ── */
+    window.addEventListener('load', function () {
+        setTimeout(function () {
+            var loader = document.getElementById('page-loader');
+            if (loader) loader.classList.add('hidden');
+        }, 700);
+    });
+
+    /* ─────────────────────────────────────────────
+       SLIDESHOW
+       FIX: navegação por teclado (← →) adicionada
+    ───────────────────────────────────────────── */
+    var slides   = Array.from(document.querySelectorAll('#heroSlideshow .slide'));
+    var dotsWrap = document.getElementById('slideDots');
+    var current  = 0;
+    var autoTimer;
+
+    slides.forEach(function (_, i) {
+        var btn = document.createElement('button');
+        btn.className   = 'slide-dot' + (i === 0 ? ' active' : '');
+        btn.setAttribute('role', 'tab');
+        btn.setAttribute('aria-label', 'Slide ' + (i + 1));
+        btn.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+        btn.addEventListener('click', function () { goTo(i); });
+        dotsWrap.appendChild(btn);
+    });
+
+    function goTo(idx) {
+        clearTimeout(autoTimer);
+        slides[current].classList.remove('active');
+        slides[current].classList.add('leaving');
+        var leaving = current;
+        setTimeout(function () { slides[leaving].classList.remove('leaving'); }, 1500);
+
+        var dots = dotsWrap.querySelectorAll('.slide-dot');
+        dots.forEach(function (d, i) {
+            d.classList.toggle('active', i === idx);
+            d.setAttribute('aria-selected', i === idx ? 'true' : 'false');
+        });
+
+        current = idx;
+        slides[current].classList.add('active');
+        schedule();
+    }
+
+    function schedule() {
+        autoTimer = setTimeout(function () { goTo((current + 1) % slides.length); }, 6000);
+    }
+
+    if (slides.length > 1) schedule();
+
+    /* Navegação por teclado no slideshow */
+    document.addEventListener('keydown', function (e) {
+        if (e.target.closest('#heroSlideshow, .slide-dots') || document.activeElement === document.body) {
+            if (e.key === 'ArrowLeft')  goTo((current - 1 + slides.length) % slides.length);
+            if (e.key === 'ArrowRight') goTo((current + 1) % slides.length);
+        }
+    });
+
+    /* ─────────────────────────────────────────────
+       SCROLL HANDLER
+       FIX: prevenção de jitter com threshold de direção
+    ───────────────────────────────────────────── */
+    var header    = document.getElementById('mainHeader');
+    var btt       = document.getElementById('back-top');
+    var pb        = document.getElementById('progress-bar');
+    var topbar    = document.getElementById('topbar');
+    var sections  = Array.from(document.querySelectorAll('section[id]'));
+    var navLinks  = Array.from(document.querySelectorAll('.nav-links a[data-s]'));
+
+    var ticking    = false;
+    var prevScrollY = 0;
+    var DIRECTION_THRESHOLD = 6; // px — evita flicker por micro-movimento
+
+    window.addEventListener('scroll', function () {
+        if (!ticking) {
+            requestAnimationFrame(function () {
+                var s     = window.scrollY;
+                var total = document.body.scrollHeight - window.innerHeight;
+
+                /* Progress bar */
+                pb.style.width = (total > 0 ? (s / total) * 100 : 0) + '%';
+
+                /* Header scrolled state */
+                header.classList.toggle('scrolled', s > 80);
+
+                /* Back-to-top */
+                btt.classList.toggle('show', s > 600);
+
+                /* Topbar: esconde ao rolar para baixo com threshold anti-jitter */
+                var delta = s - prevScrollY;
+                if (Math.abs(delta) > DIRECTION_THRESHOLD) {
+                    var isDown = delta > 0;
+                    topbar.classList.toggle('hide', s > 120 && isDown);
+                    header.classList.toggle('top-hidden', s > 120 && isDown);
+                    prevScrollY = s;
+                }
+
+                /* Active nav link */
+                var activeId = '';
+                sections.forEach(function (sec) {
+                    if (s >= sec.offsetTop - 160) activeId = sec.id;
+                });
+                navLinks.forEach(function (a) {
+                    var isActive = a.dataset.s === activeId;
+                    a.classList.toggle('active', isActive);
+                    a.setAttribute('aria-current', isActive ? 'page' : 'false');
+                });
+
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }, { passive: true });
+
+    /* Back to top */
+    btt.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    /* ─────────────────────────────────────────────
+       REVEAL ON SCROLL
+    ───────────────────────────────────────────── */
+    var revObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+            if (e.isIntersecting) {
+                e.target.classList.add('vis');
+                revObs.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+
+    document.querySelectorAll('.reveal, .reveal-l, .reveal-r, .reveal-s').forEach(function (el) {
+        revObs.observe(el);
+    });
+
+    /* ─────────────────────────────────────────────
+       COUNT UP
+       FIX #3: ignora elementos com [data-static]
+       (ex: ano 2001 que não deve animar)
+    ───────────────────────────────────────────── */
+    function countUp(el) {
+        /* Elemento marcado como estático — exibe como está */
+        if (el.dataset.static) return;
+
+        var target = parseInt(el.dataset.target, 10);
+        if (isNaN(target)) return;
+
+        var suffix   = el.dataset.suffix || '';
+        var duration = 820;
+        var startTime = performance.now();
+
+        function frame(now) {
+            var progress = Math.min((now - startTime) / duration, 1);
+            /* Easing: easeOut Quad */
+            var eased = 1 - Math.pow(1 - progress, 2);
+            el.textContent = Math.round(eased * target) + suffix;
+            if (progress < 1) requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+    }
+
+    var statRow = document.getElementById('statRow');
+    if (statRow) {
+        new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+                if (e.isIntersecting) {
+                    e.target.querySelectorAll('.about-stat-num').forEach(countUp);
+                }
+            });
+        }, { threshold: 0.5 }).observe(statRow);
+    }
+
+    /* ─────────────────────────────────────────────
+       FILTRO DE OBRAS
+       FIX #4: transição suave com aria-pressed
+    ───────────────────────────────────────────── */
+    window.filterObras = function (e, cat) {
+        document.querySelectorAll('.filter-btn').forEach(function (b) {
+            b.classList.remove('active');
+            b.setAttribute('aria-pressed', 'false');
+        });
+        e.currentTarget.classList.add('active');
+        e.currentTarget.setAttribute('aria-pressed', 'true');
+
+        document.querySelectorAll('.obra-item').forEach(function (item) {
+            var show = cat === 'all' || item.dataset.cat === cat;
+            if (show) {
+                item.classList.remove('hidden');
+            } else {
+                item.classList.add('hidden');
+            }
+        });
+    };
+
+    /* ─────────────────────────────────────────────
+       HAMBURGER / MOBILE MENU
+       FIX #2: z-index corrigido no CSS
+       FIX: aria-expanded dinâmico, ESC para fechar,
+            tabindex nos links do menu
+    ───────────────────────────────────────────── */
+    var hb = document.getElementById('hamburger');
+    var mm = document.getElementById('mobileMenu');
+    var mmLinks = Array.from(mm.querySelectorAll('a'));
+
+    function openMobile() {
+        hb.classList.add('open');
+        mm.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        hb.setAttribute('aria-expanded', 'true');
+        hb.setAttribute('aria-label', 'Fechar menu');
+        /* Tornar links focáveis */
+        mmLinks.forEach(function (a) { a.removeAttribute('tabindex'); });
+        /* Foca primeiro link */
+        if (mmLinks[0]) setTimeout(function () { mmLinks[0].focus(); }, 100);
+    }
+
+    function closeMobileInternal() {
+        hb.classList.remove('open');
+        mm.classList.remove('open');
+        document.body.style.overflow = '';
+        hb.setAttribute('aria-expanded', 'false');
+        hb.setAttribute('aria-label', 'Abrir menu');
+        /* Links invisíveis para Tab quando fechado */
+        mmLinks.forEach(function (a) { a.setAttribute('tabindex', '-1'); });
+    }
+
+    /* Inicializa links com tabindex=-1 (menu fechado) */
+    mmLinks.forEach(function (a) { a.setAttribute('tabindex', '-1'); });
+
+    hb.addEventListener('click', function () {
+        if (mm.classList.contains('open')) {
+            closeMobileInternal();
+        } else {
+            openMobile();
+        }
+    });
+
+    /* ESC fecha o menu */
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && mm.classList.contains('open')) {
+            closeMobileInternal();
+            hb.focus();
+        }
+    });
+
+    /* Função global para links do menu chamarem onclick */
+    window.closeMobile = function () {
+        closeMobileInternal();
+    };
+
+    /* ─────────────────────────────────────────────
+       LÂMINAS (ACCORDIONS)
+       FIX: suporte a toque em dispositivos móveis
+            hint text dinâmico por dispositivo
+    ───────────────────────────────────────────── */
+    var track   = document.getElementById('laminasTrack');
+    var hintEl  = document.querySelector('.laminas-hint');
+    var hintIcon = hintEl ? hintEl.querySelector('.hint-icon') : null;
+    var hintText = hintEl ? hintEl.querySelector('.hint-text') : null;
+
+    if (track) {
+        var laminas = Array.from(track.querySelectorAll('.lamina'));
+
+        /* Detecta touch — atualiza hint */
+        var isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+        if (isTouch && hintIcon && hintText) {
+            hintIcon.className = 'fas fa-hand-pointer hint-icon';
+            hintText.textContent = 'Toque para explorar';
+        }
+
+        /* Mouse: hover expande */
+        laminas.forEach(function (lam) {
+            lam.addEventListener('mouseenter', function () {
+                laminas.forEach(function (l) { l.classList.remove('expanded'); });
+                lam.classList.add('expanded');
+            });
+
+            /* Touch: tap expande */
+            lam.addEventListener('touchend', function (e) {
+                if (lam.classList.contains('expanded')) return;
+                e.preventDefault();
+                laminas.forEach(function (l) { l.classList.remove('expanded'); });
+                lam.classList.add('expanded');
+                /* Scroll suave para centralizar a lâmina no track */
+                var trackRect = track.getBoundingClientRect();
+                var lamRect   = lam.getBoundingClientRect();
+                var targetScroll = track.scrollLeft + (lamRect.left - trackRect.left) - (trackRect.width / 2 - lamRect.width / 2);
+                track.scrollTo({ left: targetScroll, behavior: 'smooth' });
+            }, { passive: false });
+
+            /* Teclado: Enter/Space expande */
+            lam.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    laminas.forEach(function (l) { l.classList.remove('expanded'); });
+                    lam.classList.add('expanded');
+                }
+            });
+        });
+
+        /* Volta ao primeiro quando o mouse sai do container */
+        track.addEventListener('mouseleave', function () {
+            laminas.forEach(function (l) { l.classList.remove('expanded'); });
+            if (laminas[0]) laminas[0].classList.add('expanded');
+        });
+
+        /* Drag para arrastar no desktop */
+        var isDragging = false, dragStartX, dragScrollLeft;
+
+        track.addEventListener('mousedown', function (e) {
+            isDragging    = true;
+            track.style.cursor = 'grabbing';
+            dragStartX    = e.pageX - track.offsetLeft;
+            dragScrollLeft = track.scrollLeft;
+            e.preventDefault();
+        });
+
+        document.addEventListener('mouseup', function () {
+            isDragging         = false;
+            track.style.cursor = '';
+        });
+
+        track.addEventListener('mousemove', function (e) {
+            if (!isDragging) return;
+            var delta = (e.pageX - track.offsetLeft - dragStartX) * 1.4;
+            track.scrollLeft = dragScrollLeft - delta;
+        });
+
+        /* Swipe touch */
+        var touchStartX, touchScrollLeft;
+        track.addEventListener('touchstart', function (e) {
+            touchStartX    = e.touches[0].pageX - track.offsetLeft;
+            touchScrollLeft = track.scrollLeft;
+        }, { passive: true });
+
+        track.addEventListener('touchmove', function (e) {
+            if (!touchStartX) return;
+            var delta = (e.touches[0].pageX - track.offsetLeft - touchStartX) * 1.4;
+            track.scrollLeft = touchScrollLeft - delta;
+        }, { passive: true });
+    }
+
+    /* ─────────────────────────────────────────────
+       LANG SWITCHER (somente visual)
+    ───────────────────────────────────────────── */
+    window.setLang = function (lang) {
+        document.querySelectorAll('.lang-btn').forEach(function (b) {
+            var active = b.getAttribute('onclick').indexOf("'" + lang + "'") > -1;
+            b.classList.toggle('active', active);
+            b.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
+    };
+
 })();
 </script>
 </body>
